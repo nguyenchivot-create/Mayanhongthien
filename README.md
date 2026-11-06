@@ -2,6 +2,8 @@
 
 Trò chơi học từ vựng tiếng Anh cho Mây An và Hồng Thiên. Chạy trực tiếp trên trình duyệt, dùng được cả trên máy tính và điện thoại.
 
+## 👉 [Chơi ngay](https://nguyenchivot-create.github.io/mayanhongthien/)
+
 ## Cách chơi
 
 1. Bấm **Bắt đầu**
@@ -20,9 +22,9 @@ Trò chơi học từ vựng tiếng Anh cho Mây An và Hồng Thiên. Chạy t
 - Lưu kỷ lục điểm trên máy
 - Hiệu ứng pháo giấy, âm thanh, nhạc nền (có nút tắt)
 
-## Chạy
+## Chạy trên máy
 
-Mở file `index.html` bằng trình duyệt, hoặc bật GitHub Pages cho repo này.
+Mở file `index.html` bằng trình duyệt.
 
 ## Thêm chủ đề mới
 
