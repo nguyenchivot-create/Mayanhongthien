@@ -1,0 +1,546 @@
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+ background: linear-gradient(to top, #a8edea, #f398b5);
+   display: flex;
+  flex-direction: column;
+  align-items: center;   
+  justify-content: flex-start;
+  background-size: cover;
+  /* background-image: linear-gradient(135deg, rgb(246, 242, 173), rgb(186, 241, 186), rgb(249, 188, 188)); */
+  background-image: url(images/bg-pic.jpg);
+   background-repeat: no-repeat;
+background-size: 100% 100%;
+  min-height: 100vh;
+  margin: 0;
+}
+.heading{
+    color: #333;
+    font-family: monospace;
+    margin-bottom: 10px;
+    font-size: 40px;
+    padding: 25px;
+    margin: 10px auto;
+    border-radius: 20px;
+    background-image: linear-gradient(135deg, #88a8f2, #b2e99e, #d973edb0);;
+}
+p{
+    padding: 15px;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: monospace;
+    color: #3d2828;
+    background-color: #edf9fa;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    /* border:4px solid #c5b9b9; */
+    border-radius: 15px;
+    margin-top: 5px;
+}
+
+#game-container {
+  width: 100%;
+  max-width: 600px;   
+  margin: 5px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.word {
+   width: 60px;
+  height: 60px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  width: 60px;
+  text-align: center;
+  width: 100%;
+  padding: 14px 18px;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 10px;
+  cursor: grab;
+  user-select: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.word:hover {
+  transform: scale(1.06);
+}
+
+.word.dragging {
+  opacity: 0.5;
+}
+
+.hidden {
+  display: none;
+}
+
+.start-screen {
+  background: rgb(232, 217, 234);
+  padding: 40px;
+  border-radius: 24px;
+  max-width: 500px;
+  text-align: center;
+  margin-top: 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.start-screen h2 {
+  font-size: 35px;
+  margin-bottom: 12px;
+  padding: 10px;
+}
+
+.start-screen p{
+  padding: 20px;
+}
+
+#start-btn {
+  margin-top: 20px;
+  background: #e753c7;
+  color: white;
+  border-radius: 18px;
+}
+
+.game-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 600px;
+  margin: 40px auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: monospace;
+
+  transition: all 0.2s ease;
+}
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.check-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#check-btn {
+  margin-top: 20px;
+  padding: 15px 20px;
+  font-size: 20px;
+   border-radius: 16px;
+  background: #960303;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.hidden{
+  display: none;
+}
+
+.days-btn{
+    background: rgb(35, 146, 214);
+     color: #f5f5f5;
+}
+.months-btn{
+    background: rgb(48, 104, 5);
+     color: #f5f5f5;
+}
+.planets-btn{
+    background: rgb(108, 57, 111);
+     color: #f5f5f5;
+}
+
+.category-buttons {
+    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 24px;
+  flex-wrap: nowrap;
+}
+
+.category-buttons button {
+  min-width: 140px;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.category-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.category-buttons button:active {
+  transform: scale(0.97);
+}
+
+.category-buttons button.active {
+  outline: 8px solid rgba(5, 7, 1, 0.12);
+  transform: translateY(-2px);
+}
+
+#msg-box {
+  margin-top: 20px;
+  padding: 14px 20px;
+  border-radius: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  display: none;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+#msg-box.show {
+  display: block;
+  margin-top: 20px;
+  font-size: 25px;
+  font-family: monospace;
+
+}
+
+#msg-box.success {
+  background: #ffeaa7;
+  color: #2d3436;
+  border: 3px solid #fdcb6e;
+}
+
+#msg-box.error {
+  background: #f8f0a6;
+  color: #2d3436;
+  /* border: 3px solid #ff7675; */
+}
+
+#word-picker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.pick-word-btn {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 14px;
+  background: #ffd166;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pick-word-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.game-topbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 16px 0 20px;
+  flex-wrap: wrap;
+}
+
+#score-board {
+  font-size: 18px;
+  background: #766a28;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+#play-again-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 16px;
+  background: #b3195c;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#play-again-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+#word-picker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.pick-word-btn {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 14px;
+  background: #ffd166;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pick-word-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+#confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  width: 12px;
+  height: 18px;
+  border-radius: 4px;
+  opacity: 0.9;
+  animation: confetti-fall 2.2s linear forwards;
+}
+
+.confetti-piece:nth-child(4n+1) { background: #ff6b6b; }
+.confetti-piece:nth-child(4n+2) { background: #4ecdc4; }
+.confetti-piece:nth-child(4n+3) { background: #ffe66d; }
+.confetti-piece:nth-child(4n+4) { background: #a29bfe; }
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(110vh) rotate(540deg);
+  }
+}
+
+#mute-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 16px;
+  background: #6c5ce7;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#mute-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.vowel {
+  background: #ff7675;
+  color: white;
+   animation: bounce 0.6s ease infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2px); }
+}
+
+.consonant {
+  background: #74b9ff; 
+  color: white;
+}
+
+#reset-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 16px;
+  background: #e74c3c;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#reset-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* ===== Phần tùy biến ===== */
+.heading, p, button, #msg-box.show {
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.word small,
+.pick-word-btn small {
+  display: block;
+  font-size: 12px;
+  font-weight: normal;
+  opacity: 0.75;
+  margin-top: 2px;
+}
+
+.word {
+  flex-direction: column;
+  font-size: 17px;
+}
+
+.word.selected {
+  outline: 4px solid #e753c7;
+  transform: scale(1.06);
+}
+
+#game-container.letters {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#game-container.letters .word {
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  font-size: 24px;
+}
+
+.tip {
+  font-size: 14px;
+  padding: 8px 12px;
+  margin: 0 0 12px;
+  text-align: center;
+  box-shadow: none;
+}
+
+.category-buttons {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.category-buttons button {
+  min-width: 120px;
+}
+
+#best-board {
+  font-size: 18px;
+  background: #2d7a5f;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 16px;
+  font-weight: bold;
+}
+
+.check-container {
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#hint-btn, #speak-btn {
+  margin-top: 20px;
+  padding: 15px 20px;
+  border-radius: 16px;
+  color: white;
+}
+
+#hint-btn { background: #f39c12; }
+#speak-btn { background: #0984e3; }
+
+#check-btn.hidden, #hint-btn.hidden, #speak-btn.hidden { display: none; }
+
+@media (max-width: 640px) {
+  body { padding: 0 12px; }
+  .heading { font-size: 26px; padding: 14px; }
+  p { font-size: 16px; }
+  .game-card { padding: 16px; margin: 16px auto; }
+  .game-topbar { gap: 8px; }
+  .game-topbar > * { font-size: 14px !important; padding: 8px 12px !important; }
+  .start-screen { padding: 24px; }
+  .start-screen h2 { font-size: 26px; }
+  .category-buttons button { min-width: 0; flex: 1 1 40%; }
+  #msg-box.show { font-size: 18px; }
+}
+
+/* ===== Lời chào Mây An & Hồng Thiên ===== */
+.kids-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.kid {
+  font-size: 30px;
+  font-weight: 800;
+  padding: 10px 22px;
+  border-radius: 999px;
+  color: white;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  animation: kid-float 2.4s ease-in-out infinite;
+}
+
+.kid-1 { background: linear-gradient(135deg, #74b9ff, #6c5ce7); }
+.kid-2 { background: linear-gradient(135deg, #fd79a8, #e84393); animation-delay: 1.2s; }
+
+.heart {
+  font-size: 30px;
+  animation: heart-beat 1s ease-in-out infinite;
+}
+
+@keyframes kid-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-6px) rotate(2deg); }
+}
+
+@keyframes heart-beat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+
+@media (max-width: 640px) {
+  .kid { font-size: 20px; padding: 8px 14px; }
+  .heart { font-size: 22px; }
+}
