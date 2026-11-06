@@ -209,17 +209,15 @@ const tip = $("tip");
 const sounds = {
   success: $("success-sound"),
   error: $("error-sound"),
-  win: $("win-sound"),
-  bg: $("bg-music")
+  win: $("win-sound")
 };
-const MUSIC_VOLUME = 0.12; // âm lượng nhạc nền (0 đến 1)
-sounds.bg.volume = MUSIC_VOLUME;
 sounds.success.volume = 0.6;
 sounds.error.volume = 0.5;
 sounds.win.volume = 0.7;
 
 // ===== Trạng thái =====
 let isMuted = false;
+let musicOn = loadMusicSetting();
 let mode = loadMode();
 let score = 0;
 let best = loadBest();
@@ -259,6 +257,10 @@ function loadBest() {
   try { return Number(localStorage.getItem("wa-best")) || 0; } catch { return 0; }
 }
 
+function loadMusicSetting() {
+  try { return localStorage.getItem("wa-music") !== "off"; } catch { return true; }
+}
+
 function loadMode() {
   try { return localStorage.getItem("wa-mode") === "hard" ? "hard" : "easy"; } catch { return "easy"; }
 }
@@ -295,7 +297,7 @@ function play(name) {
 }
 
 function startBackgroundMusic() {
-  if (!isMuted) sounds.bg.play().catch(() => {});
+  if (!isMuted && musicOn) Music.start();
 }
 
 // ===== Phát âm =====
@@ -321,7 +323,7 @@ if (hasTTS) {
 }
 
 function duckMusic(on) {
-  sounds.bg.volume = on ? 0.03 : MUSIC_VOLUME;
+  Music.duck(on);
 }
 
 async function playDictionaryAudio(word) {
@@ -396,13 +398,28 @@ function speak(word) {
 muteBtn.addEventListener("click", () => {
   isMuted = !isMuted;
   if (isMuted) {
-    sounds.bg.pause();
+    Music.stop();
     muteBtn.textContent = "🔇 Sound Off";
   } else {
     startBackgroundMusic();
     muteBtn.textContent = "🔊 Sound On";
   }
 });
+// Nút nhạc nền riêng: tắt nhạc mà vẫn nghe đọc từ và hiệu ứng
+const musicBtn = $("music-btn");
+function updateMusicButton() {
+  musicBtn.textContent = musicOn ? "🎵 Music On" : "🎵 Music Off";
+  musicBtn.classList.toggle("off", !musicOn);
+}
+musicBtn.addEventListener("click", () => {
+  musicOn = !musicOn;
+  try { localStorage.setItem("wa-music", musicOn ? "on" : "off"); } catch {}
+  if (musicOn) startBackgroundMusic();
+  else Music.stop();
+  updateMusicButton();
+});
+updateMusicButton();
+
 
 // ===== Hiệu ứng =====
 function launchConfetti() {

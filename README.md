@@ -29,7 +29,8 @@ Bấm **Start Game**, chọn một trò trong mục **Games**, chọn cấp đ�
 - Phát âm từ tiếng Anh (nút 🔈 Listen). Nếu máy không có giọng đọc tiếng Anh, game tự lấy phát âm từ từ điển trực tuyến
 - Nút gợi ý (Easy trừ 2 điểm, Hard trừ 5 điểm)
 - Lưu kỷ lục điểm trên máy
-- Hiệu ứng pháo giấy, âm thanh, nhạc nền (có nút tắt)
+- Hiệu ứng pháo giấy, âm thanh hiệu ứng
+- Nhạc nền vui tươi do trình duyệt tự tạo, có nút 🎵 Music riêng để tắt nhạc mà vẫn nghe đọc từ
 
 ## Chạy trên máy
 
