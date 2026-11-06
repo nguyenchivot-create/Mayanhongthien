@@ -186,10 +186,9 @@ function renderBuilder(en, vi) {
   let done = false;
 
   container.innerHTML = `${progressHtml()}
-    <div class="mg-meaning">${vi}</div>
-    <div class="mg-slots"></div>
+    <div class="mg-slots ${en.length > 9 ? "long" : ""}"></div>
     <div class="mg-bank"></div>`;
-  container.querySelector(".mg-meaning").after(listenButton(en));
+  container.querySelector(".mg-bank").after(listenButton(en));
   const slotsEl = container.querySelector(".mg-slots");
   const bankEl = container.querySelector(".mg-bank");
 
@@ -314,12 +313,11 @@ function renderMissing(en, vi) {
   let filled = 0;
 
   container.innerHTML = `${progressHtml()}
-    <div class="mg-word">${letters
+    <div class="mg-word ${en.length > 9 ? "long" : ""}">${letters
       .map((c, i) => `<span class="mg-cell ${blanks.includes(i) ? "blank" : ""}" data-i="${i}">${blanks.includes(i) ? "_" : c.toUpperCase()}</span>`)
       .join("")}</div>
-    <div class="mg-meaning">${vi}</div>
     <div class="mg-choices"></div>`;
-  container.querySelector(".mg-meaning").after(listenButton(en));
+  container.querySelector(".mg-choices").after(listenButton(en));
   const choicesEl = container.querySelector(".mg-choices");
 
   choices.forEach((ch) => {

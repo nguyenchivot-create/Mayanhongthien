@@ -399,16 +399,18 @@ muteBtn.addEventListener("click", () => {
   isMuted = !isMuted;
   if (isMuted) {
     Music.stop();
-    muteBtn.textContent = "🔇 Sound Off";
+    muteBtn.textContent = "🔇 Sound";
+    muteBtn.classList.add("off");
   } else {
+    muteBtn.classList.remove("off");
     startBackgroundMusic();
-    muteBtn.textContent = "🔊 Sound On";
+    muteBtn.textContent = "🔊 Sound";
   }
 });
 // Nút nhạc nền riêng: tắt nhạc mà vẫn nghe đọc từ và hiệu ứng
 const musicBtn = $("music-btn");
 function updateMusicButton() {
-  musicBtn.textContent = musicOn ? "🎵 Music On" : "🎵 Music Off";
+  musicBtn.textContent = musicOn ? "🎵 Music" : "🎵 Music";
   musicBtn.classList.toggle("off", !musicOn);
 }
 musicBtn.addEventListener("click", () => {
@@ -434,9 +436,12 @@ function launchConfetti() {
   setTimeout(() => (confettiContainer.innerHTML = ""), 2500);
 }
 
+let msgTimer = null;
 function showMessage(type, text) {
   msgBox.textContent = text;
   msgBox.className = `show ${type}`;
+  clearTimeout(msgTimer);
+  msgTimer = setTimeout(clearMessage, text.startsWith("🏆") ? 4000 : 2800);
 }
 
 function clearMessage() {
@@ -459,6 +464,14 @@ function updateActiveButton() {
     b.classList.toggle("active", b.dataset.cat === currentGame);
     b.classList.toggle("hidden", !!CATEGORIES[b.dataset.cat].hard && !isHard());
   });
+  // Cuộn hàng chủ đề để thấy chủ đề đang chọn
+  const active = categoryButtons.querySelector("button.active");
+  if (active) {
+    categoryButtons.scrollTo({
+      left: active.offsetLeft - categoryButtons.clientWidth / 2 + active.clientWidth / 2,
+      behavior: "smooth"
+    });
+  }
 }
 
 // ===== Chọn cấp độ =====
@@ -472,7 +485,7 @@ Object.entries(MODES).forEach(([key, m]) => {
 
 // Câu hướng dẫn thay đổi theo từng bước chơi
 const TIPS = {
-  choose: { easy: "👇 Choose a category below to start!", hard: "👇 Hard mode has 9 extra categories. Choose one below!" },
+  choose: { easy: "👆 Choose a category above to start!", hard: "👆 Hard mode has 9 extra categories. Choose one above!" },
   arrange: {
     easy: "💡 Drag and drop, or tap 2 tiles to swap them. Then press Check Answer.",
     hard: "🦁 English words only! Drag and drop, or tap 2 tiles to swap them."

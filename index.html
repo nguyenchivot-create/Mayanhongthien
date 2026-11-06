@@ -4,28 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mây An & Hồng Thiên - Word Adventure</title>
-    <link rel="stylesheet" href="style.css?v=8" />
+    <link rel="stylesheet" href="style.css?v=12" />
   </head>
   <body>
-    <div class="kids-banner">
-      <span class="kid kid-1">☁️ Mây An</span>
-      <span class="heart">💖</span>
-      <span class="kid kid-2">🌸 Hồng Thiên</span>
-    </div>
-    <h1 class="heading">Word Adventure 🎮</h1>
-    <p id="subtitle">Put the words in the right order.</p>
+    <header class="site-header">
+      <div class="kids-banner">
+        <span class="kid kid-1">☁️ Mây An</span>
+        <span class="heart">💖</span>
+        <span class="kid kid-2">🌸 Hồng Thiên</span>
+      </div>
+      <h1 class="heading">Word Adventure 🎮</h1>
+    </header>
 
-    <div class="game-topbar">
+    <nav class="game-topbar">
       <div id="score-board">⭐ Score: 0</div>
       <div id="best-board">🏆 Best: 0</div>
       <button id="menu-btn">🏠 Games</button>
-      <button id="play-again-btn">🔁 Play Again</button>
+      <button id="play-again-btn">🔁 Again</button>
       <button id="reset-btn">🔄️ Reset</button>
-      <button id="music-btn">🎵 Music On</button>
-      <button id="mute-btn">🔊 Sound On</button>
-    </div>
+      <button id="music-btn">🎵 Music</button>
+      <button id="mute-btn">🔊 Sound</button>
+    </nav>
 
-    <div id="word-picker"></div>
     <div id="confetti-container"></div>
 
     <audio src="sounds/success.mp3" id="success-sound"></audio>
@@ -43,24 +43,32 @@
       <div id="game-menu" class="game-menu"></div>
     </div>
 
-    <div id="game-area" class="hidden">
+    <main id="game-area" class="hidden">
       <div class="game-card">
-        <div class="mode-buttons" id="mode-buttons"></div>
-        <p id="tip" class="tip">👇 Choose a category below to start!</p>
-        <div id="game-container"></div>
-        <div class="category-buttons" id="category-buttons"></div>
-      </div>
-      <div class="check-container hidden" id="check-container">
-        <button id="hint-btn">💡 Hint (-2)</button>
-        <button id="speak-btn" class="hidden">🔈 Listen</button>
-        <button id="check-btn">✅ Check Answer</button>
-      </div>
-    </div>
-    <div id="msg-box"></div>
+        <div class="card-controls">
+          <div class="mode-buttons" id="mode-buttons"></div>
+          <div class="category-buttons" id="category-buttons"></div>
+        </div>
 
-    <script src="music.js?v=8"></script>
-    <script src="script.js?v=8"></script>
-    <script src="definitions.js?v=8"></script>
-    <script src="games.js?v=8"></script>
+        <div class="play-area">
+          <div id="subtitle" class="question">Choose a category to begin!</div>
+          <div id="tip" class="tip">👆 Choose a category above to start!</div>
+          <div id="game-container"></div>
+          <div id="word-picker"></div>
+          <div class="check-container hidden" id="check-container">
+            <button id="hint-btn">💡 Hint (-2)</button>
+            <button id="speak-btn" class="hidden">🔈 Listen</button>
+            <button id="check-btn">✅ Check Answer</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="msg-box" role="status" aria-live="polite"></div>
+
+    <script src="music.js?v=12"></script>
+    <script src="script.js?v=12"></script>
+    <script src="definitions.js?v=12"></script>
+    <script src="games.js?v=12"></script>
   </body>
 </html>

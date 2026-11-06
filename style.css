@@ -835,3 +835,221 @@ button:active {
 }
 
 #music-btn.off { background: #b2bec3; }
+
+/* ===== Bố cục mới: đầu trang gọn, câu hỏi nằm sát khu vực chơi ===== */
+body {
+  padding: 0 12px 96px;
+}
+
+.site-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.kids-banner { margin-top: 0; }
+.kid { font-size: 22px; padding: 6px 16px; }
+.heart { font-size: 24px; }
+
+.heading {
+  font-size: 28px;
+  padding: 8px 22px;
+  margin: 8px auto 4px;
+}
+
+.game-topbar {
+  gap: 8px;
+  margin: 6px 0 12px;
+  max-width: 720px;
+}
+
+.game-topbar > * {
+  font-size: 14px !important;
+  padding: 8px 12px !important;
+  border-radius: 999px !important;
+}
+
+#game-area { width: 100%; max-width: 640px; }
+
+.game-card {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto 20px;
+  padding: 16px;
+}
+
+.card-controls {
+  border-bottom: 2px dashed #e5e5e5;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.mode-buttons { margin-bottom: 10px; }
+
+.card-controls .category-buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 4px 10px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.card-controls .category-buttons button {
+  flex: 0 0 auto;
+  min-width: 0;
+  padding: 9px 14px;
+  font-size: 15px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.card-controls .category-buttons button.active {
+  outline: 4px solid rgba(0, 0, 0, 0.25);
+  outline-offset: 0;
+}
+
+.question {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+  color: #2d3436;
+  background: linear-gradient(135deg, #fff8e1, #ffeaa7);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+
+.tip {
+  font-size: 14px;
+  font-weight: 600;
+  color: #636e72;
+  text-align: center;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0 0 14px;
+}
+
+#word-picker { margin: 12px 0 0; }
+
+.check-container { margin-top: 16px; }
+
+#check-btn, #hint-btn, #speak-btn {
+  margin-top: 0;
+  font-size: 18px;
+  padding: 12px 18px;
+}
+
+/* Thông báo đúng/sai nổi ở cuối màn hình */
+#msg-box {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 9000;
+  width: calc(100% - 32px);
+  max-width: 480px;
+  margin: 0;
+}
+
+#msg-box.show {
+  display: block;
+  margin: 0;
+  font-size: 18px;
+  animation: toast-in 0.25s ease-out;
+}
+
+@keyframes toast-in {
+  from { transform: translate(-50%, 20px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+.start-screen, .menu-screen { margin-top: 16px; }
+
+@media (max-width: 640px) {
+  .heading { font-size: 22px; padding: 6px 14px; }
+  .kid { font-size: 17px; padding: 5px 12px; }
+  .heart { font-size: 18px; }
+  .game-topbar { gap: 6px; }
+  .game-topbar > * { font-size: 12px !important; padding: 6px 10px !important; }
+  .game-card { padding: 12px; }
+  .question { font-size: 19px; padding: 12px; }
+  #check-btn, #hint-btn, #speak-btn { font-size: 16px; padding: 10px 14px; }
+}
+
+/* Ô chữ tự co lại để từ dài vẫn nằm trên một hàng */
+.mg-slots, .mg-word {
+  flex-wrap: nowrap;
+  gap: 5px;
+}
+
+.mg-slot, .mg-cell {
+  flex: 1 1 0;
+  max-width: 50px;
+  min-width: 0;
+  width: auto;
+}
+
+@media (max-width: 640px) {
+  .mg-slots, .mg-word { gap: 4px; padding: 8px 4px; }
+  .mg-slot, .mg-cell { height: 46px; font-size: 20px; border-radius: 9px; }
+  .mg-slot { border-width: 2px; }
+  .mg-letter { width: 40px; height: 46px; font-size: 20px; }
+}
+
+/* Từ dài: chữ nhỏ lại để không chồng lên nhau */
+.mg-slots.long .mg-slot, .mg-word.long .mg-cell { font-size: 15px; border-width: 2px; border-radius: 7px; }
+.mg-slots.long, .mg-word.long { gap: 3px; }
+
+/* Nút đang tắt (nhạc, âm thanh) */
+#music-btn.off, #mute-btn.off { background: #b2bec3; text-decoration: line-through; }
+
+.mg-listen { margin-top: 14px; }
+
+/* Hàng nút Hint / Listen / Check luôn hiện ở cuối màn hình */
+.check-container {
+  position: sticky;
+  bottom: 0;
+  z-index: 50;
+  margin: 16px -16px -16px;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 2px solid #f1f2f6;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.check-container.hidden { display: none; }
+
+/* Ô từ trong Word Order gọn hơn */
+#game-container:not(.letters) .word {
+  padding: 8px 14px;
+  min-height: 46px;
+  height: auto;
+}
+
+#game-container { gap: 8px; }
+
+/* Thông báo đúng/sai hiện ở đầu màn hình để không che nút */
+#msg-box {
+  top: 12px;
+  bottom: auto;
+}
+
+@keyframes toast-in {
+  from { transform: translate(-50%, -20px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+body { padding-bottom: 24px; }
+
+@media (max-width: 640px) {
+  .check-container { margin: 14px -12px -12px; gap: 8px; }
+  #game-container:not(.letters) .word { min-height: 42px; padding: 6px 12px; font-size: 16px; }
+}
