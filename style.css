@@ -582,3 +582,247 @@ button:active {
 }
 
 #spell-input:focus { border-color: #e753c7; }
+
+/* ===== Mục lục trò chơi ===== */
+.menu-screen {
+  background: rgba(255, 255, 255, 0.92);
+  padding: 24px;
+  border-radius: 24px;
+  max-width: 640px;
+  width: 100%;
+  margin: 24px auto;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.menu-screen h2 { font-size: 30px; margin-bottom: 16px; }
+
+.game-menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+}
+
+.game-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 18px 12px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+  color: #2d3436;
+  font-size: 18px;
+}
+
+.game-tile:nth-child(2) { background: linear-gradient(135deg, #a29bfe, #74b9ff); }
+.game-tile:nth-child(3) { background: linear-gradient(135deg, #55efc4, #81ecec); }
+.game-tile:nth-child(4) { background: linear-gradient(135deg, #fd79a8, #fdcb6e); }
+.game-tile:nth-child(5) { background: linear-gradient(135deg, #81ecec, #a29bfe); }
+.game-tile:nth-child(6) { background: linear-gradient(135deg, #ffeaa7, #55efc4); }
+
+.game-icon { font-size: 40px; }
+.game-tile small { font-size: 13px; font-weight: normal; opacity: 0.8; }
+
+#menu-btn {
+  padding: 10px 18px;
+  border-radius: 16px;
+  background: #00b894;
+  color: white;
+}
+
+/* ===== Phần chung của các trò chơi nhỏ ===== */
+.mg-progress {
+  text-align: center;
+  font-weight: bold;
+  color: #636e72;
+  margin-bottom: 10px;
+}
+
+.mg-meaning {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #2d3436;
+  margin: 8px 0;
+}
+
+.mg-meaning.big { font-size: 34px; margin: 16px 0; }
+.mg-meaning.mg-hidden { color: #b2bec3; }
+
+.mg-listen, .mg-hint {
+  display: block;
+  margin: 8px auto 14px;
+  padding: 10px 20px;
+  border-radius: 14px;
+  background: #0984e3;
+  color: white;
+  font-size: 18px;
+}
+
+.mg-listen.big { font-size: 26px; padding: 18px 30px; }
+.mg-hint { background: #f39c12; }
+.mg-row { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; }
+.mg-row .mg-listen, .mg-row .mg-hint { margin: 8px 0; }
+
+.mg-done { font-size: 90px; text-align: center; }
+
+.wrong { animation: shake 0.4s; background: #ff7675 !important; color: white !important; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* Word Builder */
+.mg-slots, .mg-bank {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 8px;
+  border-radius: 16px;
+}
+
+.mg-slots { background: #f1f2f6; }
+.mg-slots.right { background: #b8f5c9; }
+.mg-slots.wrong { background: #ffd6d6 !important; }
+
+.mg-slot, .mg-letter {
+  width: 50px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: bold;
+  user-select: none;
+  touch-action: none;
+}
+
+.mg-slot { border: 3px dashed #b2bec3; background: white; }
+.mg-slot.filled { border: 3px solid #6c5ce7; background: #a29bfe; color: white; cursor: grab; }
+.mg-letter { background: #74b9ff; color: white; cursor: grab; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); }
+.mg-letter.used { background: #dfe6e9; box-shadow: none; cursor: default; }
+.dragging-src { opacity: 0.3; }
+
+.mg-ghost {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(1.15);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Missing Letters */
+.mg-word {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.mg-cell {
+  min-width: 42px;
+  height: 52px;
+  border-radius: 10px;
+  background: #74b9ff;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mg-cell.blank { background: white; color: #e84393; border: 3px dashed #e84393; }
+.mg-cell.found { background: #00b894; }
+
+.mg-choices { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+
+.mg-choice {
+  width: 60px;
+  height: 60px;
+  font-size: 28px;
+  border-radius: 14px;
+  background: #ffeaa7;
+  color: #2d3436;
+}
+
+.mg-choice:disabled { opacity: 0.3; transform: none; }
+
+/* Word Quiz */
+.mg-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+
+.mg-option {
+  padding: 18px 10px;
+  font-size: 22px;
+  border-radius: 16px;
+  background: #dfe6e9;
+  color: #2d3436;
+}
+
+.mg-option.right { background: #00b894; color: white; }
+.mg-option:disabled { opacity: 0.6; }
+
+/* Word Match */
+.match-board { display: grid; grid-template-columns: 2fr 3fr; gap: 12px; }
+.match-col { display: flex; flex-direction: column; gap: 10px; }
+
+.match-item {
+  padding: 12px 10px;
+  font-size: 16px;
+  border-radius: 14px;
+  background: #f1f2f6;
+  color: #2d3436;
+  border: 3px solid transparent;
+  text-align: center;
+  min-height: 56px;
+}
+
+.match-item.word-item { font-size: 20px; background: #dfe6fd; }
+.match-item.selected { border-color: #e84393; transform: scale(1.04); }
+.match-item.done { opacity: 0.85; border-color: #00b894; transform: none; }
+
+/* Memory Match */
+.mem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.mem-grid.wide { grid-template-columns: repeat(4, 1fr); }
+
+.mem-card {
+  height: 80px;
+  padding: 6px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  color: white;
+  font-size: 16px;
+}
+
+.mem-card .front { display: none; }
+.mem-card .back { font-size: 30px; }
+.mem-card.open .front { display: block; }
+.mem-card.open .back { display: none; }
+.mem-card.open.en { background: #74b9ff; }
+.mem-card.open.vi { background: #fd79a8; }
+.mem-card.matched { background: #00b894 !important; opacity: 0.85; }
+
+@media (max-width: 640px) {
+  .mg-slot, .mg-letter { width: 40px; height: 48px; font-size: 22px; }
+  .mg-cell { min-width: 32px; height: 44px; font-size: 22px; }
+  .mem-card { height: 70px; font-size: 13px; }
+  .match-item { font-size: 13px; padding: 10px 6px; }
+  .match-item.word-item { font-size: 16px; }
+  .game-tile { font-size: 16px; padding: 14px 8px; }
+  .game-icon { font-size: 32px; }
+}
+
+.mg-meaning.mg-def {
+  font-size: 24px;
+  background: #fff8e1;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 12px 0;
+}

@@ -4,14 +4,18 @@ Trò chơi học từ vựng tiếng Anh cho Mây An và Hồng Thiên, giao di�
 
 ## 👉 [Chơi ngay](https://nguyenchivot-create.github.io/Mayanhongthien/)
 
-## Cách chơi
+## Trò chơi
 
-1. Bấm **Start Game**
-2. Chọn cấp độ và chủ đề
-3. Sắp xếp các từ theo đúng thứ tự (kéo-thả, hoặc chạm vào 2 ô để đổi chỗ)
-4. Bấm **Check Answer**
-5. Chọn một từ để đánh vần, nghe phát âm, rồi xếp các chữ cái cho đúng
-6. Hoàn thành tất cả các từ để nhận thưởng 🎉
+Bấm **Start Game**, chọn một trò trong mục **Games**, chọn cấp độ và chủ đề.
+
+| Trò | Cách chơi |
+|---|---|
+| 🔀 Word Order | Sắp xếp từ theo thứ tự, rồi đánh vần từng từ |
+| 🧩 Word Builder | Kéo thả chữ cái vào ô trống để ghép thành từ |
+| 🔤 Missing Letters | Tìm chữ cái còn thiếu trong từ |
+| ❓ Word Quiz | Chọn từ tiếng Anh đúng với nghĩa (Hard: với định nghĩa tiếng Anh) |
+| 🔗 Word Match | Ghép từ với nghĩa (Hard: với định nghĩa tiếng Anh) |
+| 🃏 Memory Match | Lật thẻ, ghép cặp tiếng Anh với tiếng Việt |
 
 ## Cấp độ
 
@@ -33,7 +37,7 @@ Mở file `index.html` bằng trình duyệt.
 
 ## Thêm chủ đề mới
 
-Mở `script.js`, thêm một mục vào `CATEGORIES` theo mẫu có sẵn: mỗi từ là `["English", "Tiếng Việt"]`, xếp theo thứ tự đúng.
+Mở `script.js`, thêm một mục vào `CATEGORIES` theo mẫu có sẵn: mỗi từ là `["English", "Tiếng Việt"]`, xếp theo thứ tự đúng. Sau đó thêm định nghĩa tiếng Anh cho từng từ vào `definitions.js`.
 
 ## Nguồn gốc
 

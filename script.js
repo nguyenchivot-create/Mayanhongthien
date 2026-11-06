@@ -343,17 +343,36 @@ async function playDictionaryAudio(word) {
   }
 }
 
+// iPhone/iPad chỉ cho phát âm khi lệnh chạy ngay lúc người chơi bấm,
+// nên "mở khóa" giọng đọc và âm thanh ở lần bấm đầu tiên.
+let speechUnlocked = false;
+function unlockSpeech() {
+  if (speechUnlocked) return;
+  speechUnlocked = true;
+  try {
+    speechAudio.src = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
+    speechAudio.play().catch(() => {});
+  } catch {}
+  if (hasTTS) {
+    const u = new SpeechSynthesisUtterance(" ");
+    u.volume = 0;
+    speechSynthesis.speak(u);
+  }
+}
+document.addEventListener("pointerdown", unlockSpeech, { once: true });
+
 function speak(word) {
   if (isMuted || !word) return;
-  if (!hasTTS || !englishVoice) {
+  if (!hasTTS) {
     playDictionaryAudio(word);
     return;
   }
+  if (!englishVoice) pickVoice();
   if (speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
 
   const u = new SpeechSynthesisUtterance(word);
-  u.voice = englishVoice;
-  u.lang = englishVoice.lang;
+  if (englishVoice) u.voice = englishVoice;
+  u.lang = englishVoice ? englishVoice.lang : "en-US";
   u.rate = 0.8;
   u.volume = 1;
   let started = false;
@@ -361,11 +380,9 @@ function speak(word) {
   u.onend = () => duckMusic(false);
   u.onerror = () => { duckMusic(false); if (!started) playDictionaryAudio(word); };
 
-  // Chrome đôi khi bỏ qua lệnh đọc ngay sau cancel(), nên đợi một chút
-  setTimeout(() => {
-    speechSynthesis.resume();
-    speechSynthesis.speak(u);
-  }, 60);
+  // Gọi ngay (không chờ) để Safari trên iPhone/iPad không chặn
+  speechSynthesis.resume();
+  speechSynthesis.speak(u);
   // Nếu sau 1,5 giây vẫn chưa đọc thì dùng file phát âm
   setTimeout(() => {
     if (!started) {
@@ -444,11 +461,11 @@ const TIPS = {
   },
   pick: {
     easy: "👆 Pick a word to spell.",
-    hard: "👆 Pick a meaning. You will hear the English word and type it."
+    hard: "👆 Pick a meaning, then type the English word for it."
   },
   spell: {
     easy: "🔤 Drag and drop, or tap 2 letters to swap them.",
-    hard: "🎧 Press Listen, then type the English word. Use Hint if you get stuck."
+    hard: "⌨️ Type the English word. Press Listen to hear it, or Hint if you get stuck."
   }
 };
 let stage = "choose";
@@ -559,6 +576,12 @@ function startCategory(key) {
   clearMessage();
   setTheme();
   updateActiveButton();
+  if (gameType !== "order") {
+    checkContainer.classList.add("hidden");
+    startMiniGame(key);
+    return;
+  }
+  container.className = "";
   subtitle.textContent = CATEGORIES[key].arrange;
   checkContainer.classList.remove("hidden");
   setStage("arrange");
@@ -589,7 +612,7 @@ function showWordPicker(wordList) {
   currentWordList.forEach((word) => {
     const btn = document.createElement("button");
     btn.className = "pick-word-btn";
-    btn.innerHTML = isHard() ? `🔈 ${meaningOf(word)}` : `${word}<small>${meaningOf(word)}</small>`;
+    btn.innerHTML = isHard() ? meaningOf(word) : `${word}<small>${meaningOf(word)}</small>`;
     btn.addEventListener("click", () => {
       currentWord = word;
       currentLetters = shuffleArray(word.split(""));
@@ -601,7 +624,7 @@ function showWordPicker(wordList) {
       speak(word);
       setStage("spell");
       if (isHard()) {
-        subtitle.textContent = `🎧 Listen and type the English word for "${meaningOf(word)}"`;
+        subtitle.textContent = `⌨️ Type the English word for "${meaningOf(word)}"`;
         renderTypingBox();
       } else {
         subtitle.textContent = `🔤 Arrange the letters to spell the word for "${meaningOf(word)}"`;
@@ -719,10 +742,8 @@ $("check-btn").addEventListener("click", () => {
 
 // ===== Bắt đầu / chơi lại / làm mới =====
 $("start-btn").addEventListener("click", () => {
-  startScreen.classList.add("hidden");
-  gameArea.classList.remove("hidden");
-  subtitle.textContent = "🎮 Choose a category to begin!";
   startBackgroundMusic();
+  showMenu();
 });
 
 $("play-again-btn").addEventListener("click", () => {
@@ -746,6 +767,7 @@ $("reset-btn").addEventListener("click", () => {
   checkContainer.classList.add("hidden");
   startScreen.classList.remove("hidden");
   gameArea.classList.add("hidden");
+  menuScreen.classList.add("hidden");
   subtitle.textContent = "Put the words in the right order.";
   setStage("choose");
 });
