@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="vi">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mây An & Hồng Thiên - Phiêu Lưu Từ Vựng</title>
+    <title>Mây An & Hồng Thiên - Word Adventure</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -12,15 +12,15 @@
       <span class="heart">💖</span>
       <span class="kid kid-2">🌸 Hồng Thiên</span>
     </div>
-    <h1 class="heading">Phiêu Lưu Từ Vựng 🎮</h1>
-    <p id="subtitle">Sắp xếp các từ theo đúng thứ tự.</p>
+    <h1 class="heading">Word Adventure 🎮</h1>
+    <p id="subtitle">Put the words in the right order.</p>
 
     <div class="game-topbar">
-      <div id="score-board">⭐ Điểm: 0</div>
-      <div id="best-board">🏆 Kỷ lục: 0</div>
-      <button id="play-again-btn">🔁 Chơi lại</button>
-      <button id="reset-btn">🔄️ Làm mới</button>
-      <button id="mute-btn">🔊 Bật âm</button>
+      <div id="score-board">⭐ Score: 0</div>
+      <div id="best-board">🏆 Best: 0</div>
+      <button id="play-again-btn">🔁 Play Again</button>
+      <button id="reset-btn">🔄️ Reset</button>
+      <button id="mute-btn">🔊 Sound On</button>
     </div>
 
     <div id="word-picker"></div>
@@ -32,22 +32,22 @@
     <audio src="sounds/bg-music.mp3" id="bg-music" loop></audio>
 
     <div id="start-screen" class="start-screen">
-      <h2>Chào Mây An và Hồng Thiên! 🌞</h2>
-      <p>Sắp xếp từ, luyện đánh vần tiếng Anh và ghi thật nhiều điểm!</p>
-      <button id="start-btn">Bắt đầu</button>
+      <h2>Hello Mây An & Hồng Thiên! 🌞</h2>
+      <p>Arrange words, practice spelling and collect lots of points!</p>
+      <button id="start-btn">Start Game</button>
     </div>
 
     <div id="game-area" class="hidden">
       <div class="game-card">
         <div class="mode-buttons" id="mode-buttons"></div>
-        <p id="tip" class="tip">💡 Kéo-thả hoặc chạm vào 2 ô để đổi chỗ</p>
+        <p id="tip" class="tip">💡 Drag and drop, or tap 2 tiles to swap them</p>
         <div id="game-container"></div>
         <div class="category-buttons" id="category-buttons"></div>
       </div>
       <div class="check-container hidden" id="check-container">
-        <button id="hint-btn">💡 Gợi ý (-2)</button>
-        <button id="speak-btn" class="hidden">🔈 Nghe</button>
-        <button id="check-btn">✅ Kiểm tra</button>
+        <button id="hint-btn">💡 Hint (-2)</button>
+        <button id="speak-btn" class="hidden">🔈 Listen</button>
+        <button id="check-btn">✅ Check Answer</button>
       </div>
     </div>
     <div id="msg-box"></div>

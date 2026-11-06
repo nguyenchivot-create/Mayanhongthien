@@ -2,10 +2,10 @@
 // Mỗi từ: [tiếng Anh, nghĩa tiếng Việt]. Thứ tự trong mảng là thứ tự đúng.
 const CATEGORIES = {
   days: {
-    label: "📅 Thứ",
+    label: "📅 Days",
     color: "#cfe8f9",
     btnColor: "rgb(35, 146, 214)",
-    arrange: "📅 Sắp xếp các ngày trong tuần!",
+    arrange: "📅 Arrange the days of the week!",
     words: [
       ["Sunday", "Chủ nhật"], ["Monday", "Thứ hai"], ["Tuesday", "Thứ ba"],
       ["Wednesday", "Thứ tư"], ["Thursday", "Thứ năm"], ["Friday", "Thứ sáu"],
@@ -13,10 +13,10 @@ const CATEGORIES = {
     ]
   },
   months: {
-    label: "🗓️ Tháng",
+    label: "🗓️ Months",
     color: "#d0eddc",
     btnColor: "rgb(48, 104, 5)",
-    arrange: "🗓️ Sắp xếp các tháng trong năm!",
+    arrange: "🗓️ Arrange the months of the year!",
     words: [
       ["January", "Tháng 1"], ["February", "Tháng 2"], ["March", "Tháng 3"],
       ["April", "Tháng 4"], ["May", "Tháng 5"], ["June", "Tháng 6"],
@@ -25,10 +25,10 @@ const CATEGORIES = {
     ]
   },
   planets: {
-    label: "🪐 Hành tinh",
+    label: "🪐 Planets",
     color: "#efd9ec",
     btnColor: "rgb(108, 57, 111)",
-    arrange: "🪐 Sắp xếp các hành tinh từ gần đến xa Mặt Trời!",
+    arrange: "🪐 Arrange the planets from nearest to farthest from the Sun!",
     words: [
       ["Mercury", "Sao Thủy"], ["Venus", "Sao Kim"], ["Earth", "Trái Đất"],
       ["Mars", "Sao Hỏa"], ["Jupiter", "Sao Mộc"], ["Saturn", "Sao Thổ"],
@@ -36,20 +36,20 @@ const CATEGORIES = {
     ]
   },
   colors: {
-    label: "🌈 Cầu vồng",
+    label: "🌈 Rainbow",
     color: "#fff3c4",
     btnColor: "rgb(214, 120, 20)",
-    arrange: "🌈 Sắp xếp màu cầu vồng từ trên xuống!",
+    arrange: "🌈 Arrange the rainbow colors from top to bottom!",
     words: [
       ["Red", "Đỏ"], ["Orange", "Cam"], ["Yellow", "Vàng"], ["Green", "Xanh lá"],
       ["Blue", "Xanh dương"], ["Indigo", "Chàm"], ["Violet", "Tím"]
     ]
   },
   numbers: {
-    label: "🔢 Số đếm",
+    label: "🔢 Numbers",
     color: "#ffd9d9",
     btnColor: "rgb(190, 40, 70)",
-    arrange: "🔢 Sắp xếp các số từ 1 đến 10!",
+    arrange: "🔢 Arrange the numbers from 1 to 10!",
     words: [
       ["One", "Một"], ["Two", "Hai"], ["Three", "Ba"], ["Four", "Bốn"],
       ["Five", "Năm"], ["Six", "Sáu"], ["Seven", "Bảy"], ["Eight", "Tám"],
@@ -60,10 +60,10 @@ const CATEGORIES = {
   // ----- Chủ đề khó (chỉ hiện ở chế độ Khó) -----
   ordinals: {
     hard: true,
-    label: "🥇 Số thứ tự",
+    label: "🥇 Ordinals",
     color: "#e0d7ff",
     btnColor: "rgb(90, 60, 200)",
-    arrange: "🥇 Sắp xếp số thứ tự từ thứ nhất đến thứ mười hai!",
+    arrange: "🥇 Arrange the ordinal numbers from first to twelfth!",
     words: [
       ["First", "Thứ nhất"], ["Second", "Thứ hai"], ["Third", "Thứ ba"],
       ["Fourth", "Thứ tư"], ["Fifth", "Thứ năm"], ["Sixth", "Thứ sáu"],
@@ -73,10 +73,10 @@ const CATEGORIES = {
   },
   tens: {
     hard: true,
-    label: "💯 Số tròn chục",
+    label: "💯 Tens",
     color: "#d4f5f0",
     btnColor: "rgb(0, 130, 120)",
-    arrange: "💯 Sắp xếp các số tròn chục từ nhỏ đến lớn!",
+    arrange: "💯 Arrange the tens from smallest to largest!",
     words: [
       ["Ten", "Mười"], ["Twenty", "Hai mươi"], ["Thirty", "Ba mươi"],
       ["Forty", "Bốn mươi"], ["Fifty", "Năm mươi"], ["Sixty", "Sáu mươi"],
@@ -86,10 +86,10 @@ const CATEGORIES = {
   },
   time: {
     hard: true,
-    label: "⏳ Thời gian",
+    label: "⏳ Time",
     color: "#ffe6cc",
     btnColor: "rgb(160, 80, 20)",
-    arrange: "⏳ Sắp xếp đơn vị thời gian từ ngắn đến dài!",
+    arrange: "⏳ Arrange the units of time from shortest to longest!",
     words: [
       ["Second", "Giây"], ["Minute", "Phút"], ["Hour", "Giờ"], ["Day", "Ngày"],
       ["Week", "Tuần"], ["Month", "Tháng"], ["Year", "Năm"],
@@ -100,8 +100,8 @@ const CATEGORIES = {
 
 // Thiết lập theo cấp độ: Dễ (bé nhỏ) và Khó (bé 10 tuổi)
 const MODES = {
-  easy: { label: "🐣 Dễ", arrangePts: 10, wordPts: 5, bonus: 20, hintCost: 2 },
-  hard: { label: "🦁 Khó", arrangePts: 20, wordPts: 10, bonus: 50, hintCost: 5 }
+  easy: { label: "🐣 Easy", arrangePts: 10, wordPts: 5, bonus: 20, hintCost: 2 },
+  hard: { label: "🦁 Hard", arrangePts: 20, wordPts: 10, bonus: 50, hintCost: 5 }
 };
 
 // ===== Phần tử giao diện =====
@@ -187,8 +187,8 @@ function saveBest() {
 
 // ===== Điểm =====
 function updateScoreBoard() {
-  scoreBoard.textContent = `⭐ Điểm: ${score}`;
-  bestBoard.textContent = `🏆 Kỷ lục: ${best}`;
+  scoreBoard.textContent = `⭐ Score: ${score}`;
+  bestBoard.textContent = `🏆 Best: ${best}`;
 }
 
 function addScore(points) {
@@ -225,10 +225,10 @@ muteBtn.addEventListener("click", () => {
   isMuted = !isMuted;
   if (isMuted) {
     sounds.bg.pause();
-    muteBtn.textContent = "🔇 Tắt âm";
+    muteBtn.textContent = "🔇 Sound Off";
   } else {
     startBackgroundMusic();
-    muteBtn.textContent = "🔊 Bật âm";
+    muteBtn.textContent = "🔊 Sound On";
   }
 });
 
@@ -287,10 +287,10 @@ function setMode(key) {
   modeButtons.querySelectorAll("button").forEach((b) => {
     b.classList.toggle("active", b.dataset.mode === mode);
   });
-  hintBtn.textContent = `💡 Gợi ý (-${MODES[mode].hintCost})`;
+  hintBtn.textContent = `💡 Hint (-${MODES[mode].hintCost})`;
   tip.textContent = isHard()
-    ? "🦁 Chế độ Khó: không có nghĩa tiếng Việt khi sắp xếp, nghe rồi tự gõ từ!"
-    : "💡 Kéo-thả hoặc chạm vào 2 ô để đổi chỗ";
+    ? "🦁 Hard mode: no Vietnamese meanings while arranging. Listen, then type the word!"
+    : "💡 Drag and drop, or tap 2 tiles to swap them";
   if (currentGame && CATEGORIES[currentGame].hard && !isHard()) {
     currentGame = "";
     container.innerHTML = "";
@@ -298,7 +298,7 @@ function setMode(key) {
     checkContainer.classList.add("hidden");
     clearMessage();
     setTheme();
-    subtitle.textContent = "🎮 Chọn một chủ đề để bắt đầu!";
+    subtitle.textContent = "🎮 Choose a category to begin!";
   } else if (currentGame) {
     startCategory(currentGame);
   }
@@ -404,7 +404,7 @@ function showWordPicker(wordList) {
   container.innerHTML = "";
   wordPicker.innerHTML = "";
   checkContainer.classList.add("hidden");
-  subtitle.textContent = "📝 Chọn một từ để đánh vần!";
+  subtitle.textContent = "📝 Choose a word to spell!";
 
   currentWordList.forEach((word) => {
     const btn = document.createElement("button");
@@ -420,10 +420,10 @@ function showWordPicker(wordList) {
       speakBtn.classList.remove("hidden");
       speak(word);
       if (isHard()) {
-        subtitle.textContent = `🎧 Nghe và gõ từ tiếng Anh có nghĩa "${meaningOf(word)}"`;
+        subtitle.textContent = `🎧 Listen and type the English word for "${meaningOf(word)}"`;
         renderTypingBox();
       } else {
-        subtitle.textContent = `🔤 Xếp chữ cái thành từ có nghĩa "${meaningOf(word)}"`;
+        subtitle.textContent = `🔤 Arrange the letters to spell the word for "${meaningOf(word)}"`;
         renderLetters();
       }
     });
@@ -441,7 +441,7 @@ function renderTypingBox() {
   input.autocomplete = "off";
   input.autocapitalize = "off";
   input.spellcheck = false;
-  input.placeholder = `${currentWord.length} chữ cái...`;
+  input.placeholder = `${currentWord.length} letters...`;
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") $("check-btn").click();
   });
@@ -467,7 +467,7 @@ hintBtn.addEventListener("click", () => {
     const j = currentOrder.indexOf(correct[i]);
     [currentOrder[i], currentOrder[j]] = [currentOrder[j], currentOrder[i]];
     renderWords();
-    showMessage("success", `💡 Vị trí số ${i + 1} là "${correct[i]}"`);
+    showMessage("success", `💡 Position ${i + 1} is "${correct[i]}"`);
   } else if (isHard()) {
     const input = $("spell-input");
     const typed = input.value.trim().toLowerCase();
@@ -477,7 +477,7 @@ hintBtn.addEventListener("click", () => {
     if (n >= word.length) return;
     input.value = currentWord.slice(0, n + 1);
     input.focus();
-    showMessage("success", `💡 Chữ thứ ${n + 1} là "${currentWord[n].toUpperCase()}"`);
+    showMessage("success", `💡 Letter ${n + 1} is "${currentWord[n].toUpperCase()}"`);
   } else {
     const correct = currentWord.split("");
     const i = currentLetters.findIndex((c, idx) => c !== correct[idx]);
@@ -485,7 +485,7 @@ hintBtn.addEventListener("click", () => {
     const j = currentLetters.indexOf(correct[i], i);
     [currentLetters[i], currentLetters[j]] = [currentLetters[j], currentLetters[i]];
     renderLetters();
-    showMessage("success", `💡 Chữ thứ ${i + 1} là "${correct[i].toUpperCase()}"`);
+    showMessage("success", `💡 Letter ${i + 1} is "${correct[i].toUpperCase()}"`);
   }
   addScore(-MODES[mode].hintCost);
 });
@@ -497,21 +497,21 @@ $("check-btn").addEventListener("click", () => {
   startBackgroundMusic();
   if (level === 1) {
     if (currentOrder.join() === englishOf(currentGame).join()) {
-      showMessage("success", "⭐ Giỏi quá các con ơi! Giờ chọn một từ để đánh vần nhé!");
+      showMessage("success", "⭐ Great job, girls! Now choose a word to spell!");
       launchConfetti();
       play("success");
       addScore(MODES[mode].arrangePts);
       level = 2;
       showWordPicker(englishOf(currentGame));
     } else {
-      showMessage("error", "😊 Gần đúng rồi! Thử lại nhé!");
+      showMessage("error", "😊 Almost there! Try again!");
       play("error");
     }
     return;
   }
 
   if (getSpellAnswer().toLowerCase() === currentWord.toLowerCase()) {
-    showMessage("success", `⭐ Đúng rồi! ${currentWord} = ${meaningOf(currentWord)}`);
+    showMessage("success", `⭐ Correct! ${currentWord} = ${meaningOf(currentWord)}`);
     launchConfetti();
     play("success");
     speak(currentWord);
@@ -522,7 +522,7 @@ $("check-btn").addEventListener("click", () => {
       speakBtn.classList.add("hidden");
       showWordPicker(currentWordList);
     } else {
-      showMessage("success", `🏆 Mây An và Hồng Thiên giỏi quá! Xong hết các từ rồi! +${MODES[mode].bonus} điểm`);
+      showMessage("success", `🏆 Well done, Mây An & Hồng Thiên! You finished all the words! +${MODES[mode].bonus} points`);
       play("win");
       launchConfetti();
       addScore(MODES[mode].bonus);
@@ -531,7 +531,7 @@ $("check-btn").addEventListener("click", () => {
       setTimeout(() => startCategory(currentGame), 4000);
     }
   } else {
-    showMessage("error", "🥴 Ôi chưa đúng! ❌ Thử lại nhé!");
+    showMessage("error", "🥴 Oops, not quite! ❌ Try again!");
     play("error");
   }
 });
@@ -540,7 +540,7 @@ $("check-btn").addEventListener("click", () => {
 $("start-btn").addEventListener("click", () => {
   startScreen.classList.add("hidden");
   gameArea.classList.remove("hidden");
-  subtitle.textContent = "🎮 Chọn một chủ đề để bắt đầu!";
+  subtitle.textContent = "🎮 Choose a category to begin!";
   startBackgroundMusic();
 });
 
@@ -549,7 +549,7 @@ $("play-again-btn").addEventListener("click", () => {
 });
 
 $("reset-btn").addEventListener("click", () => {
-  if (!confirm("Bạn có chắc muốn làm mới trò chơi? Điểm hiện tại sẽ về 0.")) return;
+  if (!confirm("Are you sure you want to reset the game? Your score will go back to 0.")) return;
   level = 1;
   currentGame = "";
   currentWordList = [];
@@ -564,7 +564,7 @@ $("reset-btn").addEventListener("click", () => {
   checkContainer.classList.add("hidden");
   startScreen.classList.remove("hidden");
   gameArea.classList.add("hidden");
-  subtitle.textContent = "Sắp xếp các từ theo đúng thứ tự.";
+  subtitle.textContent = "Put the words in the right order.";
 });
 
 updateScoreBoard();

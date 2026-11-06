@@ -1,15 +1,15 @@
-# Mây An & Hồng Thiên - Phiêu Lưu Từ Vựng 🎮
+# Mây An & Hồng Thiên - Word Adventure 🎮
 
-Trò chơi học từ vựng tiếng Anh cho Mây An và Hồng Thiên. Chạy trực tiếp trên trình duyệt, dùng được cả trên máy tính và điện thoại.
+Trò chơi học từ vựng tiếng Anh cho Mây An và Hồng Thiên, giao diện hoàn toàn bằng tiếng Anh. Chạy trực tiếp trên trình duyệt, dùng được cả trên máy tính và điện thoại.
 
 ## 👉 [Chơi ngay](https://nguyenchivot-create.github.io/mayanhongthien/)
 
 ## Cách chơi
 
-1. Bấm **Bắt đầu**
+1. Bấm **Start Game**
 2. Chọn cấp độ và chủ đề
 3. Sắp xếp các từ theo đúng thứ tự (kéo-thả, hoặc chạm vào 2 ô để đổi chỗ)
-4. Bấm **Kiểm tra**
+4. Bấm **Check Answer**
 5. Chọn một từ để đánh vần, nghe phát âm, rồi xếp các chữ cái cho đúng
 6. Hoàn thành tất cả các từ để nhận thưởng 🎉
 
@@ -20,9 +20,9 @@ Trò chơi học từ vựng tiếng Anh cho Mây An và Hồng Thiên. Chạy t
 
 ## Tính năng
 
-- Giao diện tiếng Việt, mỗi từ tiếng Anh có nghĩa tiếng Việt đi kèm
+- Giao diện tiếng Anh, mỗi từ có nghĩa tiếng Việt nhỏ bên dưới
 - Chơi được trên điện thoại (chạm để đổi chỗ)
-- Phát âm từ tiếng Anh (nút 🔈 Nghe)
+- Phát âm từ tiếng Anh (nút 🔈 Listen)
 - Nút gợi ý (trừ 2 điểm)
 - Lưu kỷ lục điểm trên máy
 - Hiệu ứng pháo giấy, âm thanh, nhạc nền (có nút tắt)
