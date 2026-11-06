@@ -7,11 +7,16 @@ Trò chơi học từ vựng tiếng Anh cho Mây An và Hồng Thiên. Chạy t
 ## Cách chơi
 
 1. Bấm **Bắt đầu**
-2. Chọn chủ đề: Thứ, Tháng, Hành tinh, Cầu vồng, Số đếm
+2. Chọn cấp độ và chủ đề
 3. Sắp xếp các từ theo đúng thứ tự (kéo-thả, hoặc chạm vào 2 ô để đổi chỗ)
 4. Bấm **Kiểm tra**
 5. Chọn một từ để đánh vần, nghe phát âm, rồi xếp các chữ cái cho đúng
 6. Hoàn thành tất cả các từ để nhận thưởng 🎉
+
+## Cấp độ
+
+- **🐣 Dễ**: có nghĩa tiếng Việt, xếp chữ cái để đánh vần. Chủ đề: Thứ, Tháng, Hành tinh, Cầu vồng, Số đếm
+- **🦁 Khó** (cho bé 10 tuổi): không có nghĩa khi sắp xếp, nghe phát âm rồi tự gõ từ, điểm cao hơn. Thêm chủ đề: Số thứ tự, Số tròn chục, Thời gian
 
 ## Tính năng
 

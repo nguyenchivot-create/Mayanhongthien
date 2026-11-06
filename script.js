@@ -55,7 +55,53 @@ const CATEGORIES = {
       ["Five", "Năm"], ["Six", "Sáu"], ["Seven", "Bảy"], ["Eight", "Tám"],
       ["Nine", "Chín"], ["Ten", "Mười"]
     ]
+  },
+
+  // ----- Chủ đề khó (chỉ hiện ở chế độ Khó) -----
+  ordinals: {
+    hard: true,
+    label: "🥇 Số thứ tự",
+    color: "#e0d7ff",
+    btnColor: "rgb(90, 60, 200)",
+    arrange: "🥇 Sắp xếp số thứ tự từ thứ nhất đến thứ mười hai!",
+    words: [
+      ["First", "Thứ nhất"], ["Second", "Thứ hai"], ["Third", "Thứ ba"],
+      ["Fourth", "Thứ tư"], ["Fifth", "Thứ năm"], ["Sixth", "Thứ sáu"],
+      ["Seventh", "Thứ bảy"], ["Eighth", "Thứ tám"], ["Ninth", "Thứ chín"],
+      ["Tenth", "Thứ mười"], ["Eleventh", "Thứ mười một"], ["Twelfth", "Thứ mười hai"]
+    ]
+  },
+  tens: {
+    hard: true,
+    label: "💯 Số tròn chục",
+    color: "#d4f5f0",
+    btnColor: "rgb(0, 130, 120)",
+    arrange: "💯 Sắp xếp các số tròn chục từ nhỏ đến lớn!",
+    words: [
+      ["Ten", "Mười"], ["Twenty", "Hai mươi"], ["Thirty", "Ba mươi"],
+      ["Forty", "Bốn mươi"], ["Fifty", "Năm mươi"], ["Sixty", "Sáu mươi"],
+      ["Seventy", "Bảy mươi"], ["Eighty", "Tám mươi"], ["Ninety", "Chín mươi"],
+      ["Hundred", "Một trăm"]
+    ]
+  },
+  time: {
+    hard: true,
+    label: "⏳ Thời gian",
+    color: "#ffe6cc",
+    btnColor: "rgb(160, 80, 20)",
+    arrange: "⏳ Sắp xếp đơn vị thời gian từ ngắn đến dài!",
+    words: [
+      ["Second", "Giây"], ["Minute", "Phút"], ["Hour", "Giờ"], ["Day", "Ngày"],
+      ["Week", "Tuần"], ["Month", "Tháng"], ["Year", "Năm"],
+      ["Decade", "Thập kỷ"], ["Century", "Thế kỷ"]
+    ]
   }
+};
+
+// Thiết lập theo cấp độ: Dễ (bé nhỏ) và Khó (bé 10 tuổi)
+const MODES = {
+  easy: { label: "🐣 Dễ", arrangePts: 10, wordPts: 5, bonus: 20, hintCost: 2 },
+  hard: { label: "🦁 Khó", arrangePts: 20, wordPts: 10, bonus: 50, hintCost: 5 }
 };
 
 // ===== Phần tử giao diện =====
@@ -74,6 +120,8 @@ const categoryButtons = $("category-buttons");
 const hintBtn = $("hint-btn");
 const speakBtn = $("speak-btn");
 const muteBtn = $("mute-btn");
+const modeButtons = $("mode-buttons");
+const tip = $("tip");
 const sounds = {
   success: $("success-sound"),
   error: $("error-sound"),
@@ -87,6 +135,7 @@ sounds.win.volume = 0.7;
 
 // ===== Trạng thái =====
 let isMuted = false;
+let mode = loadMode();
 let score = 0;
 let best = loadBest();
 let level = 1; // 1 = sắp xếp từ, 2 = đánh vần
@@ -122,6 +171,14 @@ function meaningOf(word) {
 
 function loadBest() {
   try { return Number(localStorage.getItem("wa-best")) || 0; } catch { return 0; }
+}
+
+function loadMode() {
+  try { return localStorage.getItem("wa-mode") === "hard" ? "hard" : "easy"; } catch { return "easy"; }
+}
+
+function isHard() {
+  return mode === "hard";
 }
 
 function saveBest() {
@@ -211,7 +268,41 @@ Object.entries(CATEGORIES).forEach(([key, cat]) => {
 function updateActiveButton() {
   categoryButtons.querySelectorAll("button").forEach((b) => {
     b.classList.toggle("active", b.dataset.cat === currentGame);
+    b.classList.toggle("hidden", !!CATEGORIES[b.dataset.cat].hard && !isHard());
   });
+}
+
+// ===== Chọn cấp độ =====
+Object.entries(MODES).forEach(([key, m]) => {
+  const btn = document.createElement("button");
+  btn.textContent = m.label;
+  btn.dataset.mode = key;
+  btn.addEventListener("click", () => setMode(key));
+  modeButtons.appendChild(btn);
+});
+
+function setMode(key) {
+  mode = key;
+  try { localStorage.setItem("wa-mode", key); } catch {}
+  modeButtons.querySelectorAll("button").forEach((b) => {
+    b.classList.toggle("active", b.dataset.mode === mode);
+  });
+  hintBtn.textContent = `💡 Gợi ý (-${MODES[mode].hintCost})`;
+  tip.textContent = isHard()
+    ? "🦁 Chế độ Khó: không có nghĩa tiếng Việt khi sắp xếp, nghe rồi tự gõ từ!"
+    : "💡 Kéo-thả hoặc chạm vào 2 ô để đổi chỗ";
+  if (currentGame && CATEGORIES[currentGame].hard && !isHard()) {
+    currentGame = "";
+    container.innerHTML = "";
+    wordPicker.innerHTML = "";
+    checkContainer.classList.add("hidden");
+    clearMessage();
+    setTheme();
+    subtitle.textContent = "🎮 Chọn một chủ đề để bắt đầu!";
+  } else if (currentGame) {
+    startCategory(currentGame);
+  }
+  updateActiveButton();
 }
 
 // ===== Danh sách kéo-thả / chạm để đổi chỗ (dùng chung cho cả 2 level) =====
@@ -298,7 +389,7 @@ function startCategory(key) {
 function renderWords() {
   renderTiles(currentOrder, {
     isLetters: false,
-    getLabel: (w) => `${w}<small>${meaningOf(w)}</small>`,
+    getLabel: (w) => (isHard() ? w : `${w}<small>${meaningOf(w)}</small>`),
     onChange: renderWords
   });
 }
@@ -318,21 +409,49 @@ function showWordPicker(wordList) {
   currentWordList.forEach((word) => {
     const btn = document.createElement("button");
     btn.className = "pick-word-btn";
-    btn.innerHTML = `${word}<small>${meaningOf(word)}</small>`;
+    btn.innerHTML = isHard() ? `🔈 ${meaningOf(word)}` : `${word}<small>${meaningOf(word)}</small>`;
     btn.addEventListener("click", () => {
       currentWord = word;
       currentLetters = shuffleArray(word.split(""));
       selectedIndex = null;
       wordPicker.innerHTML = "";
       clearMessage();
-      subtitle.textContent = `🔤 Xếp chữ cái thành từ có nghĩa "${meaningOf(word)}"`;
       checkContainer.classList.remove("hidden");
       speakBtn.classList.remove("hidden");
       speak(word);
-      renderLetters();
+      if (isHard()) {
+        subtitle.textContent = `🎧 Nghe và gõ từ tiếng Anh có nghĩa "${meaningOf(word)}"`;
+        renderTypingBox();
+      } else {
+        subtitle.textContent = `🔤 Xếp chữ cái thành từ có nghĩa "${meaningOf(word)}"`;
+        renderLetters();
+      }
     });
     wordPicker.appendChild(btn);
   });
+}
+
+// Chế độ Khó: ô nhập để tự gõ từ
+function renderTypingBox() {
+  container.innerHTML = "";
+  container.classList.remove("letters");
+  const input = document.createElement("input");
+  input.id = "spell-input";
+  input.type = "text";
+  input.autocomplete = "off";
+  input.autocapitalize = "off";
+  input.spellcheck = false;
+  input.placeholder = `${currentWord.length} chữ cái...`;
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") $("check-btn").click();
+  });
+  container.appendChild(input);
+  input.focus();
+}
+
+function getSpellAnswer() {
+  const input = $("spell-input");
+  return input ? input.value.trim() : currentLetters.join("");
 }
 
 function renderLetters() {
@@ -349,6 +468,16 @@ hintBtn.addEventListener("click", () => {
     [currentOrder[i], currentOrder[j]] = [currentOrder[j], currentOrder[i]];
     renderWords();
     showMessage("success", `💡 Vị trí số ${i + 1} là "${correct[i]}"`);
+  } else if (isHard()) {
+    const input = $("spell-input");
+    const typed = input.value.trim().toLowerCase();
+    const word = currentWord.toLowerCase();
+    let n = 0;
+    while (n < typed.length && typed[n] === word[n]) n++;
+    if (n >= word.length) return;
+    input.value = currentWord.slice(0, n + 1);
+    input.focus();
+    showMessage("success", `💡 Chữ thứ ${n + 1} là "${currentWord[n].toUpperCase()}"`);
   } else {
     const correct = currentWord.split("");
     const i = currentLetters.findIndex((c, idx) => c !== correct[idx]);
@@ -358,7 +487,7 @@ hintBtn.addEventListener("click", () => {
     renderLetters();
     showMessage("success", `💡 Chữ thứ ${i + 1} là "${correct[i].toUpperCase()}"`);
   }
-  addScore(-2);
+  addScore(-MODES[mode].hintCost);
 });
 
 speakBtn.addEventListener("click", () => speak(currentWord));
@@ -371,7 +500,7 @@ $("check-btn").addEventListener("click", () => {
       showMessage("success", "⭐ Giỏi quá các con ơi! Giờ chọn một từ để đánh vần nhé!");
       launchConfetti();
       play("success");
-      addScore(10);
+      addScore(MODES[mode].arrangePts);
       level = 2;
       showWordPicker(englishOf(currentGame));
     } else {
@@ -381,22 +510,22 @@ $("check-btn").addEventListener("click", () => {
     return;
   }
 
-  if (currentLetters.join("").toLowerCase() === currentWord.toLowerCase()) {
+  if (getSpellAnswer().toLowerCase() === currentWord.toLowerCase()) {
     showMessage("success", `⭐ Đúng rồi! ${currentWord} = ${meaningOf(currentWord)}`);
     launchConfetti();
     play("success");
     speak(currentWord);
-    addScore(5);
+    addScore(MODES[mode].wordPts);
     currentWordList = currentWordList.filter((w) => w !== currentWord);
 
     if (currentWordList.length > 0) {
       speakBtn.classList.add("hidden");
       showWordPicker(currentWordList);
     } else {
-      showMessage("success", "🏆 Mây An và Hồng Thiên giỏi quá! Xong hết các từ rồi! +20 điểm");
+      showMessage("success", `🏆 Mây An và Hồng Thiên giỏi quá! Xong hết các từ rồi! +${MODES[mode].bonus} điểm`);
       play("win");
       launchConfetti();
-      addScore(20);
+      addScore(MODES[mode].bonus);
       container.innerHTML = "";
       checkContainer.classList.add("hidden");
       setTimeout(() => startCategory(currentGame), 4000);
@@ -439,3 +568,4 @@ $("reset-btn").addEventListener("click", () => {
 });
 
 updateScoreBoard();
+setMode(mode);
