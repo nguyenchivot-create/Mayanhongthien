@@ -2,7 +2,7 @@
 
 Trò chơi học từ vựng tiếng Anh cho Mây An và Hồng Thiên, giao diện hoàn toàn bằng tiếng Anh. Chạy trực tiếp trên trình duyệt, dùng được cả trên máy tính và điện thoại.
 
-## 👉 [Chơi ngay](https://nguyenchivot-create.github.io/mayanhongthien/)
+## 👉 [Chơi ngay](https://nguyenchivot-create.github.io/Mayanhongthien/)
 
 ## Cách chơi
 
