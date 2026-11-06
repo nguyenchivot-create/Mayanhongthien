@@ -57,6 +57,42 @@ const CATEGORIES = {
     ]
   },
 
+  seasons: {
+    label: "🍂 Seasons",
+    color: "#e3f7d4",
+    btnColor: "rgb(70, 150, 60)",
+    arrange: "🍂 Arrange the seasons, starting with spring!",
+    words: [["Spring", "Mùa xuân"], ["Summer", "Mùa hè"], ["Autumn", "Mùa thu"], ["Winter", "Mùa đông"]]
+  },
+  dayTime: {
+    label: "🌅 Times of Day",
+    color: "#fde2c8",
+    btnColor: "rgb(230, 110, 60)",
+    arrange: "🌅 Arrange the times of day from morning to night!",
+    words: [["Morning", "Buổi sáng"], ["Noon", "Buổi trưa"], ["Afternoon", "Buổi chiều"], ["Evening", "Buổi tối"], ["Night", "Ban đêm"]]
+  },
+  body: {
+    label: "🧍 Body",
+    color: "#fbd6e3",
+    btnColor: "rgb(200, 70, 120)",
+    arrange: "🧍 Arrange the body parts from top to bottom!",
+    words: [["Hair", "Tóc"], ["Eyes", "Mắt"], ["Nose", "Mũi"], ["Mouth", "Miệng"], ["Neck", "Cổ"], ["Belly", "Bụng"], ["Knee", "Đầu gối"], ["Foot", "Bàn chân"]]
+  },
+  animals: {
+    label: "🐘 Animals",
+    color: "#e8e1d4",
+    btnColor: "rgb(120, 90, 60)",
+    arrange: "🐘 Arrange the animals from smallest to biggest!",
+    words: [["Ant", "Con kiến"], ["Mouse", "Con chuột"], ["Cat", "Con mèo"], ["Dog", "Con chó"], ["Horse", "Con ngựa"], ["Elephant", "Con voi"], ["Whale", "Cá voi"]]
+  },
+  fruits: {
+    label: "🍎 Fruits A-Z",
+    color: "#ffe0e0",
+    btnColor: "rgb(220, 60, 60)",
+    arrange: "🍎 Arrange the fruits in alphabetical order (A to Z)!",
+    words: [["Apple", "Quả táo"], ["Banana", "Quả chuối"], ["Cherry", "Quả anh đào"], ["Grape", "Quả nho"], ["Lemon", "Quả chanh vàng"], ["Mango", "Quả xoài"], ["Orange", "Quả cam"], ["Peach", "Quả đào"]]
+  },
+
   // ----- Chủ đề khó (chỉ hiện ở chế độ Khó) -----
   ordinals: {
     hard: true,
@@ -95,6 +131,54 @@ const CATEGORIES = {
       ["Week", "Tuần"], ["Month", "Tháng"], ["Year", "Năm"],
       ["Decade", "Thập kỷ"], ["Century", "Thế kỷ"]
     ]
+  },
+  butterfly: {
+    hard: true,
+    label: "🦋 Life Cycle",
+    color: "#e6f0ff",
+    btnColor: "rgb(60, 110, 200)",
+    arrange: "🦋 Arrange the life cycle of a butterfly!",
+    words: [["Egg", "Trứng"], ["Caterpillar", "Sâu bướm"], ["Chrysalis", "Nhộng"], ["Butterfly", "Con bướm"]]
+  },
+  growing: {
+    hard: true,
+    label: "👶 Growing Up",
+    color: "#fff0d9",
+    btnColor: "rgb(200, 130, 30)",
+    arrange: "👶 Arrange the stages of life from youngest to oldest!",
+    words: [["Baby", "Em bé"], ["Toddler", "Trẻ mới biết đi"], ["Child", "Trẻ em"], ["Teenager", "Thiếu niên"], ["Adult", "Người lớn"], ["Elderly", "Người già"]]
+  },
+  bigNumbers: {
+    hard: true,
+    label: "🔟 Big Numbers",
+    color: "#dff7e8",
+    btnColor: "rgb(30, 140, 90)",
+    arrange: "🔟 Arrange the numbers from smallest to biggest!",
+    words: [["Hundred", "Một trăm"], ["Thousand", "Một nghìn"], ["Million", "Một triệu"], ["Billion", "Một tỷ"]]
+  },
+  length: {
+    hard: true,
+    label: "📏 Length",
+    color: "#ececec",
+    btnColor: "rgb(90, 90, 110)",
+    arrange: "📏 Arrange the units of length from shortest to longest!",
+    words: [["Millimeter", "Mi-li-mét"], ["Centimeter", "Xen-ti-mét"], ["Meter", "Mét"], ["Kilometer", "Ki-lô-mét"]]
+  },
+  waterCycle: {
+    hard: true,
+    label: "💧 Water Cycle",
+    color: "#d6efff",
+    btnColor: "rgb(20, 120, 190)",
+    arrange: "💧 Arrange the steps of the water cycle!",
+    words: [["Evaporation", "Bốc hơi"], ["Condensation", "Ngưng tụ"], ["Precipitation", "Mưa rơi"], ["Collection", "Tích tụ"]]
+  },
+  jobs: {
+    hard: true,
+    label: "👩‍⚕️ Jobs A-Z",
+    color: "#f3e3ff",
+    btnColor: "rgb(140, 60, 180)",
+    arrange: "👩‍⚕️ Arrange the jobs in alphabetical order (A to Z)!",
+    words: [["Artist", "Họa sĩ"], ["Baker", "Thợ làm bánh"], ["Chef", "Đầu bếp"], ["Dentist", "Nha sĩ"], ["Engineer", "Kỹ sư"], ["Farmer", "Nông dân"], ["Nurse", "Y tá"], ["Pilot", "Phi công"], ["Teacher", "Giáo viên"]]
   }
 };
 
@@ -145,7 +229,8 @@ let currentWord = "";
 let currentLetters = []; // thứ tự chữ cái hiện tại (level 2)
 let currentWordList = [];
 let draggedIndex = null;
-let selectedIndex = null; // dùng cho chế độ chạm để đổi chỗ
+let selectedIndex = null;
+let nextRoundTimer = null; // hẹn giờ chơi lại sau khi thắng // dùng cho chế độ chạm để đổi chỗ
 
 // ===== Tiện ích =====
 function shuffleArray(array) {
@@ -212,13 +297,82 @@ function startBackgroundMusic() {
   if (!isMuted) sounds.bg.play().catch(() => {});
 }
 
+// ===== Phát âm =====
+// 1) Dùng giọng đọc tiếng Anh của máy (nếu có).
+// 2) Nếu máy không đọc được, lấy file phát âm thật từ từ điển trực tuyến.
+const hasTTS = "speechSynthesis" in window;
+const speechAudio = new Audio();
+const audioCache = {};
+let englishVoice = null;
+
+function pickVoice() {
+  if (!hasTTS) return;
+  const voices = speechSynthesis.getVoices();
+  englishVoice =
+    voices.find((v) => v.lang === "en-US" && v.localService) ||
+    voices.find((v) => v.lang === "en-US") ||
+    voices.find((v) => /^en[-_]/i.test(v.lang)) ||
+    null;
+}
+if (hasTTS) {
+  pickVoice();
+  speechSynthesis.addEventListener?.("voiceschanged", pickVoice);
+}
+
+function duckMusic(on) {
+  sounds.bg.volume = on ? 0.08 : 0.4;
+}
+
+async function playDictionaryAudio(word) {
+  try {
+    let url = audioCache[word];
+    if (url === undefined) {
+      const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word.toLowerCase())}`);
+      const data = res.ok ? await res.json() : [];
+      const all = data.flatMap((e) => e.phonetics || []).map((ph) => ph.audio).filter(Boolean);
+      url = all.find((a) => a.includes("-us")) || all[0] || "";
+      audioCache[word] = url;
+    }
+    if (!url) return;
+    duckMusic(true);
+    speechAudio.src = url;
+    speechAudio.onended = () => duckMusic(false);
+    await speechAudio.play();
+  } catch {
+    duckMusic(false);
+  }
+}
+
 function speak(word) {
-  if (isMuted || !("speechSynthesis" in window)) return;
-  speechSynthesis.cancel();
+  if (isMuted || !word) return;
+  if (!hasTTS || !englishVoice) {
+    playDictionaryAudio(word);
+    return;
+  }
+  if (speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
+
   const u = new SpeechSynthesisUtterance(word);
-  u.lang = "en-US";
+  u.voice = englishVoice;
+  u.lang = englishVoice.lang;
   u.rate = 0.8;
-  speechSynthesis.speak(u);
+  u.volume = 1;
+  let started = false;
+  u.onstart = () => { started = true; duckMusic(true); };
+  u.onend = () => duckMusic(false);
+  u.onerror = () => { duckMusic(false); if (!started) playDictionaryAudio(word); };
+
+  // Chrome đôi khi bỏ qua lệnh đọc ngay sau cancel(), nên đợi một chút
+  setTimeout(() => {
+    speechSynthesis.resume();
+    speechSynthesis.speak(u);
+  }, 60);
+  // Nếu sau 1,5 giây vẫn chưa đọc thì dùng file phát âm
+  setTimeout(() => {
+    if (!started) {
+      speechSynthesis.cancel();
+      playDictionaryAudio(word);
+    }
+  }, 1500);
 }
 
 muteBtn.addEventListener("click", () => {
@@ -281,6 +435,29 @@ Object.entries(MODES).forEach(([key, m]) => {
   modeButtons.appendChild(btn);
 });
 
+// Câu hướng dẫn thay đổi theo từng bước chơi
+const TIPS = {
+  choose: { easy: "👇 Choose a category below to start!", hard: "👇 Hard mode has 9 extra categories. Choose one below!" },
+  arrange: {
+    easy: "💡 Drag and drop, or tap 2 tiles to swap them. Then press Check Answer.",
+    hard: "🦁 English words only! Drag and drop, or tap 2 tiles to swap them."
+  },
+  pick: {
+    easy: "👆 Pick a word to spell.",
+    hard: "👆 Pick a meaning. You will hear the English word and type it."
+  },
+  spell: {
+    easy: "🔤 Drag and drop, or tap 2 letters to swap them.",
+    hard: "🎧 Press Listen, then type the English word. Use Hint if you get stuck."
+  }
+};
+let stage = "choose";
+
+function setStage(next) {
+  stage = next;
+  tip.textContent = TIPS[stage][mode];
+}
+
 function setMode(key) {
   mode = key;
   try { localStorage.setItem("wa-mode", key); } catch {}
@@ -288,9 +465,6 @@ function setMode(key) {
     b.classList.toggle("active", b.dataset.mode === mode);
   });
   hintBtn.textContent = `💡 Hint (-${MODES[mode].hintCost})`;
-  tip.textContent = isHard()
-    ? "🦁 Hard mode: no Vietnamese meanings while arranging. Listen, then type the word!"
-    : "💡 Drag and drop, or tap 2 tiles to swap them";
   if (currentGame && CATEGORIES[currentGame].hard && !isHard()) {
     currentGame = "";
     container.innerHTML = "";
@@ -299,8 +473,11 @@ function setMode(key) {
     clearMessage();
     setTheme();
     subtitle.textContent = "🎮 Choose a category to begin!";
+    setStage("choose");
   } else if (currentGame) {
     startCategory(currentGame);
+  } else {
+    setStage("choose");
   }
   updateActiveButton();
 }
@@ -370,6 +547,7 @@ function renderTiles(items, { isLetters, getLabel, onChange }) {
 
 // ===== Level 1: sắp xếp từ =====
 function startCategory(key) {
+  clearTimeout(nextRoundTimer);
   startBackgroundMusic();
   currentGame = key;
   level = 1;
@@ -383,6 +561,7 @@ function startCategory(key) {
   updateActiveButton();
   subtitle.textContent = CATEGORIES[key].arrange;
   checkContainer.classList.remove("hidden");
+  setStage("arrange");
   renderWords();
 }
 
@@ -405,6 +584,7 @@ function showWordPicker(wordList) {
   wordPicker.innerHTML = "";
   checkContainer.classList.add("hidden");
   subtitle.textContent = "📝 Choose a word to spell!";
+  setStage("pick");
 
   currentWordList.forEach((word) => {
     const btn = document.createElement("button");
@@ -419,6 +599,7 @@ function showWordPicker(wordList) {
       checkContainer.classList.remove("hidden");
       speakBtn.classList.remove("hidden");
       speak(word);
+      setStage("spell");
       if (isHard()) {
         subtitle.textContent = `🎧 Listen and type the English word for "${meaningOf(word)}"`;
         renderTypingBox();
@@ -528,7 +709,7 @@ $("check-btn").addEventListener("click", () => {
       addScore(MODES[mode].bonus);
       container.innerHTML = "";
       checkContainer.classList.add("hidden");
-      setTimeout(() => startCategory(currentGame), 4000);
+      nextRoundTimer = setTimeout(() => startCategory(currentGame), 4000);
     }
   } else {
     showMessage("error", "🥴 Oops, not quite! ❌ Try again!");
@@ -550,6 +731,7 @@ $("play-again-btn").addEventListener("click", () => {
 
 $("reset-btn").addEventListener("click", () => {
   if (!confirm("Are you sure you want to reset the game? Your score will go back to 0.")) return;
+  clearTimeout(nextRoundTimer);
   level = 1;
   currentGame = "";
   currentWordList = [];
@@ -565,6 +747,7 @@ $("reset-btn").addEventListener("click", () => {
   startScreen.classList.remove("hidden");
   gameArea.classList.add("hidden");
   subtitle.textContent = "Put the words in the right order.";
+  setStage("choose");
 });
 
 updateScoreBoard();
