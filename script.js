@@ -212,7 +212,8 @@ const sounds = {
   win: $("win-sound"),
   bg: $("bg-music")
 };
-sounds.bg.volume = 0.4;
+const MUSIC_VOLUME = 0.12; // âm lượng nhạc nền (0 đến 1)
+sounds.bg.volume = MUSIC_VOLUME;
 sounds.success.volume = 0.6;
 sounds.error.volume = 0.5;
 sounds.win.volume = 0.7;
@@ -320,7 +321,7 @@ if (hasTTS) {
 }
 
 function duckMusic(on) {
-  sounds.bg.volume = on ? 0.08 : 0.4;
+  sounds.bg.volume = on ? 0.03 : MUSIC_VOLUME;
 }
 
 async function playDictionaryAudio(word) {
