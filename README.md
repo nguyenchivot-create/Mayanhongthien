@@ -26,7 +26,7 @@ Bấm **Start Game**, chọn một trò trong mục **Games**, chọn cấp đ�
 
 - Giao diện tiếng Anh, mỗi từ có nghĩa tiếng Việt nhỏ bên dưới
 - Chơi được trên điện thoại (chạm để đổi chỗ)
-- Phát âm từ tiếng Anh (nút 🔈 Listen). Nếu máy không có giọng đọc tiếng Anh, game tự lấy phát âm từ từ điển trực tuyến
+- Phát âm từ tiếng Anh (nút 🔈 Listen): ưu tiên giọng người thật thu âm sẵn từ từ điển trực tuyến, nếu không có thì dùng giọng đọc tốt nhất trên máy
 - Nút gợi ý (Easy trừ 2 điểm, Hard trừ 5 điểm)
 - Lưu kỷ lục điểm trên máy
 - Hiệu ứng pháo giấy, âm thanh hiệu ứng

@@ -301,21 +301,34 @@ function startBackgroundMusic() {
 }
 
 // ===== Phát âm =====
-// 1) Dùng giọng đọc tiếng Anh của máy (nếu có).
-// 2) Nếu máy không đọc được, lấy file phát âm thật từ từ điển trực tuyến.
+// Ưu tiên 1: giọng người thật thu âm sẵn (từ điển trực tuyến), tải trước theo chủ đề.
+// Ưu tiên 2: giọng đọc chất lượng tốt nhất có trên máy.
 const hasTTS = "speechSynthesis" in window;
 const speechAudio = new Audio();
-const audioCache = {};
-let englishVoice = null;
+speechAudio.preload = "auto";
+const recordings = {}; // từ -> đường dẫn file ("" = không có), hoặc Promise khi đang tải
+let bestVoice = null;
+
+// Chấm điểm giọng đọc: giọng "Natural/Neural/Enhanced" và giọng nổi tiếng tốt được ưu tiên,
+// giọng máy móc (eSpeak, giọng vui nhộn của macOS...) bị loại.
+function voiceScore(v) {
+  if (!/^en[-_]/i.test(v.lang)) return -1000;
+  const name = v.name.toLowerCase();
+  let score = 0;
+  if (/natural|neural|enhanced|premium|online/.test(name)) score += 50;
+  if (/google us english|google uk english|samantha|\bava\b|allison|\baria\b|jenny|\bguy\b|serena|daniel|karen|moira/.test(name)) score += 30;
+  if (/en[-_]us/i.test(v.lang)) score += 10;
+  else if (/en[-_](gb|au)/i.test(v.lang)) score += 6;
+  if (!v.localService) score += 5;
+  if (/espeak|compact|novelty|bad news|bells|bubbles|cellos|jester|organ|trinoids|whisper|zarvox|albert|fred|junior|ralph|kathy|boing|bahh|superstar|wobble/.test(name)) score -= 200;
+  return score;
+}
 
 function pickVoice() {
   if (!hasTTS) return;
-  const voices = speechSynthesis.getVoices();
-  englishVoice =
-    voices.find((v) => v.lang === "en-US" && v.localService) ||
-    voices.find((v) => v.lang === "en-US") ||
-    voices.find((v) => /^en[-_]/i.test(v.lang)) ||
-    null;
+  const voices = speechSynthesis.getVoices().filter((v) => voiceScore(v) > -100);
+  voices.sort((a, b) => voiceScore(b) - voiceScore(a));
+  bestVoice = voices[0] || null;
 }
 if (hasTTS) {
   pickVoice();
@@ -326,24 +339,32 @@ function duckMusic(on) {
   Music.duck(on);
 }
 
-async function playDictionaryAudio(word) {
-  try {
-    let url = audioCache[word];
-    if (url === undefined) {
-      const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word.toLowerCase())}`);
-      const data = res.ok ? await res.json() : [];
-      const all = data.flatMap((e) => e.phonetics || []).map((ph) => ph.audio).filter(Boolean);
-      url = all.find((a) => a.includes("-us")) || all[0] || "";
-      audioCache[word] = url;
-    }
-    if (!url) return;
-    duckMusic(true);
-    speechAudio.src = url;
-    speechAudio.onended = () => duckMusic(false);
-    await speechAudio.play();
-  } catch {
-    duckMusic(false);
-  }
+// Tải đường dẫn file thu âm của một từ (ưu tiên giọng Mỹ, rồi giọng Anh)
+function fetchRecording(word) {
+  const key = word.toLowerCase();
+  if (key in recordings) return Promise.resolve(recordings[key]);
+  const job = fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(key)}`)
+    .then((res) => (res.ok ? res.json() : []))
+    .then((data) => {
+      const all = (Array.isArray(data) ? data : [])
+        .flatMap((e) => e.phonetics || [])
+        .map((ph) => ph.audio)
+        .filter(Boolean);
+      const url = all.find((a) => /-us\.mp3/.test(a)) || all.find((a) => /-uk\.mp3/.test(a)) || all[0] || "";
+      recordings[key] = url;
+      return url;
+    })
+    .catch(() => {
+      recordings[key] = "";
+      return "";
+    });
+  recordings[key] = job;
+  return job;
+}
+
+// Gọi khi bắt đầu một chủ đề để lúc bấm nghe là phát ngay
+function preloadRecordings(words) {
+  words.forEach((w) => fetchRecording(w));
 }
 
 // iPhone/iPad chỉ cho phát âm khi lệnh chạy ngay lúc người chơi bấm,
@@ -364,35 +385,60 @@ function unlockSpeech() {
 }
 document.addEventListener("pointerdown", unlockSpeech, { once: true });
 
-function speak(word) {
-  if (isMuted || !word) return;
-  if (!hasTTS) {
-    playDictionaryAudio(word);
-    return;
-  }
-  if (!englishVoice) pickVoice();
-  if (speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
+function stopSpeaking() {
+  speechAudio.pause();
+  if (hasTTS && (speechSynthesis.speaking || speechSynthesis.pending)) speechSynthesis.cancel();
+}
 
+function playRecording(url, word) {
+  stopSpeaking();
+  duckMusic(true);
+  speechAudio.src = url;
+  speechAudio.onended = () => duckMusic(false);
+  speechAudio.play().catch(() => {
+    duckMusic(false);
+    speakWithVoice(word);
+  });
+}
+
+function speakWithVoice(word) {
+  if (!hasTTS) return;
+  if (!bestVoice) pickVoice();
+  stopSpeaking();
   const u = new SpeechSynthesisUtterance(word);
-  if (englishVoice) u.voice = englishVoice;
-  u.lang = englishVoice ? englishVoice.lang : "en-US";
-  u.rate = 0.8;
+  if (bestVoice) u.voice = bestVoice;
+  u.lang = bestVoice ? bestVoice.lang : "en-US";
+  u.rate = 0.85;
   u.volume = 1;
-  let started = false;
-  u.onstart = () => { started = true; duckMusic(true); };
+  u.onstart = () => duckMusic(true);
   u.onend = () => duckMusic(false);
-  u.onerror = () => { duckMusic(false); if (!started) playDictionaryAudio(word); };
-
-  // Gọi ngay (không chờ) để Safari trên iPhone/iPad không chặn
+  u.onerror = () => duckMusic(false);
   speechSynthesis.resume();
   speechSynthesis.speak(u);
-  // Nếu sau 1,5 giây vẫn chưa đọc thì dùng file phát âm
-  setTimeout(() => {
-    if (!started) {
-      speechSynthesis.cancel();
-      playDictionaryAudio(word);
-    }
-  }, 1500);
+}
+
+function speak(word) {
+  if (isMuted || !word) return;
+  const known = recordings[word.toLowerCase()];
+  if (typeof known === "string") {
+    // Đã biết: có bản thu thì phát, không có thì dùng giọng máy
+    if (known) playRecording(known, word);
+    else speakWithVoice(word);
+    return;
+  }
+  // Chưa biết: chờ tải tối đa 1,2 giây, quá thời gian thì dùng giọng máy
+  let handled = false;
+  const fallback = setTimeout(() => {
+    handled = true;
+    speakWithVoice(word);
+  }, 1200);
+  fetchRecording(word).then((url) => {
+    if (handled) return;
+    handled = true;
+    clearTimeout(fallback);
+    if (url) playRecording(url, word);
+    else speakWithVoice(word);
+  });
 }
 
 muteBtn.addEventListener("click", () => {
@@ -598,6 +644,7 @@ function startCategory(key) {
   clearTimeout(nextRoundTimer);
   startBackgroundMusic();
   currentGame = key;
+  preloadRecordings(englishOf(key));
   level = 1;
   currentOrder = shuffleArray(englishOf(key));
   selectedIndex = null;
