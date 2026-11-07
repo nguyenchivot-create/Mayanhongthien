@@ -76,7 +76,7 @@ const CATEGORIES = {
     color: "#fbd6e3",
     btnColor: "rgb(200, 70, 120)",
     arrange: "🧍 Arrange the body parts from top to bottom!",
-    words: [["Hair", "Tóc"], ["Eyes", "Mắt"], ["Nose", "Mũi"], ["Mouth", "Miệng"], ["Neck", "Cổ"], ["Belly", "Bụng"], ["Knee", "Đầu gối"], ["Foot", "Bàn chân"]]
+    words: [["Hair", "Tóc"], ["Eyes", "Mắt"], ["Nose", "Mũi"], ["Teeth", "Răng"], ["Neck", "Cổ"], ["Shoulders", "Vai"], ["Stomach", "Bụng"], ["Feet", "Bàn chân"]]
   },
   animals: {
     label: "🐘 Animals",
@@ -91,6 +91,161 @@ const CATEGORIES = {
     btnColor: "rgb(220, 60, 60)",
     arrange: "🍎 Arrange the fruits in alphabetical order (A to Z)!",
     words: [["Apple", "Quả táo"], ["Banana", "Quả chuối"], ["Cherry", "Quả anh đào"], ["Grape", "Quả nho"], ["Lemon", "Quả chanh vàng"], ["Mango", "Quả xoài"], ["Orange", "Quả cam"], ["Peach", "Quả đào"]]
+  },
+
+  // ----- Chủ đề Cambridge A1 Movers (chỉ hiện ở chế độ Movers, xếp theo A-Z) -----
+  mAnimals: {
+    movers: true,
+    label: "🐧 Wild Animals",
+    color: "#dff3ff",
+    btnColor: "rgb(30, 120, 170)",
+    arrange: "🐧 Arrange the animals in alphabetical order (A to Z)!",
+    words: [
+      ["Bat", "Con dơi"],
+      ["Dolphin", "Cá heo"],
+      ["Kangaroo", "Chuột túi"],
+      ["Lion", "Sư tử"],
+      ["Panda", "Gấu trúc"],
+      ["Parrot", "Con vẹt"],
+      ["Penguin", "Chim cánh cụt"],
+      ["Shark", "Cá mập"]
+    ]
+  },
+  mFamily: {
+    movers: true,
+    label: "👨‍👩‍👧 Family",
+    color: "#ffe3ec",
+    btnColor: "rgb(200, 60, 110)",
+    arrange: "👨‍👩‍👧 Arrange the family words in alphabetical order (A to Z)!",
+    words: [
+      ["Aunt", "Cô / dì"],
+      ["Cousin", "Anh chị em họ"],
+      ["Daughter", "Con gái"],
+      ["Granddaughter", "Cháu gái"],
+      ["Grandson", "Cháu trai"],
+      ["Parent", "Bố hoặc mẹ"],
+      ["Son", "Con trai"],
+      ["Uncle", "Chú / bác"]
+    ]
+  },
+  mClothes: {
+    movers: true,
+    label: "🧥 Clothes",
+    color: "#e8e4ff",
+    btnColor: "rgb(100, 80, 190)",
+    arrange: "🧥 Arrange the clothes in alphabetical order (A to Z)!",
+    words: [
+      ["Coat", "Áo khoác dài"],
+      ["Glasses", "Kính"],
+      ["Helmet", "Mũ bảo hiểm"],
+      ["Jacket", "Áo khoác"],
+      ["Scarf", "Khăn quàng cổ"],
+      ["Shorts", "Quần đùi"],
+      ["Sweater", "Áo len"],
+      ["Trousers", "Quần dài"]
+    ]
+  },
+  mFood: {
+    movers: true,
+    label: "🍜 Food & Drink",
+    color: "#fff0d6",
+    btnColor: "rgb(210, 120, 30)",
+    arrange: "🍜 Arrange the food words in alphabetical order (A to Z)!",
+    words: [
+      ["Cheese", "Phô mai"],
+      ["Milkshake", "Sữa lắc"],
+      ["Noodles", "Mì sợi"],
+      ["Pancake", "Bánh kếp"],
+      ["Pasta", "Mì Ý"],
+      ["Salad", "Rau trộn"],
+      ["Sandwich", "Bánh mì kẹp"],
+      ["Soup", "Súp"]
+    ]
+  },
+  mHome: {
+    movers: true,
+    label: "🏠 Home",
+    color: "#e6f7ee",
+    btnColor: "rgb(40, 140, 90)",
+    arrange: "🏠 Arrange the home words in alphabetical order (A to Z)!",
+    words: [
+      ["Balcony", "Ban công"],
+      ["Basement", "Tầng hầm"],
+      ["Blanket", "Cái chăn"],
+      ["Roof", "Mái nhà"],
+      ["Shower", "Vòi hoa sen"],
+      ["Stairs", "Cầu thang"],
+      ["Toothbrush", "Bàn chải đánh răng"],
+      ["Towel", "Khăn tắm"]
+    ]
+  },
+  mHealth: {
+    movers: true,
+    label: "🤒 Health",
+    color: "#ffe6e6",
+    btnColor: "rgb(200, 50, 50)",
+    arrange: "🤒 Arrange the health words in alphabetical order (A to Z)!",
+    words: [
+      ["Cough", "Ho"],
+      ["Dentist", "Nha sĩ"],
+      ["Earache", "Đau tai"],
+      ["Headache", "Đau đầu"],
+      ["Hospital", "Bệnh viện"],
+      ["Medicine", "Thuốc"],
+      ["Temperature", "Sốt"],
+      ["Toothache", "Đau răng"]
+    ]
+  },
+  mWeather: {
+    movers: true,
+    label: "🌦️ Weather",
+    color: "#e3f1ff",
+    btnColor: "rgb(50, 110, 200)",
+    arrange: "🌦️ Arrange the weather words in alphabetical order (A to Z)!",
+    words: [
+      ["Cloud", "Đám mây"],
+      ["Cloudy", "Nhiều mây"],
+      ["Rain", "Mưa"],
+      ["Rainbow", "Cầu vồng"],
+      ["Snow", "Tuyết"],
+      ["Sunny", "Có nắng"],
+      ["Wind", "Gió"],
+      ["Windy", "Có gió"]
+    ]
+  },
+  mTown: {
+    movers: true,
+    label: "🏙️ Places",
+    color: "#f1f1f1",
+    btnColor: "rgb(90, 100, 120)",
+    arrange: "🏙️ Arrange the places in alphabetical order (A to Z)!",
+    words: [
+      ["Bank", "Ngân hàng"],
+      ["Cinema", "Rạp chiếu phim"],
+      ["Library", "Thư viện"],
+      ["Market", "Chợ"],
+      ["Park", "Công viên"],
+      ["Station", "Nhà ga"],
+      ["Supermarket", "Siêu thị"],
+      ["Zoo", "Sở thú"]
+    ]
+  },
+  mNature: {
+    movers: true,
+    label: "🏞️ World Around Us",
+    color: "#e4f7da",
+    btnColor: "rgb(60, 140, 50)",
+    arrange: "🏞️ Arrange the nature words in alphabetical order (A to Z)!",
+    words: [
+      ["Field", "Cánh đồng"],
+      ["Forest", "Khu rừng"],
+      ["Island", "Hòn đảo"],
+      ["Lake", "Hồ nước"],
+      ["Mountain", "Núi"],
+      ["River", "Dòng sông"],
+      ["Village", "Ngôi làng"],
+      ["Waterfall", "Thác nước"]
+    ]
   },
 
   // ----- Chủ đề khó (chỉ hiện ở chế độ Khó) -----
@@ -185,6 +340,7 @@ const CATEGORIES = {
 // Thiết lập theo cấp độ: Dễ (bé nhỏ) và Khó (bé 10 tuổi)
 const MODES = {
   easy: { label: "🐣 Easy", arrangePts: 10, wordPts: 5, bonus: 20, hintCost: 2 },
+  movers: { label: "📘 Movers", arrangePts: 15, wordPts: 8, bonus: 30, hintCost: 3 },
   hard: { label: "🦁 Hard", arrangePts: 20, wordPts: 10, bonus: 50, hintCost: 5 }
 };
 
@@ -262,7 +418,21 @@ function loadMusicSetting() {
 }
 
 function loadMode() {
-  try { return localStorage.getItem("wa-mode") === "hard" ? "hard" : "easy"; } catch { return "easy"; }
+  try {
+    const saved = localStorage.getItem("wa-mode");
+    return MODES[saved] ? saved : "easy";
+  } catch { return "easy"; }
+}
+
+function isMovers() {
+  return mode === "movers";
+}
+
+// Chủ đề nào hiện ở cấp độ nào: Easy = cơ bản, Movers = chủ đề Movers, Hard = cơ bản + khó
+function categoryVisible(cat) {
+  if (isMovers()) return !!cat.movers;
+  if (cat.movers) return false;
+  return isHard() || !cat.hard;
 }
 
 function isHard() {
@@ -508,7 +678,7 @@ Object.entries(CATEGORIES).forEach(([key, cat]) => {
 function updateActiveButton() {
   categoryButtons.querySelectorAll("button").forEach((b) => {
     b.classList.toggle("active", b.dataset.cat === currentGame);
-    b.classList.toggle("hidden", !!CATEGORIES[b.dataset.cat].hard && !isHard());
+    b.classList.toggle("hidden", !categoryVisible(CATEGORIES[b.dataset.cat]));
   });
   // Cuộn hàng chủ đề để thấy chủ đề đang chọn
   const active = categoryButtons.querySelector("button.active");
@@ -531,7 +701,9 @@ Object.entries(MODES).forEach(([key, m]) => {
 
 // Câu hướng dẫn thay đổi theo từng bước chơi
 const TIPS = {
-  choose: { easy: "👆 Choose a category above to start!", hard: "👆 Hard mode has 9 extra categories. Choose one above!" },
+  choose: {
+    movers: "📘 Cambridge Movers topics for Mây An. Choose one above!",
+    easy: "👆 Choose a category above to start!", hard: "👆 Hard mode has 9 extra categories. Choose one above!" },
   arrange: {
     easy: "💡 Drag and drop, or tap 2 tiles to swap them. Then press Check Answer.",
     hard: "🦁 English words only! Drag and drop, or tap 2 tiles to swap them."
@@ -549,7 +721,7 @@ let stage = "choose";
 
 function setStage(next) {
   stage = next;
-  tip.textContent = TIPS[stage][mode];
+  tip.textContent = TIPS[stage][mode] || TIPS[stage].easy;
 }
 
 function setMode(key) {
@@ -559,7 +731,7 @@ function setMode(key) {
     b.classList.toggle("active", b.dataset.mode === mode);
   });
   hintBtn.textContent = `💡 Hint (-${MODES[mode].hintCost})`;
-  if (currentGame && CATEGORIES[currentGame].hard && !isHard()) {
+  if (currentGame && !categoryVisible(CATEGORIES[currentGame])) {
     currentGame = "";
     container.innerHTML = "";
     wordPicker.innerHTML = "";

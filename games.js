@@ -13,10 +13,12 @@ const GAMES = {
 const MINI_TIPS = {
   builder: {
     easy: "🧩 Drag the letters into the boxes, or tap a letter. Tap a box to take a letter back.",
+    movers: "🧩 Watch out, 2 letters are extra! Drag the right letters into the boxes.",
     hard: "🧩 Some letters are extra! Drag the right letters into the boxes."
   },
   missing: {
     easy: "🔤 Tap the right letter to fill the blank.",
+    movers: "🔤 Two letters are missing. Tap them in order!",
     hard: "🔤 Tap the letters in order to fill all the blanks."
   },
   quiz: {
@@ -180,7 +182,7 @@ function finishRound() {
 function renderBuilder(en, vi) {
   subtitle.textContent = `🧩 Build the English word for "${vi}"`;
   const target = en.toLowerCase().split("");
-  const extra = isHard() ? decoyLetters(target, 3) : [];
+  const extra = decoyLetters(target, isHard() ? 3 : isMovers() ? 2 : 0);
   const bank = mix([...target, ...extra]).map((ch, id) => ({ id, ch }));
   const slots = target.map(() => null); // mỗi ô chứa id của chữ cái trong bank
   let done = false;
@@ -306,7 +308,9 @@ function renderMissing(en, vi) {
   const letters = en.split("");
   const lower = en.toLowerCase();
   const candidates = mix(letters.map((_, i) => i).filter((i) => i > 0));
-  const count = isHard() ? Math.min(candidates.length, Math.max(2, Math.round(en.length * 0.4))) : 1;
+  const count = isHard()
+    ? Math.min(candidates.length, Math.max(2, Math.round(en.length * 0.4)))
+    : isMovers() ? Math.min(candidates.length, 2) : 1;
   const blanks = candidates.slice(0, count).sort((a, b) => a - b);
   const missing = blanks.map((i) => lower[i]);
   const choices = mix([...missing, ...decoyLetters(missing, 3)]);
@@ -388,7 +392,7 @@ function renderQuiz(en, vi) {
 
 // ===== 🃏 Memory Match: lật thẻ ghép cặp =====
 function startMemory() {
-  const pairs = mix(CATEGORIES[round.key].words).slice(0, isHard() ? 8 : 6);
+  const pairs = mix(CATEGORIES[round.key].words).slice(0, isHard() || isMovers() ? 8 : 6);
   const cards = mix(pairs.flatMap(([en, vi], id) => [
     { id, text: en, lang: "en" },
     { id, text: vi, lang: "vi" }
@@ -444,7 +448,7 @@ function definitionOf(key, en) {
 }
 
 function startMatch() {
-  const items = mix(CATEGORIES[round.key].words).slice(0, isHard() ? 6 : 5).map(([en]) => en);
+  const items = mix(CATEGORIES[round.key].words).slice(0, isHard() || isMovers() ? 6 : 5).map(([en]) => en);
   const defs = mix(items);
   let selectedWord = null;
   let matched = 0;

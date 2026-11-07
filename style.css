@@ -1053,3 +1053,11 @@ body { padding-bottom: 24px; }
   .check-container { margin: 14px -12px -12px; gap: 8px; }
   #game-container:not(.letters) .word { min-height: 42px; padding: 6px 12px; font-size: 16px; }
 }
+
+/* Ba nút cấp độ Easy / Movers / Hard gọn trên điện thoại */
+.mode-buttons { gap: 8px; }
+.mode-buttons button { white-space: nowrap; }
+
+@media (max-width: 640px) {
+  .mode-buttons button { font-size: 15px; padding: 8px 14px; }
+}

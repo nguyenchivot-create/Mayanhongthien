@@ -26,6 +26,7 @@ Bấm **Start Game**, chọn một trò trong mục **Games**, chọn cấp đ�
 ## Cấp độ
 
 - **🐣 Easy**: có nghĩa tiếng Việt, xếp chữ cái để đánh vần. 10 chủ đề: Days, Months, Planets, Rainbow, Numbers, Seasons, Times of Day, Body, Animals, Fruits A-Z
+- **📘 Movers** (cho Mây An): 9 chủ đề theo danh sách từ vựng Cambridge A1 Movers: Wild Animals, Family, Clothes, Food & Drink, Home, Health, Weather, Places, World Around Us. Độ khó ở giữa: có nghĩa tiếng Việt, Word Builder có 2 chữ cái gây nhiễu, Missing Letters thiếu 2 chữ, Word Order xếp theo bảng chữ cái
 - **🦁 Hard** (cho bé 10 tuổi): không có nghĩa khi sắp xếp, tự gõ từ theo nghĩa, chữ cái gây nhiễu, định nghĩa tiếng Anh, điểm cao hơn. Thêm 9 chủ đề: Ordinals, Tens, Time, Life Cycle, Growing Up, Big Numbers, Length, Water Cycle, Jobs A-Z
 
 ## Tính năng

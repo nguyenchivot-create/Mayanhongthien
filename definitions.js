@@ -1,5 +1,95 @@
 // ===== Định nghĩa tiếng Anh đơn giản cho trò Word Match (chế độ Hard) =====
 const DEFINITIONS = {
+  mAnimals: {
+    Bat: "An animal that flies at night and sleeps upside down",
+    Dolphin: "A clever sea animal that likes to jump and play",
+    Kangaroo: "An Australian animal that jumps and carries its baby in a pocket",
+    Lion: "A big wild cat; the king of the animals",
+    Panda: "A black and white bear that eats bamboo",
+    Parrot: "A colorful bird that can copy what people say",
+    Penguin: "A black and white bird that swims but cannot fly",
+    Shark: "A big sea fish with lots of sharp teeth"
+  },
+  mFamily: {
+    Aunt: "Your mother's or father's sister",
+    Cousin: "Your aunt's or uncle's child",
+    Daughter: "A girl child of a mother and father",
+    Granddaughter: "Your son's or daughter's girl",
+    Grandson: "Your son's or daughter's boy",
+    Parent: "A mother or a father",
+    Son: "A boy child of a mother and father",
+    Uncle: "Your mother's or father's brother"
+  },
+  mClothes: {
+    Coat: "A long, warm thing you wear outside in winter",
+    Glasses: "You wear them on your nose to see better",
+    Helmet: "A hard hat you wear when you ride a bike",
+    Jacket: "A short coat",
+    Scarf: "You wear it around your neck to keep warm",
+    Shorts: "Short trousers for hot days",
+    Sweater: "A warm top made of wool",
+    Trousers: "Long clothes for your legs"
+  },
+  mFood: {
+    Cheese: "A yellow or white food made from milk",
+    Milkshake: "A cold drink made with milk and ice cream",
+    Noodles: "Long, thin food that you can eat in soup",
+    Pancake: "A flat, round cake you cook in a pan",
+    Pasta: "Italian food like spaghetti",
+    Salad: "A cold dish of vegetables like lettuce and tomato",
+    Sandwich: "Two pieces of bread with food between them",
+    Soup: "Hot liquid food you eat with a spoon"
+  },
+  mHome: {
+    Balcony: "A small place outside an upstairs window",
+    Basement: "A room under the ground floor of a house",
+    Blanket: "A warm cover for your bed",
+    Roof: "The top part of a house",
+    Shower: "You stand under it to wash",
+    Stairs: "You walk up them to go upstairs",
+    Toothbrush: "You clean your teeth with it",
+    Towel: "You dry yourself with it after a bath"
+  },
+  mHealth: {
+    Cough: "A loud noise from your throat when you are ill",
+    Dentist: "A doctor who looks after your teeth",
+    Earache: "A pain in your ear",
+    Headache: "A pain in your head",
+    Hospital: "A place where doctors and nurses help sick people",
+    Medicine: "You take it to get better when you are ill",
+    Temperature: "When your body is too hot because you are ill",
+    Toothache: "A pain in your tooth"
+  },
+  mWeather: {
+    Cloud: "A white or grey thing in the sky",
+    Cloudy: "When the sky has lots of clouds",
+    Rain: "Water that falls from the clouds",
+    Rainbow: "Colors in the sky after the rain",
+    Snow: "Cold white flakes that fall in winter",
+    Sunny: "When the sun is shining",
+    Wind: "Air that moves fast outside",
+    Windy: "When there is a lot of wind"
+  },
+  mTown: {
+    Bank: "A place where people keep their money",
+    Cinema: "A place where you watch films",
+    Library: "A place where you can borrow books",
+    Market: "A place outside where people buy and sell food",
+    Park: "A green place in town where children play",
+    Station: "A place where you get on a train",
+    Supermarket: "A very big shop that sells food",
+    Zoo: "A place where you can see wild animals"
+  },
+  mNature: {
+    Field: "A big area of grass on a farm",
+    Forest: "A place with lots and lots of trees",
+    Island: "Land with water all around it",
+    Lake: "A big area of water with land all around it",
+    Mountain: "A very high hill",
+    River: "Water that moves across the land to the sea",
+    Village: "A very small town in the countryside",
+    Waterfall: "Water falling down from a high place"
+  },
   days: {
     Sunday: "The day before Monday",
     Monday: "The first school day of the week",
@@ -71,11 +161,11 @@ const DEFINITIONS = {
     Hair: "It grows on top of your head",
     Eyes: "You see with them",
     Nose: "You smell with it",
-    Mouth: "You eat and talk with it",
+    Teeth: "You bite and chew food with them",
     Neck: "It joins your head to your body",
-    Belly: "The front part of your body where food goes",
-    Knee: "It helps your leg bend",
-    Foot: "You stand and walk on it"
+    Shoulders: "They are at the top of your arms",
+    Stomach: "Food goes here after you eat it",
+    Feet: "You stand and walk on them"
   },
   animals: {
     Ant: "A tiny insect that lives in a big group",
