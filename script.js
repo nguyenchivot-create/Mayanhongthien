@@ -639,52 +639,67 @@ function stopSpeaking() {
 function playRecording(url, word) {
   stopSpeaking();
   duckMusic(true);
-  speechAudio.src = url;
+  let started = false;
+  speechAudio.onplaying = () => { started = true; };
   speechAudio.onended = () => duckMusic(false);
+  speechAudio.onerror = () => { if (!started) { started = true; speakWithVoice(word); } };
+  speechAudio.src = url;
   speechAudio.play().catch(() => {
-    duckMusic(false);
-    speakWithVoice(word);
+    if (!started) { started = true; speakWithVoice(word); }
   });
+  // Bản thu không phát được sau 1,5 giây thì đọc bằng giọng máy
+  setTimeout(() => {
+    if (!started) {
+      started = true;
+      speechAudio.pause();
+      speakWithVoice(word);
+    }
+  }, 1500);
 }
 
-function speakWithVoice(word) {
-  if (!hasTTS) return;
+function speakWithVoice(word, retry = true) {
+  if (!hasTTS) {
+    duckMusic(false);
+    showMessage("error", "🔇 This device cannot read words aloud.");
+    return;
+  }
   if (!bestVoice) pickVoice();
-  stopSpeaking();
+  if (speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(word);
   if (bestVoice) u.voice = bestVoice;
   u.lang = bestVoice ? bestVoice.lang : "en-US";
   u.rate = 0.85;
   u.volume = 1;
-  u.onstart = () => duckMusic(true);
+  let started = false;
+  u.onstart = () => { started = true; duckMusic(true); };
   u.onend = () => duckMusic(false);
   u.onerror = () => duckMusic(false);
   speechSynthesis.resume();
   speechSynthesis.speak(u);
+  // Trình duyệt đôi khi "kẹt" giọng đọc: chưa đọc sau 1 giây thì làm lại một lần
+  setTimeout(() => {
+    if (started) return;
+    speechSynthesis.cancel();
+    if (retry) setTimeout(() => speakWithVoice(word, false), 100);
+    else showMessage("error", "🔇 No sound? Turn up the volume and turn off silent mode.");
+  }, 1000);
 }
 
 function speak(word) {
-  if (isMuted || !word) return;
-  const known = recordings[word.toLowerCase()];
-  if (typeof known === "string") {
-    // Đã biết: có bản thu thì phát, không có thì dùng giọng máy
-    if (known) playRecording(known, word);
-    else speakWithVoice(word);
+  if (!word) return;
+  if (isMuted) {
+    showMessage("error", "🔇 Sound is off. Tap 🔇 Sound to turn it on.");
     return;
   }
-  // Chưa biết: chờ tải tối đa 1,2 giây, quá thời gian thì dùng giọng máy
-  let handled = false;
-  const fallback = setTimeout(() => {
-    handled = true;
+  const known = recordings[word.toLowerCase()];
+  if (typeof known === "string" && known) {
+    playRecording(known, word);
+  } else {
+    // Chưa có bản thu: đọc ngay bằng giọng máy (để điện thoại không chặn),
+    // đồng thời tải bản thu cho lần nghe sau
     speakWithVoice(word);
-  }, 1200);
-  fetchRecording(word).then((url) => {
-    if (handled) return;
-    handled = true;
-    clearTimeout(fallback);
-    if (url) playRecording(url, word);
-    else speakWithVoice(word);
-  });
+    fetchRecording(word);
+  }
 }
 
 muteBtn.addEventListener("click", () => {
