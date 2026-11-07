@@ -1,6 +1,14 @@
 // ===== Biểu tượng minh họa cho từ vựng (chỉ hiện ở cấp Easy) =====
 // Từ không có hình minh họa rõ ràng (như các ngày trong tuần) thì để trống.
 const ICONS = {
+  sWild: { Bear: "🐻", Elephant: "🐘", Frog: "🐸", Giraffe: "🦒", Monkey: "🐒", Snake: "🐍", Spider: "🕷️", Tiger: "🐯" },
+  sTransport: { Bike: "🚲", Boat: "⛵", Bus: "🚌", Car: "🚗", Helicopter: "🚁", Plane: "✈️", Train: "🚂", Truck: "🚚" },
+  sWeather: { Cloud: "☁️", Cold: "🥶", Hot: "🥵", Rain: "🌧️", Rainbow: "🌈", Snow: "❄️", Sun: "☀️", Wind: "💨" },
+  sSports: { Baseball: "⚾", Basketball: "🏀", Cycling: "🚴", Football: "⚽", Running: "🏃", Skating: "⛸️", Swimming: "🏊", Tennis: "🎾" },
+  sDescribe: { Big: "🐘", Happy: "😀", Long: "📏", New: "✨", Old: "👴", Sad: "😢", Short: "🤏", Small: "🐜", Tall: "🦒", Young: "👶" },
+  sActions: { Dance: "💃", Draw: "🎨", Eat: "🍽️", Jump: "🤸", Read: "📖", Run: "🏃", Sing: "🎤", Swim: "🏊" },
+  sPlaces: { Beach: "🏖️", Farm: "🐄", Garden: "🌷", Park: "🌳", Playground: "🎠", Shop: "🛍️", Street: "🛣️", Zoo: "🦁" },
+  sFruit: { Apple: "🍎", Banana: "🍌", Carrot: "🥕", Grape: "🍇", Lemon: "🍋", Orange: "🍊", Potato: "🥔", Tomato: "🍅" },
   sAnimals: { Bird: "🐦", Chicken: "🐔", Cow: "🐮", Duck: "🦆", Fish: "🐟", Goat: "🐐", Horse: "🐴", Sheep: "🐑" },
   sToys: { Ball: "⚽", Bike: "🚲", Car: "🚗", Doll: "🪆", Kite: "🪁", Robot: "🤖", Teddy: "🧸", Train: "🚂" },
   sSchool: { Bag: "🎒", Book: "📕", Crayon: "🖍️", Eraser: "🧽", Pen: "🖊️", Pencil: "✏️", Ruler: "📏" },

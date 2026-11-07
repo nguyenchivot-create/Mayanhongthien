@@ -167,6 +167,79 @@ const CATEGORIES = {
     words: [["Black", "Màu đen"], ["Blue", "Xanh dương"], ["Brown", "Màu nâu"], ["Green", "Xanh lá"], ["Orange", "Màu cam"], ["Pink", "Màu hồng"], ["Purple", "Màu tím"], ["Red", "Màu đỏ"], ["White", "Màu trắng"], ["Yellow", "Màu vàng"]]
   },
 
+  sNumbers: {
+    starters: true,
+    label: "🔢 Numbers 11-20",
+    color: "#e8f1ff",
+    btnColor: "rgb(40,100,200)",
+    arrange: "🔢 Arrange the numbers from 11 to 20!",
+    words: [["Eleven", "Mười một"], ["Twelve", "Mười hai"], ["Thirteen", "Mười ba"], ["Fourteen", "Mười bốn"], ["Fifteen", "Mười lăm"], ["Sixteen", "Mười sáu"], ["Seventeen", "Mười bảy"], ["Eighteen", "Mười tám"], ["Nineteen", "Mười chín"], ["Twenty", "Hai mươi"]]
+  },
+  sWild: {
+    starters: true,
+    label: "🦒 Wild Animals",
+    color: "#fff3d6",
+    btnColor: "rgb(190,130,20)",
+    arrange: "🦒 Arrange the animals in alphabetical order (A to Z)!",
+    words: [["Bear", "Con gấu"], ["Elephant", "Con voi"], ["Frog", "Con ếch"], ["Giraffe", "Hươu cao cổ"], ["Monkey", "Con khỉ"], ["Snake", "Con rắn"], ["Spider", "Con nhện"], ["Tiger", "Con hổ"]]
+  },
+  sTransport: {
+    starters: true,
+    label: "🚌 Transport",
+    color: "#e0f0ff",
+    btnColor: "rgb(30,120,190)",
+    arrange: "🚌 Arrange the vehicles in alphabetical order (A to Z)!",
+    words: [["Bike", "Xe đạp"], ["Boat", "Con thuyền"], ["Bus", "Xe buýt"], ["Car", "Ô tô"], ["Helicopter", "Máy bay trực thăng"], ["Plane", "Máy bay"], ["Train", "Tàu hỏa"], ["Truck", "Xe tải"]]
+  },
+  sWeather: {
+    starters: true,
+    label: "⛅ Weather",
+    color: "#e6f4ff",
+    btnColor: "rgb(60,140,210)",
+    arrange: "⛅ Arrange the weather words in alphabetical order (A to Z)!",
+    words: [["Cloud", "Đám mây"], ["Cold", "Lạnh"], ["Hot", "Nóng"], ["Rain", "Mưa"], ["Rainbow", "Cầu vồng"], ["Snow", "Tuyết"], ["Sun", "Mặt trời"], ["Wind", "Gió"]]
+  },
+  sSports: {
+    starters: true,
+    label: "⚽ Sports",
+    color: "#e3f8e6",
+    btnColor: "rgb(40,150,70)",
+    arrange: "⚽ Arrange the sports in alphabetical order (A to Z)!",
+    words: [["Baseball", "Bóng chày"], ["Basketball", "Bóng rổ"], ["Cycling", "Đạp xe"], ["Football", "Bóng đá"], ["Running", "Chạy bộ"], ["Skating", "Trượt băng"], ["Swimming", "Bơi lội"], ["Tennis", "Quần vợt"]]
+  },
+  sDescribe: {
+    starters: true,
+    label: "😀 Describing",
+    color: "#fff0f5",
+    btnColor: "rgb(215,70,130)",
+    arrange: "😀 Arrange the describing words in alphabetical order (A to Z)!",
+    words: [["Big", "To"], ["Happy", "Vui vẻ"], ["Long", "Dài"], ["New", "Mới"], ["Old", "Cũ / già"], ["Sad", "Buồn"], ["Short", "Ngắn / thấp"], ["Small", "Nhỏ"], ["Tall", "Cao"], ["Young", "Trẻ"]]
+  },
+  sActions: {
+    starters: true,
+    label: "🏃 Actions",
+    color: "#fff1e0",
+    btnColor: "rgb(215,110,30)",
+    arrange: "🏃 Arrange the action words in alphabetical order (A to Z)!",
+    words: [["Dance", "Nhảy múa"], ["Draw", "Vẽ"], ["Eat", "Ăn"], ["Jump", "Nhảy"], ["Read", "Đọc"], ["Run", "Chạy"], ["Sing", "Hát"], ["Swim", "Bơi"]]
+  },
+  sPlaces: {
+    starters: true,
+    label: "🏖️ Places",
+    color: "#e8f7ee",
+    btnColor: "rgb(40,150,100)",
+    arrange: "🏖️ Arrange the places in alphabetical order (A to Z)!",
+    words: [["Beach", "Bãi biển"], ["Farm", "Nông trại"], ["Garden", "Khu vườn"], ["Park", "Công viên"], ["Playground", "Sân chơi"], ["Shop", "Cửa hàng"], ["Street", "Đường phố"], ["Zoo", "Sở thú"]]
+  },
+  sFruit: {
+    starters: true,
+    label: "🍓 Fruit & Veg",
+    color: "#ffe6e6",
+    btnColor: "rgb(210,60,70)",
+    arrange: "🍓 Arrange the fruits and vegetables in alphabetical order (A to Z)!",
+    words: [["Apple", "Quả táo"], ["Banana", "Quả chuối"], ["Carrot", "Cà rốt"], ["Grape", "Quả nho"], ["Lemon", "Quả chanh"], ["Orange", "Quả cam"], ["Potato", "Khoai tây"], ["Tomato", "Cà chua"]]
+  },
+
   // ----- Chủ đề Cambridge A1 Movers (chỉ hiện ở chế độ Movers, xếp theo A-Z) -----
   mAnimals: {
     movers: true,
@@ -320,6 +393,79 @@ const CATEGORIES = {
       ["Village", "Ngôi làng"],
       ["Waterfall", "Thác nước"]
     ]
+  },
+
+  mTransport: {
+    movers: true,
+    label: "🚀 Transport",
+    color: "#e4ecff",
+    btnColor: "rgb(70,90,200)",
+    arrange: "🚀 Arrange the vehicles in alphabetical order (A to Z)!",
+    words: [["Helicopter", "Máy bay trực thăng"], ["Lorry", "Xe tải"], ["Motorbike", "Xe máy"], ["Rocket", "Tên lửa"], ["Ship", "Tàu thủy"], ["Taxi", "Xe taxi"], ["Tractor", "Máy kéo"], ["Van", "Xe tải nhỏ"]]
+  },
+  mSports: {
+    movers: true,
+    label: "🏸 Sports & Hobbies",
+    color: "#e3f8e6",
+    btnColor: "rgb(40,150,70)",
+    arrange: "🏸 Arrange the sports and hobbies in alphabetical order (A to Z)!",
+    words: [["Badminton", "Cầu lông"], ["Basketball", "Bóng rổ"], ["Camping", "Cắm trại"], ["Cycling", "Đạp xe"], ["Fishing", "Câu cá"], ["Skateboard", "Ván trượt"], ["Skating", "Trượt băng"], ["Swimming", "Bơi lội"]]
+  },
+  mJobs: {
+    movers: true,
+    label: "👩‍🚀 Jobs",
+    color: "#f1e6ff",
+    btnColor: "rgb(130,70,190)",
+    arrange: "👩‍🚀 Arrange the jobs in alphabetical order (A to Z)!",
+    words: [["Astronaut", "Phi hành gia"], ["Builder", "Thợ xây"], ["Cook", "Đầu bếp"], ["Doctor", "Bác sĩ"], ["Driver", "Tài xế"], ["Farmer", "Nông dân"], ["Pilot", "Phi công"], ["Singer", "Ca sĩ"]]
+  },
+  mSchool: {
+    movers: true,
+    label: "📚 School Subjects",
+    color: "#fff4d6",
+    btnColor: "rgb(200,140,20)",
+    arrange: "📚 Arrange the school subjects in alphabetical order (A to Z)!",
+    words: [["Art", "Mỹ thuật"], ["English", "Tiếng Anh"], ["Geography", "Địa lý"], ["History", "Lịch sử"], ["Maths", "Toán"], ["Music", "Âm nhạc"], ["Science", "Khoa học"], ["Sport", "Thể thao"]]
+  },
+  mTime: {
+    movers: true,
+    label: "⏰ Time",
+    color: "#ffeede",
+    btnColor: "rgb(215,115,40)",
+    arrange: "⏰ Arrange the time words in alphabetical order (A to Z)!",
+    words: [["Birthday", "Sinh nhật"], ["Month", "Tháng"], ["Today", "Hôm nay"], ["Tomorrow", "Ngày mai"], ["Week", "Tuần"], ["Weekend", "Cuối tuần"], ["Year", "Năm"], ["Yesterday", "Hôm qua"]]
+  },
+  mBody: {
+    movers: true,
+    label: "🦴 Body",
+    color: "#ffe9e9",
+    btnColor: "rgb(205,70,70)",
+    arrange: "🦴 Arrange the body parts in alphabetical order (A to Z)!",
+    words: [["Ankle", "Mắt cá chân"], ["Back", "Cái lưng"], ["Elbow", "Khuỷu tay"], ["Finger", "Ngón tay"], ["Knee", "Đầu gối"], ["Throat", "Cổ họng"], ["Thumb", "Ngón cái"], ["Toe", "Ngón chân"]]
+  },
+  mDescribe: {
+    movers: true,
+    label: "😮 Describing",
+    color: "#fff0f5",
+    btnColor: "rgb(215,70,130)",
+    arrange: "😮 Arrange the describing words in alphabetical order (A to Z)!",
+    words: [["Angry", "Tức giận"], ["Bored", "Chán"], ["Dangerous", "Nguy hiểm"], ["Delicious", "Ngon"], ["Difficult", "Khó"], ["Famous", "Nổi tiếng"], ["Noisy", "Ồn ào"], ["Tired", "Mệt"]]
+  },
+  mActions: {
+    movers: true,
+    label: "🧗 Actions",
+    color: "#e5f8f2",
+    btnColor: "rgb(30,150,125)",
+    arrange: "🧗 Arrange the action words in alphabetical order (A to Z)!",
+    words: [["Catch", "Bắt"], ["Climb", "Leo"], ["Hop", "Nhảy lò cò"], ["Pull", "Kéo"], ["Push", "Đẩy"], ["Shout", "La hét"], ["Throw", "Ném"], ["Wave", "Vẫy tay"]]
+  },
+  mMaterials: {
+    movers: true,
+    label: "🧱 Materials",
+    color: "#efeae3",
+    btnColor: "rgb(130,100,70)",
+    arrange: "🧱 Arrange the materials in alphabetical order (A to Z)!",
+    words: [["Cotton", "Bông"], ["Glass", "Thủy tinh"], ["Gold", "Vàng"], ["Metal", "Kim loại"], ["Paper", "Giấy"], ["Plastic", "Nhựa"], ["Silver", "Bạc"], ["Wood", "Gỗ"]]
   },
 
   // ----- Chủ đề khó (chỉ hiện ở chế độ Khó) -----
@@ -846,6 +992,12 @@ function openMenu(kind) {
   bcPanel.dataset.show = kind;
   bcPanel.classList.remove("hidden");
   updateBreadcrumb();
+  if (kind === "cat") {
+    // cuộn danh sách chủ đề tới chủ đề đang chọn (chưa chọn thì về đầu)
+    const list = $("category-buttons");
+    const active = list.querySelector("button.active:not(.hidden)");
+    list.scrollTop = active ? Math.max(0, active.offsetTop - list.clientHeight / 2 + active.clientHeight / 2) : 0;
+  }
 }
 
 function closeMenu() {

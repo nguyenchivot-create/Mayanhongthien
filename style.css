@@ -1748,3 +1748,6 @@ body, body { padding-left: 8px !important; padding-right: 8px !important; }
 .breadcrumb .bc-step.todo.open { background: var(--c); border-style: solid; }
 .breadcrumb .bc-step.todo.open .bc-val { color: #fff; }
 .breadcrumb .bc-step.next.open { animation: none; }
+
+/* Danh sách chủ đề dài: cuộn trong khung để không đẩy phần chơi xuống */
+.bc-panel[data-show="cat"] #category-buttons { max-height: min(52vh, 440px); overflow-y: auto; padding: 4px 2px; -webkit-overflow-scrolling: touch; }
