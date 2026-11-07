@@ -7,6 +7,13 @@ try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } ca
 
 const RATE = 22050;
 
+// Nhật ký âm thanh để màn "Sound check" hiển thị
+const soundLogLines = [];
+function soundLog(msg) {
+  soundLogLines.push(new Date().toTimeString().slice(0, 8) + "  " + msg);
+  if (soundLogLines.length > 14) soundLogLines.shift();
+}
+
 // ---------- Tạo file WAV từ dãy mẫu ----------
 function wavUrl(samples, rate = RATE) {
   const n = samples.length;

@@ -1585,3 +1585,19 @@ body, body { padding-left: 8px !important; padding-right: 8px !important; }
 /* Khung game cách mép trên hợp lý */
 #game-area { margin-top: max(16px, 4vh) !important; }
 .start-screen { margin-top: max(24px, 8vh) !important; }
+
+/* ===== Sound check ===== */
+.sc-open { display: block; margin: 6px auto 0; padding: 6px 14px; font-size: 13px; border-radius: 999px; background: rgba(255,255,255,0.85); color: #636e72; }
+#sc-panel { position: fixed; inset: 0; z-index: 20000; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; padding: 12px; }
+#sc-panel.hidden { display: none; }
+.sc-card { width: 100%; max-width: 420px; max-height: 92vh; overflow: auto; background: white; border-radius: 20px; padding: 14px; }
+.sc-head { display: flex; justify-content: space-between; align-items: center; font-size: 18px; margin-bottom: 8px; }
+.sc-head button { padding: 4px 12px; font-size: 16px; background: #dfe6e9; border-radius: 999px; }
+.sc-row { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+.sc-row button { flex: 0 0 150px; font-size: 14px; padding: 9px 8px; background: #6c5ce7; color: white; border-radius: 12px; }
+.sc-res { font-size: 13px; color: #636e72; }
+.sc-res.good { color: #00875a; font-weight: 700; }
+.sc-res.bad { color: #d63031; font-weight: 700; }
+.sc-info { margin-top: 10px; padding: 8px; background: #f1f2f6; border-radius: 12px; font-size: 12.5px; }
+.sc-info div { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; }
+.sc-log { margin-top: 8px; padding: 8px; background: #2d3436; color: #dfe6e9; border-radius: 12px; font: 11px/1.4 monospace; white-space: pre-wrap; }

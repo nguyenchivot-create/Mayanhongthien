@@ -41,6 +41,10 @@ Bấm **Start Game**, chọn một trò trong mục **Games**, chọn cấp đ�
 - Hiệu ứng pháo giấy, âm thanh hiệu ứng
 - Nhạc nền vui tươi do trình duyệt tự tạo, có nút 🎵 Music riêng để tắt nhạc mà vẫn nghe đọc từ
 
+## Kiểm tra âm thanh
+
+Kéo xuống cuối trang, bấm **🔧 Sound check** để thử từng lớp âm thanh (hiệu ứng, nhạc nền, giọng thu âm, giọng trực tuyến, giọng của máy) và xem nhật ký lỗi.
+
 ## Chạy trên máy
 
 Mở file `index.html` bằng trình duyệt.

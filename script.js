@@ -636,7 +636,7 @@ function stopSpeaking() {
 }
 
 // Phát một file âm thanh bằng speechAudio; không phát được thì gọi onFail
-function playClip(url, onFail) {
+function playClip(url, onFail, onOk) {
   stopSpeaking();
   duckMusic(true);
   let started = false;
@@ -646,9 +646,11 @@ function playClip(url, onFail) {
     failed = true;
     speechAudio.pause();
     duckMusic(false);
+    soundLog(kind + ": FAILED, trying next");
     onFail();
   };
-  speechAudio.onplaying = () => { started = true; };
+  const kind = url.includes("translate.google") ? "online voice" : "recorded voice";
+  speechAudio.onplaying = () => { started = true; soundLog(kind + ": playing"); if (onOk) onOk(); };
   speechAudio.onended = () => duckMusic(false);
   speechAudio.onerror = fail;
   speechAudio.src = url;
@@ -661,7 +663,7 @@ function googleTtsUrl(word) {
   return `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(word)}`;
 }
 
-function speakWithVoice(word, retry = true) {
+function speakWithVoice(word, retry = true, onResult) {
   if (!hasTTS) {
     duckMusic(false);
     showMessage("error", "🔇 This device cannot read words aloud.");
@@ -675,16 +677,18 @@ function speakWithVoice(word, retry = true) {
   u.rate = 0.85;
   u.volume = 1;
   let started = false;
-  u.onstart = () => { started = true; duckMusic(true); };
+  u.onstart = () => { started = true; duckMusic(true); soundLog("device voice: playing (" + (bestVoice ? bestVoice.name : "default") + ")"); if (onResult) onResult(true); };
   u.onend = () => duckMusic(false);
-  u.onerror = () => duckMusic(false);
+  u.onerror = (e) => { duckMusic(false); soundLog("device voice error: " + (e.error || "?")); };
   speechSynthesis.resume();
   speechSynthesis.speak(u);
   setTimeout(() => {
     if (started) return;
     speechSynthesis.cancel();
-    if (retry) setTimeout(() => speakWithVoice(word, false), 100);
-    else showMessage("error", "🔇 No sound? Turn up the volume and turn off silent mode.");
+    soundLog("device voice: not started" + (retry ? ", retrying" : ""));
+    if (retry) setTimeout(() => speakWithVoice(word, false, onResult), 100);
+    else if (onResult) onResult(false);
+    if (!retry) showMessage("error", "🔇 No sound? Turn up the volume and turn off silent mode.");
   }, 1000);
 }
 
