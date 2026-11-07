@@ -4,6 +4,12 @@ Trò chơi học từ vựng tiếng Anh cho Mây An và Hồng Thiên, giao di�
 
 ## 👉 [Chơi ngay](https://nguyenchivot-create.github.io/Mayanhongthien/)
 
+Quét mã QR bằng camera điện thoại để mở game:
+
+<p align="center">
+  <img src="images/qr-code.png" alt="Mã QR mở game Word Adventure" width="220" />
+</p>
+
 ## Trò chơi
 
 Bấm **Start Game**, chọn một trò trong mục **Games**, chọn cấp độ và chủ đề.
