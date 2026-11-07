@@ -592,14 +592,20 @@ const clipCache = {};
 const keepAlive = [];
 function preloadClip(url) {
   if (!url || url in clipCache) return;
-  clipCache[url] = "";
+  clipCache[url] = ""; // "" = chưa sẵn sàng
+  const type = /\.wav$/i.test(url) ? "audio/wav" : "audio/mpeg";
   fetch(url)
-    .then((r) => (r.ok ? r.blob() : Promise.reject()))
-    .then((b) => { clipCache[url] = URL.createObjectURL(b); })
-    .catch(() => {
-      // Không tải được dạng blob thì ít nhất cho trình duyệt tải vào bộ nhớ đệm
+    .then((r) => (r.ok ? r.blob() : Promise.reject(new Error("http " + r.status))))
+    .then((b) => {
+      // Gắn lại loại file để iPhone chịu phát
+      clipCache[url] = URL.createObjectURL(new Blob([b], { type }));
+    })
+    .catch((e) => {
+      // Không tải được dạng blob (thường do chặn CORS): thử cho thẻ audio tự tải
+      soundLog("clip download blocked (" + (e && e.message ? e.message : "?") + "), trying direct");
       const a = new Audio();
       a.preload = "auto";
+      a.addEventListener("canplaythrough", () => { clipCache[url] = url; }, { once: true });
       a.src = url;
       keepAlive.push(a);
     });
@@ -654,32 +660,36 @@ function stopSpeaking() {
   if (hasTTS && (speechSynthesis.speaking || speechSynthesis.pending)) speechSynthesis.cancel();
 }
 
+// Số lần giọng thu âm hỏng liên tiếp trên máy này; hỏng 2 lần thì bỏ qua để đọc bằng giọng máy ngay
+let clipFailures = 0;
+
 // Phát một file âm thanh bằng speechAudio; không phát được thì gọi onFail
 function playClip(url, onFail, onOk) {
   stopSpeaking();
   duckMusic(true);
   let started = false;
   let failed = false;
-  const fail = () => {
+  const src = clipCache[url] || url;
+  const kind = src.startsWith("blob:") ? "recorded voice (downloaded)" : "recorded voice (direct)";
+  const fail = (why) => {
     if (failed || started) return;
     failed = true;
+    clipFailures++;
     speechAudio.pause();
     duckMusic(false);
-    soundLog(kind + ": FAILED, trying next");
+    soundLog(kind + ": FAILED - " + why);
     onFail();
   };
-  const kind = url.includes("translate.google") ? "online voice" : "recorded voice";
-  speechAudio.onplaying = () => { started = true; soundLog(kind + ": playing"); if (onOk) onOk(); };
+  speechAudio.onplaying = () => { started = true; clipFailures = 0; soundLog(kind + ": playing"); if (onOk) onOk(); };
   speechAudio.onended = () => duckMusic(false);
-  speechAudio.onerror = fail;
-  speechAudio.src = clipCache[url] || url;
+  speechAudio.onerror = () => {
+    const er = speechAudio.error;
+    fail("error " + (er ? er.code + (er.message ? " " + er.message : "") : "?"));
+  };
+  speechAudio.src = src;
   const p = speechAudio.play();
-  if (p && p.catch) p.catch(fail);
-  setTimeout(fail, 2500);
-}
-
-function googleTtsUrl(word) {
-  return `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(word)}`;
+  if (p && p.catch) p.catch((e) => fail("play() " + (e && e.name ? e.name : "?")));
+  setTimeout(() => fail("timeout (ready " + speechAudio.readyState + ", net " + speechAudio.networkState + ")"), 1500);
 }
 
 function speakWithVoice(word, retry = true, onResult) {
@@ -711,31 +721,21 @@ function speakWithVoice(word, retry = true, onResult) {
   }, 1000);
 }
 
-// Thứ tự thử: 1) bản thu giọng người thật  2) giọng đọc trực tuyến  3) giọng đọc của máy
+// Chỉ dùng giọng thu âm khi file đã tải xong sẵn; nếu chưa thì đọc ngay bằng giọng máy (không chờ)
 function speak(word) {
   if (!word) return;
   if (isMuted) {
     showMessage("error", "🔇 Sound is off. Tap 🔇 Sound to turn it on.");
     return;
   }
-  const viaDevice = () => speakWithVoice(word);
-  const viaOnline = () => playClip(googleTtsUrl(word), viaDevice);
-  const known = recordings[word.toLowerCase()];
-  if (typeof known === "string") {
-    if (known) playClip(known, viaOnline);
-    else viaOnline();
+  const url = recordings[word.toLowerCase()];
+  const ready = typeof url === "string" && url && clipCache[url];
+  if (ready && clipFailures < 2) {
+    playClip(url, () => speakWithVoice(word));
     return;
   }
-  // Chưa biết có bản thu hay không: chờ tối đa 1,2 giây rồi chuyển sang phương án tiếp theo
-  let done = false;
-  const timer = setTimeout(() => { if (!done) { done = true; viaOnline(); } }, 1200);
-  fetchRecording(word).then((url) => {
-    if (done) return;
-    done = true;
-    clearTimeout(timer);
-    if (url) playClip(url, viaOnline);
-    else viaOnline();
-  });
+  speakWithVoice(word);
+  if (url === undefined) fetchRecording(word); // tải sẵn cho lần sau
 }
 
 muteBtn.addEventListener("click", () => {

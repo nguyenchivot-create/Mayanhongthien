@@ -43,7 +43,7 @@ Bấm **Start Game**, chọn một trò trong mục **Games**, chọn cấp đ�
 
 ## Kiểm tra âm thanh
 
-Kéo xuống cuối trang, bấm **🔧 Sound check** để thử từng lớp âm thanh (hiệu ứng, nhạc nền, giọng thu âm, giọng trực tuyến, giọng của máy) và xem nhật ký lỗi.
+Kéo xuống cuối trang, bấm **🔧 Sound check** để thử từng lớp âm thanh (hiệu ứng, nhạc nền, giọng thu âm, giọng của máy) và xem nhật ký lỗi.
 
 ## Chạy trên máy
 

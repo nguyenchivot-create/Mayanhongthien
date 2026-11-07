@@ -16,16 +16,25 @@
     ["1. Effect (ting)", (done) => { SFX.play("select"); done("sent. Did you hear a bell?"); }],
     ["2. Music", (done) => {
       Music.start();
-      setTimeout(() => { const d = Music.debug(); done(d && !d.paused && d.t > 0 ? `playing (${d.t}s)` : "NOT playing", d && !d.paused && d.t > 0); }, 1500);
+      setTimeout(() => {
+        const d = Music.debug();
+        const ok = d && !d.paused && d.t > 0;
+        done(ok ? `playing (${d.t}s)${musicOn ? "" : " - but Music button is OFF, tap 🎵"}` : "NOT playing", ok);
+      }, 1500);
     }],
     ["3. Recorded voice", (done) => {
       fetchRecording("apple").then((url) => {
         if (!url) return done("no recording found (no internet?)", false);
-        playClip(url, () => done("FAILED to play", false), () => done("playing"));
+        let tries = 0;
+        const wait = () => {
+          if (clipCache[url]) return playClip(url, () => done("FAILED to play (see log)", false), () => done("playing"));
+          if (++tries > 20) return done("recording not downloaded (blocked?)", false);
+          setTimeout(wait, 150);
+        };
+        wait();
       });
     }],
-    ["4. Online voice", (done) => playClip(googleTtsUrl("apple"), () => done("FAILED to play", false), () => done("playing"))],
-    ["5. Device voice", (done) => speakWithVoice("apple", true, (ok) => done(ok ? "playing" : "NOT started", ok))]
+    ["4. Device voice", (done) => speakWithVoice("apple", true, (ok) => done(ok ? "playing" : "NOT started", ok))]
   ];
 
   const list = panel.querySelector(".sc-tests");
