@@ -1,6 +1,10 @@
 // ===== Biểu tượng minh họa cho từ vựng (chỉ hiện ở cấp Easy) =====
 // Từ không có hình minh họa rõ ràng (như các ngày trong tuần) thì để trống.
 const ICONS = {
+  sWorld: { Flower: "🌸", Grass: "🌱", Moon: "🌙", Sea: "🌊", Sky: "🌤️", Star: "⭐", Sun: "☀️", Tree: "🌳" },
+  sTime: { Afternoon: "🌤️", Birthday: "🎂", Day: "☀️", Evening: "🌇", Morning: "🌅", Night: "🌙" },
+  sPets: { Bird: "🐦", Cat: "🐱", Dog: "🐶", Fish: "🐟", Mouse: "🐭", Rabbit: "🐰" },
+  sNumbers10: { One: "1️⃣", Two: "2️⃣", Three: "3️⃣", Four: "4️⃣", Five: "5️⃣", Six: "6️⃣", Seven: "7️⃣", Eight: "8️⃣", Nine: "9️⃣", Ten: "🔟" },
   sWild: { Bear: "🐻", Elephant: "🐘", Frog: "🐸", Giraffe: "🦒", Monkey: "🐒", Snake: "🐍", Spider: "🕷️", Tiger: "🐯" },
   sTransport: { Bike: "🚲", Boat: "⛵", Bus: "🚌", Car: "🚗", Helicopter: "🚁", Plane: "✈️", Train: "🚂", Truck: "🚚" },
   sWeather: { Cloud: "☁️", Cold: "🥶", Hot: "🥵", Rain: "🌧️", Rainbow: "🌈", Snow: "❄️", Sun: "☀️", Wind: "💨" },
@@ -11,11 +15,11 @@ const ICONS = {
   sFruit: { Apple: "🍎", Banana: "🍌", Carrot: "🥕", Grape: "🍇", Lemon: "🍋", Orange: "🍊", Potato: "🥔", Tomato: "🍅" },
   sAnimals: { Bird: "🐦", Chicken: "🐔", Cow: "🐮", Duck: "🦆", Fish: "🐟", Goat: "🐐", Horse: "🐴", Sheep: "🐑" },
   sToys: { Ball: "⚽", Bike: "🚲", Car: "🚗", Doll: "🪆", Kite: "🪁", Robot: "🤖", Teddy: "🧸", Train: "🚂" },
-  sSchool: { Bag: "🎒", Book: "📕", Crayon: "🖍️", Eraser: "🧽", Pen: "🖊️", Pencil: "✏️", Ruler: "📏" },
-  sFood: { Bread: "🍞", Burger: "🍔", Cake: "🍰", Egg: "🥚", Juice: "🧃", Milk: "🥛", Rice: "🍚", Water: "💧" },
-  sBody: { Arm: "💪", Ear: "👂", Eye: "👁️", Face: "🙂", Hand: "✋", Head: "🧑", Leg: "🦵", Mouth: "👄" },
+  sSchool: { Book: "📕", Crayon: "🖍️", Eraser: "🧽", Pen: "🖊️", Pencil: "✏️", Ruler: "📏", Schoolbag: "🎒" },
+  sFood: { Bread: "🍞", Burger: "🍔", Cake: "🍰", Chicken: "🍗", Egg: "🥚", Juice: "🧃", Milk: "🥛", Rice: "🍚", Water: "💧" },
+  sBody: { Arm: "💪", Ear: "👂", Eye: "👁️", Face: "🙂", Foot: "🦶", Hair: "💇", Hand: "✋", Head: "🧑", Leg: "🦵", Mouth: "👄", Nose: "👃" },
   sClothes: { Dress: "👗", Hat: "👒", Jacket: "🧥", Shirt: "👔", Shoes: "👟", Socks: "🧦", Trousers: "👖" },
-  sFamily: { Baby: "👶", Brother: "👦", Dad: "👨", Grandma: "👵", Grandpa: "👴", Mum: "👩", Sister: "👧" },
+  sFamily: { Baby: "👶", Brother: "👦", Dad: "👨", Father: "👨", Friend: "🧑‍🤝‍🧑", Grandma: "👵", Grandpa: "👴", Mother: "👩", Mum: "👩", Sister: "👧" },
   sHome: { Bath: "🛁", Bed: "🛏️", Chair: "🪑", Door: "🚪", Lamp: "💡", Sofa: "🛋️", Table: "🍽️", Window: "🪟" },
   sColours: { Black: "⚫", Blue: "🔵", Brown: "🟤", Green: "🟢", Orange: "🟠", Pink: "🩷", Purple: "🟣", Red: "🔴", White: "⚪", Yellow: "🟡" },
   months: {

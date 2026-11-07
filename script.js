@@ -116,7 +116,7 @@ const CATEGORIES = {
     color: "#e3f0ff",
     btnColor: "rgb(40,110,200)",
     arrange: "🎒 Arrange the school things in alphabetical order (A to Z)!",
-    words: [["Bag", "Cặp sách"], ["Book", "Quyển sách"], ["Crayon", "Bút sáp màu"], ["Desk", "Bàn học"], ["Eraser", "Cục tẩy"], ["Pen", "Bút mực"], ["Pencil", "Bút chì"], ["Ruler", "Thước kẻ"]]
+    words: [["Book", "Quyển sách"], ["Crayon", "Bút sáp màu"], ["Desk", "Bàn học"], ["Eraser", "Cục tẩy"], ["Pen", "Bút mực"], ["Pencil", "Bút chì"], ["Ruler", "Thước kẻ"], ["Schoolbag", "Cặp sách"]]
   },
   sFood: {
     starters: true,
@@ -124,7 +124,7 @@ const CATEGORIES = {
     color: "#fff0e0",
     btnColor: "rgb(210,110,40)",
     arrange: "🍞 Arrange the food words in alphabetical order (A to Z)!",
-    words: [["Bread", "Bánh mì"], ["Burger", "Bánh hamburger"], ["Cake", "Bánh ngọt"], ["Egg", "Quả trứng"], ["Juice", "Nước ép"], ["Milk", "Sữa"], ["Rice", "Cơm"], ["Water", "Nước"]]
+    words: [["Bread", "Bánh mì"], ["Burger", "Bánh hamburger"], ["Cake", "Bánh ngọt"], ["Chicken", "Thịt gà"], ["Egg", "Quả trứng"], ["Juice", "Nước ép"], ["Milk", "Sữa"], ["Rice", "Cơm"], ["Water", "Nước"]]
   },
   sBody: {
     starters: true,
@@ -132,7 +132,7 @@ const CATEGORIES = {
     color: "#ffe9e0",
     btnColor: "rgb(220,100,70)",
     arrange: "✋ Arrange the body words in alphabetical order (A to Z)!",
-    words: [["Arm", "Cánh tay"], ["Ear", "Tai"], ["Eye", "Mắt"], ["Face", "Khuôn mặt"], ["Hand", "Bàn tay"], ["Head", "Cái đầu"], ["Leg", "Chân"], ["Mouth", "Miệng"]]
+    words: [["Arm", "Cánh tay"], ["Ear", "Tai"], ["Eye", "Mắt"], ["Face", "Khuôn mặt"], ["Foot", "Bàn chân"], ["Hair", "Tóc"], ["Hand", "Bàn tay"], ["Head", "Cái đầu"], ["Leg", "Chân"], ["Mouth", "Miệng"], ["Nose", "Mũi"]]
   },
   sClothes: {
     starters: true,
@@ -148,7 +148,7 @@ const CATEGORIES = {
     color: "#ffe3ea",
     btnColor: "rgb(210,60,100)",
     arrange: "👪 Arrange the family words in alphabetical order (A to Z)!",
-    words: [["Baby", "Em bé"], ["Brother", "Anh / em trai"], ["Dad", "Bố"], ["Grandma", "Bà"], ["Grandpa", "Ông"], ["Mum", "Mẹ"], ["Sister", "Chị / em gái"]]
+    words: [["Baby", "Em bé"], ["Brother", "Anh / em trai"], ["Dad", "Bố"], ["Father", "Bố (cách nói trang trọng)"], ["Friend", "Bạn bè"], ["Grandma", "Bà"], ["Grandpa", "Ông"], ["Mother", "Mẹ (cách nói trang trọng)"], ["Mum", "Mẹ"], ["Sister", "Chị / em gái"]]
   },
   sHome: {
     starters: true,
@@ -167,6 +167,14 @@ const CATEGORIES = {
     words: [["Black", "Màu đen"], ["Blue", "Xanh dương"], ["Brown", "Màu nâu"], ["Green", "Xanh lá"], ["Orange", "Màu cam"], ["Pink", "Màu hồng"], ["Purple", "Màu tím"], ["Red", "Màu đỏ"], ["White", "Màu trắng"], ["Yellow", "Màu vàng"]]
   },
 
+  sNumbers10: {
+    starters: true,
+    label: "🔟 Numbers 1-10",
+    color: "#e6f0ff",
+    btnColor: "rgb(50,110,205)",
+    arrange: "🔟 Arrange the numbers from 1 to 10!",
+    words: [["One", "Một"], ["Two", "Hai"], ["Three", "Ba"], ["Four", "Bốn"], ["Five", "Năm"], ["Six", "Sáu"], ["Seven", "Bảy"], ["Eight", "Tám"], ["Nine", "Chín"], ["Ten", "Mười"]]
+  },
   sNumbers: {
     starters: true,
     label: "🔢 Numbers 11-20",
@@ -238,6 +246,31 @@ const CATEGORIES = {
     btnColor: "rgb(210,60,70)",
     arrange: "🍓 Arrange the fruits and vegetables in alphabetical order (A to Z)!",
     words: [["Apple", "Quả táo"], ["Banana", "Quả chuối"], ["Carrot", "Cà rốt"], ["Grape", "Quả nho"], ["Lemon", "Quả chanh"], ["Orange", "Quả cam"], ["Potato", "Khoai tây"], ["Tomato", "Cà chua"]]
+  },
+
+  sPets: {
+    starters: true,
+    label: "🐱 Pets",
+    color: "#fff0e3",
+    btnColor: "rgb(215,120,50)",
+    arrange: "🐱 Arrange the pets in alphabetical order (A to Z)!",
+    words: [["Bird", "Con chim"], ["Cat", "Con mèo"], ["Dog", "Con chó"], ["Fish", "Con cá"], ["Mouse", "Con chuột"], ["Rabbit", "Con thỏ"]]
+  },
+  sTime: {
+    starters: true,
+    label: "⏰ Time",
+    color: "#fff4de",
+    btnColor: "rgb(205,125,30)",
+    arrange: "⏰ Arrange the times of day in alphabetical order (A to Z)!",
+    words: [["Afternoon", "Buổi chiều"], ["Birthday", "Sinh nhật"], ["Day", "Ngày"], ["Evening", "Buổi tối"], ["Morning", "Buổi sáng"], ["Night", "Ban đêm"]]
+  },
+  sWorld: {
+    starters: true,
+    label: "🌳 World Around Us",
+    color: "#e6f7e2",
+    btnColor: "rgb(55,150,60)",
+    arrange: "🌳 Arrange the things around us in alphabetical order (A to Z)!",
+    words: [["Flower", "Bông hoa"], ["Grass", "Cỏ"], ["Moon", "Mặt trăng"], ["Sea", "Biển"], ["Sky", "Bầu trời"], ["Star", "Ngôi sao"], ["Sun", "Mặt trời"], ["Tree", "Cái cây"]]
   },
 
   // ----- Chủ đề Cambridge A1 Movers (chỉ hiện ở chế độ Movers, xếp theo A-Z) -----
