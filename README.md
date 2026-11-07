@@ -16,7 +16,7 @@ Bấm **Start Game**, chọn một trò trong mục **Games**, chọn cấp đ�
 
 | Trò | Cách chơi |
 |---|---|
-| 🔀 Word Order | Sắp xếp từ theo thứ tự, rồi đánh vần từng từ |
+| 🔀 Word Order | Giữ và kéo các ô từ về đúng thứ tự, rồi đánh vần từng từ |
 | 🧩 Word Builder | Kéo thả chữ cái vào ô trống để ghép thành từ |
 | 🔤 Missing Letters | Tìm chữ cái còn thiếu trong từ |
 | ❓ Word Quiz | Chọn từ tiếng Anh đúng với nghĩa (Hard: với định nghĩa tiếng Anh) |
@@ -32,9 +32,10 @@ Bấm **Start Game**, chọn một trò trong mục **Games**, chọn cấp đ�
 ## Tính năng
 
 - Giao diện tiếng Anh, mỗi từ có nghĩa tiếng Việt nhỏ bên dưới
-- Chơi được trên điện thoại (chạm để đổi chỗ)
+- Chơi được trên điện thoại: kéo thả bằng ngón tay, trang tự cuộn khi kéo tới mép màn hình
+- Trả lời đúng hiện thẻ kết quả (từ, hình, nghĩa) và nút Next; hết vòng có bảng tổng kết số câu đúng, điểm và số lần dùng gợi ý
 - Phát âm từ tiếng Anh (nút 🔈 Listen): ưu tiên giọng người thật thu âm sẵn từ từ điển trực tuyến, nếu không có thì dùng giọng đọc tốt nhất trên máy
-- Nút gợi ý (Easy trừ 2 điểm, Hard trừ 5 điểm)
+- Nút 💡 Hint ở mọi trò (Easy trừ 2 điểm, Movers trừ 3, Hard trừ 5)
 - Lưu kỷ lục điểm trên máy
 - Hiệu ứng pháo giấy, âm thanh hiệu ứng
 - Nhạc nền vui tươi do trình duyệt tự tạo, có nút 🎵 Music riêng để tắt nhạc mà vẫn nghe đọc từ

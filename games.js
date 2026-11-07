@@ -139,10 +139,24 @@ function openGame(key) {
 
 $("menu-btn").addEventListener("click", showMenu);
 
+// ----- Nút Hint dùng chung: mỗi trò tự đặt round.hint() -----
+function showHintBar() {
+  checkContainer.classList.remove("hidden");
+  hintBtn.classList.remove("hidden");
+  speakBtn.classList.add("hidden");
+  $("check-btn").classList.add("hidden");
+}
+
+// Trả về true nếu đã gợi ý được (khi đó mới trừ điểm)
+function miniHint() {
+  return !!(round && typeof round.hint === "function" && round.hint());
+}
+
 // ----- Bắt đầu một vòng chơi nhỏ (gọi từ startCategory) -----
 function startMiniGame(key) {
   container.className = "";
-  round = { key, words: mix(CATEGORIES[key].words).slice(0, ROUND_SIZE), index: 0 };
+  round = { key, words: mix(CATEGORIES[key].words).slice(0, ROUND_SIZE), index: 0, hint: null };
+  showHintBar();
   setStage(gameType);
   if (gameType === "memory") startMemory();
   else if (gameType === "match") startMatch();
@@ -153,6 +167,7 @@ function nextQuestion(first = false) {
   if (!first) round.index++;
   if (round.index >= round.words.length) return finishRound();
   clearMessage();
+  round.hint = null;
   const [en, vi] = round.words[round.index];
   if (gameType === "builder") renderBuilder(en, vi);
   if (gameType === "missing") renderMissing(en, vi);
@@ -160,11 +175,20 @@ function nextQuestion(first = false) {
 }
 
 function answerCorrect(en) {
-  showMessage("success", `⭐ Correct! ${en} = ${meaningOf(en)}`);
   play("success");
   speak(en);
   addScore(MODES[mode].wordPts);
-  nextRoundTimer = setTimeout(() => nextQuestion(), 1400);
+  roundStats.correct++;
+  round.hint = null;
+  checkContainer.classList.add("hidden");
+  // Cho bé nhìn đáp án đúng một chút rồi hiện thẻ kết quả, bấm Next để sang câu tiếp
+  nextRoundTimer = setTimeout(() => {
+    showResultCard(en, () => {
+      showHintBar();
+      setStage(gameType);
+      nextQuestion();
+    });
+  }, 700);
 }
 
 function answerWrong(el) {
@@ -175,12 +199,11 @@ function answerWrong(el) {
 
 function finishRound() {
   const key = round.key;
-  container.innerHTML = `<div class="mg-done">🏆</div>`;
-  showMessage("success", `🏆 Well done, Mây An & Hồng Thiên! Round complete! +${MODES[mode].bonus} points`);
+  round.hint = null;
   play("win");
   launchConfetti();
   addScore(MODES[mode].bonus);
-  nextRoundTimer = setTimeout(() => startCategory(key), 4000);
+  showFinishCard(key);
 }
 
 // ===== 🧩 Word Builder: kéo thả chữ cái vào ô trống =====
@@ -256,6 +279,28 @@ function renderBuilder(en, vi) {
       bankEl.appendChild(tile);
     });
   }
+
+  // Hint: đặt đúng chữ cái tiếp theo (sửa luôn ô đặt sai)
+  round.hint = () => {
+    if (done) return false;
+    const i = slots.findIndex((id, k) => id === null || bank[id].ch !== target[k]);
+    if (i === -1) return false;
+    const ch = target[i];
+    slots[i] = null;
+    let free = bank.find((b) => b.ch === ch && !slots.includes(b.id));
+    let id = free ? free.id : undefined;
+    if (id === undefined) {
+      const j = slots.findIndex((sid, k) => sid !== null && bank[sid].ch === ch && target[k] !== ch);
+      id = slots[j];
+      slots[j] = null;
+    }
+    slots[i] = id;
+    draw();
+    slotsEl.children[i].classList.add("hinted");
+    showMessage("success", `💡 Letter ${i + 1} is "${ch.toUpperCase()}"`);
+    checkBuilt();
+    return true;
+  };
 
   // Kéo bằng chuột hoặc ngón tay (Pointer Events chạy được cả trên điện thoại)
   function enableDrag(el, letterId, onTap) {
@@ -348,6 +393,18 @@ function renderMissing(en, vi) {
     });
     choicesEl.appendChild(btn);
   });
+
+  // Hint: điền giúp chữ cái còn thiếu tiếp theo
+  round.hint = () => {
+    if (filled >= blanks.length) return false;
+    const want = missing[filled];
+    const btn = [...choicesEl.querySelectorAll(".mg-choice:not(:disabled)")]
+      .find((b) => b.textContent.toLowerCase() === want);
+    if (!btn) return false;
+    showMessage("success", `💡 The missing letter is "${want.toUpperCase()}"`);
+    btn.click();
+    return true;
+  };
 }
 
 // ===== ❓ Word Quiz: chọn từ tiếng Anh đúng =====
@@ -358,18 +415,7 @@ function renderQuiz(en, vi) {
   if (isHard()) {
     subtitle.textContent = "📖 Which word matches this definition?";
     container.innerHTML = `${progressHtml()}<div class="mg-meaning mg-def">📖 ${DEFINITIONS[round.key][en]}</div>
-      <div class="mg-meaning mg-hidden">💡 Hint: ?</div><div class="mg-row"></div><div class="mg-options"></div>`;
-    const hint = document.createElement("button");
-    hint.className = "mg-hint";
-    hint.textContent = `💡 Hint (-${MODES[mode].hintCost})`;
-    hint.addEventListener("click", () => {
-      const m = container.querySelector(".mg-meaning.mg-hidden");
-      if (!m) return;
-      m.textContent = `💡 Hint: ${vi}`;
-      m.classList.remove("mg-hidden");
-      addScore(-MODES[mode].hintCost);
-    });
-    container.querySelector(".mg-row").appendChild(hint);
+      <div class="mg-meaning mg-reveal mg-hidden"></div><div class="mg-options"></div>`;
   } else {
     subtitle.textContent = "❓ Which English word is it?";
     container.innerHTML = `${progressHtml()}<div class="mg-meaning big">${withIcon(en, vi)}</div><div class="mg-options"></div>`;
@@ -393,6 +439,25 @@ function renderQuiz(en, vi) {
     });
     optionsEl.appendChild(btn);
   });
+
+  // Hint: cấp Hard lần đầu hiện nghĩa tiếng Việt, sau đó loại bớt một đáp án sai
+  round.hint = () => {
+    if (answered) return false;
+    const reveal = container.querySelector(".mg-reveal.mg-hidden");
+    if (reveal) {
+      reveal.textContent = `💡 ${vi}`;
+      reveal.classList.remove("mg-hidden");
+      showMessage("success", "💡 Here is the Vietnamese meaning!");
+      return true;
+    }
+    const wrong = [...optionsEl.querySelectorAll(".mg-option:not(:disabled)")].filter((b) => b.textContent !== en);
+    if (wrong.length <= 1) return false;
+    const b = wrong[Math.floor(Math.random() * wrong.length)];
+    b.disabled = true;
+    b.classList.add("removed");
+    showMessage("success", "💡 One wrong answer is gone!");
+    return true;
+  };
 }
 
 // ===== 🃏 Memory Match: lật thẻ ghép cặp =====
@@ -428,6 +493,7 @@ function startMemory() {
         a.el.classList.add("matched");
         b.el.classList.add("matched");
         state.matched++;
+        roundStats.correct++;
         $("mem-pairs").textContent = state.matched;
         play("success");
         addScore(MODES[mode].wordPts);
@@ -445,6 +511,21 @@ function startMemory() {
     });
     grid.appendChild(el);
   });
+
+  // Hint: lật ngửa các thẻ chưa ghép trong 1,5 giây
+  round.hint = () => {
+    if (state.lock || state.matched === pairs.length) return false;
+    const hidden = [...grid.querySelectorAll(".mem-card:not(.open):not(.matched)")];
+    if (!hidden.length) return false;
+    state.lock = true;
+    hidden.forEach((c) => c.classList.add("open", "peek"));
+    showMessage("success", "💡 Have a quick look!");
+    setTimeout(() => {
+      hidden.forEach((c) => c.classList.remove("open", "peek"));
+      state.lock = false;
+    }, 1500);
+    return true;
+  };
 }
 
 // ===== 🔗 Word Match: ghép từ với định nghĩa =====
@@ -465,11 +546,14 @@ function startMatch() {
     <div class="match-board"><div class="match-col words"></div><div class="match-col defs"></div></div>`;
   const wordsCol = container.querySelector(".match-col.words");
   const defsCol = container.querySelector(".match-col.defs");
+  const wordButtons = {};
+  const defButtons = {};
 
   items.forEach((en) => {
     const btn = document.createElement("button");
     btn.className = "match-item word-item";
     btn.innerHTML = withIcon(en);
+    wordButtons[en] = btn;
     btn.addEventListener("click", () => {
       if (btn.classList.contains("done")) return;
       wordsCol.querySelectorAll(".selected").forEach((b) => b.classList.remove("selected"));
@@ -484,6 +568,7 @@ function startMatch() {
     const btn = document.createElement("button");
     btn.className = "match-item def-item";
     btn.textContent = definitionOf(round.key, en);
+    defButtons[en] = btn;
     btn.addEventListener("click", () => {
       if (btn.classList.contains("done")) return;
       if (!selectedWord) {
@@ -499,6 +584,7 @@ function startMatch() {
           b.style.background = color;
         });
         matched++;
+        roundStats.correct++;
         $("match-count").textContent = matched;
         selectedWord = null;
         play("success");
@@ -511,4 +597,21 @@ function startMatch() {
     });
     defsCol.appendChild(btn);
   });
+
+  // Hint: làm sáng ô định nghĩa đúng của từ đang chọn (chưa chọn thì chọn giúp)
+  round.hint = () => {
+    if (matched === items.length) return false;
+    if (!selectedWord) {
+      const next = items.find((w) => !wordButtons[w].classList.contains("done"));
+      if (!next) return false;
+      wordButtons[next].click();
+    }
+    const target = defButtons[selectedWord.en];
+    target.classList.remove("hint-flash");
+    void target.offsetWidth;
+    target.classList.add("hint-flash");
+    setTimeout(() => target.classList.remove("hint-flash"), 1800);
+    showMessage("success", "💡 Tap the glowing card!");
+    return true;
+  };
 }

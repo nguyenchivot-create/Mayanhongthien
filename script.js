@@ -705,15 +705,15 @@ const TIPS = {
     movers: "📘 Cambridge Movers topics for Mây An. Choose one above!",
     easy: "👆 Choose a category above to start!", hard: "👆 Hard mode has 9 extra categories. Choose one above!" },
   arrange: {
-    easy: "💡 Drag and drop, or tap 2 tiles to swap them. Then press Check Answer.",
-    hard: "🦁 English words only! Drag and drop, or tap 2 tiles to swap them."
+    easy: "✋ Hold a tile and drag it to its place. Then press Check Answer.",
+    hard: "🦁 English words only! Hold a tile and drag it to its place."
   },
   pick: {
     easy: "👆 Pick a word to spell.",
     hard: "👆 Pick a meaning, then type the English word for it."
   },
   spell: {
-    easy: "🔤 Drag and drop, or tap 2 letters to swap them.",
+    easy: "✋ Hold a letter and drag it to its place.",
     hard: "⌨️ Type the English word. Press Listen to hear it, or Hint if you get stuck."
   }
 };
@@ -755,65 +755,146 @@ function renderTiles(items, { isLetters, getLabel, onChange }) {
 
   items.forEach((item, index) => {
     const div = document.createElement("div");
-    div.className = "word";
-    div.draggable = true;
+    div.className = "word sortable";
+    div.dataset.index = index;
 
     if (isLetters) {
       const up = item.toUpperCase();
       div.textContent = up;
       div.classList.add("AEIOU".includes(up) ? "vowel" : "consonant");
     } else {
-      div.innerHTML = getLabel(item);
+      div.innerHTML = `<span class="grip">⠿</span>${getLabel(item)}`;
       div.style.backgroundColor = CATEGORIES[currentGame].color;
     }
-    if (selectedIndex === index) div.classList.add("selected");
 
-    const move = (from, to) => {
-      if (from === null || from === to) return;
-      const [moved] = items.splice(from, 1);
-      items.splice(to, 0, moved);
-      draggedIndex = null;
-      selectedIndex = null;
+    enableSort(div, items, isLetters, onChange);
+    container.appendChild(div);
+  });
+}
+
+// Giữ và kéo một ô tới vị trí mới, các ô khác tự dạt ra nhường chỗ.
+// Dùng Pointer Events nên chạy được bằng chuột lẫn ngón tay.
+function enableSort(el, items, horizontal, onChange) {
+  el.addEventListener("pointerdown", (e) => {
+    if (e.button !== undefined && e.button > 0) return;
+    e.preventDefault();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const rect = el.getBoundingClientRect();
+    const offX = startX - rect.left;
+    const offY = startY - rect.top;
+    let ghost = null;
+    let lastX = startX;
+    let lastY = startY;
+    let scrollTimer = null;
+
+    const moveTo = (x, y) => {
+      ghost.style.left = `${x - offX}px`;
+      ghost.style.top = `${y - offY}px`;
+      const under = document.elementFromPoint(x, y);
+      const target = under && under.closest(".sortable");
+      if (!target || target === el || !container.contains(target)) return;
+      const r = target.getBoundingClientRect();
+      const after = horizontal ? x > r.left + r.width / 2 : y > r.top + r.height / 2;
+      container.insertBefore(el, after ? target.nextSibling : target);
+    };
+
+    // Tự cuộn trang khi kéo tới gần mép trên hoặc mép dưới màn hình
+    const autoScroll = () => {
+      if (lastY < 90) window.scrollBy(0, -10);
+      else if (lastY > window.innerHeight - 150) window.scrollBy(0, 10);
+      moveTo(lastX, lastY);
+    };
+
+    const onMove = (ev) => {
+      lastX = ev.clientX;
+      lastY = ev.clientY;
+      if (!ghost) {
+        if (Math.hypot(lastX - startX, lastY - startY) < 6) return;
+        ghost = el.cloneNode(true);
+        ghost.classList.add("sort-ghost");
+        ghost.style.width = `${rect.width}px`;
+        ghost.style.height = `${rect.height}px`;
+        document.body.appendChild(ghost);
+        el.classList.add("sort-placeholder");
+        scrollTimer = setInterval(autoScroll, 16);
+      }
+      moveTo(lastX, lastY);
+    };
+
+    const onUp = () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      clearInterval(scrollTimer);
+      if (!ghost) return;
+      ghost.remove();
+      el.classList.remove("sort-placeholder");
+      const order = [...container.querySelectorAll(".sortable")].map((d) => items[Number(d.dataset.index)]);
+      items.splice(0, items.length, ...order);
       onChange();
     };
 
-    // Kéo-thả (máy tính)
-    div.addEventListener("dragstart", () => {
-      draggedIndex = index;
-      selectedIndex = null;
-      div.classList.add("dragging");
-    });
-    div.addEventListener("dragend", () => div.classList.remove("dragging"));
-    div.addEventListener("dragover", (e) => e.preventDefault());
-    div.addEventListener("drop", (e) => {
-      e.preventDefault();
-      move(draggedIndex, index);
-    });
-
-    // Chạm / bấm để đổi chỗ (điện thoại)
-    div.addEventListener("click", () => {
-      if (selectedIndex === null) {
-        selectedIndex = index;
-        onChange();
-      } else if (selectedIndex === index) {
-        selectedIndex = null;
-        onChange();
-      } else {
-        // đổi chỗ 2 ô
-        const a = selectedIndex;
-        [items[a], items[index]] = [items[index], items[a]];
-        selectedIndex = null;
-        onChange();
-      }
-    });
-
-    container.appendChild(div);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
   });
+}
+
+// ===== Thẻ kết quả sau mỗi câu đúng và bảng tổng kết cuối vòng =====
+let roundStats = { startScore: 0, correct: 0, hints: 0 };
+
+function resetRoundStats() {
+  roundStats = { startScore: score, correct: 0, hints: 0 };
+}
+
+function showResultCard(word, onNext) {
+  checkContainer.classList.add("hidden");
+  wordPicker.innerHTML = "";
+  container.className = "";
+  subtitle.textContent = "🎉 Well done!";
+  tip.textContent = "👉 Press Next to continue.";
+  container.innerHTML = `<div class="result-card">
+      <div class="result-title">✅ Correct!</div>
+      <div class="result-word">${withIcon(word)}</div>
+      <div class="result-mean">${meaningOf(word)}</div>
+      <div class="result-actions">
+        <button class="result-listen">🔈 Listen</button>
+        <button class="result-next">Next ➡️</button>
+      </div>
+    </div>`;
+  container.querySelector(".result-listen").addEventListener("click", () => speak(word));
+  container.querySelector(".result-next").addEventListener("click", onNext);
+}
+
+function showFinishCard(key) {
+  checkContainer.classList.add("hidden");
+  wordPicker.innerHTML = "";
+  container.className = "";
+  const earned = score - roundStats.startScore;
+  subtitle.textContent = "🏆 Well done, Mây An & Hồng Thiên!";
+  tip.textContent = "";
+  container.innerHTML = `<div class="result-card finish">
+      <div class="result-trophy">🏆</div>
+      <div class="result-title">Round complete!</div>
+      <div class="result-stats">
+        <div><b>${roundStats.correct}</b><span>Correct</span></div>
+        <div><b>${earned >= 0 ? "+" : ""}${earned}</b><span>Points</span></div>
+        <div><b>${roundStats.hints}</b><span>Hints</span></div>
+      </div>
+      <div class="result-actions">
+        <button class="result-again">🔁 Play Again</button>
+        <button class="result-menu">🎲 Other Games</button>
+      </div>
+    </div>`;
+  container.querySelector(".result-again").addEventListener("click", () => startCategory(key));
+  container.querySelector(".result-menu").addEventListener("click", showMenu);
 }
 
 // ===== Level 1: sắp xếp từ =====
 function startCategory(key) {
   clearTimeout(nextRoundTimer);
+  resetRoundStats();
   startBackgroundMusic();
   currentGame = key;
   preloadRecordings(englishOf(key));
@@ -832,6 +913,7 @@ function startCategory(key) {
     return;
   }
   container.className = "";
+  $("check-btn").classList.remove("hidden");
   subtitle.textContent = CATEGORIES[key].arrange;
   checkContainer.classList.remove("hidden");
   setStage("arrange");
@@ -914,6 +996,14 @@ function renderLetters() {
 
 // ===== Gợi ý =====
 hintBtn.addEventListener("click", () => {
+  if (gameType !== "order") {
+    if (miniHint()) {
+      roundStats.hints++;
+      addScore(-MODES[mode].hintCost);
+    }
+    else showMessage("error", "💡 No more hints here!");
+    return;
+  }
   if (level === 1) {
     const correct = englishOf(currentGame);
     const i = currentOrder.findIndex((w, idx) => w !== correct[idx]);
@@ -941,6 +1031,7 @@ hintBtn.addEventListener("click", () => {
     renderLetters();
     showMessage("success", `💡 Letter ${i + 1} is "${correct[i].toUpperCase()}"`);
   }
+  roundStats.hints++;
   addScore(-MODES[mode].hintCost);
 });
 
@@ -955,6 +1046,7 @@ $("check-btn").addEventListener("click", () => {
       launchConfetti();
       play("success");
       addScore(MODES[mode].arrangePts);
+      roundStats.correct++;
       level = 2;
       showWordPicker(englishOf(currentGame));
     } else {
@@ -965,25 +1057,24 @@ $("check-btn").addEventListener("click", () => {
   }
 
   if (getSpellAnswer().toLowerCase() === currentWord.toLowerCase()) {
-    showMessage("success", `⭐ Correct! ${currentWord} = ${meaningOf(currentWord)}`);
     launchConfetti();
     play("success");
     speak(currentWord);
     addScore(MODES[mode].wordPts);
+    roundStats.correct++;
     currentWordList = currentWordList.filter((w) => w !== currentWord);
+    speakBtn.classList.add("hidden");
 
-    if (currentWordList.length > 0) {
-      speakBtn.classList.add("hidden");
-      showWordPicker(currentWordList);
-    } else {
-      showMessage("success", `🏆 Well done, Mây An & Hồng Thiên! You finished all the words! +${MODES[mode].bonus} points`);
-      play("win");
-      launchConfetti();
-      addScore(MODES[mode].bonus);
-      container.innerHTML = "";
-      checkContainer.classList.add("hidden");
-      nextRoundTimer = setTimeout(() => startCategory(currentGame), 4000);
-    }
+    showResultCard(currentWord, () => {
+      if (currentWordList.length > 0) {
+        showWordPicker(currentWordList);
+      } else {
+        play("win");
+        launchConfetti();
+        addScore(MODES[mode].bonus);
+        showFinishCard(currentGame);
+      }
+    });
   } else {
     showMessage("error", "🥴 Oops, not quite! ❌ Try again!");
     play("error");
