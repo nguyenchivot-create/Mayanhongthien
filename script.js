@@ -365,16 +365,7 @@ const CATEGORIES = {
     color: "#ffe6e6",
     btnColor: "rgb(200, 50, 50)",
     arrange: "🤒 Arrange the health words in alphabetical order (A to Z)!",
-    words: [
-      ["Cough", "Ho"],
-      ["Dentist", "Nha sĩ"],
-      ["Earache", "Đau tai"],
-      ["Headache", "Đau đầu"],
-      ["Hospital", "Bệnh viện"],
-      ["Medicine", "Thuốc"],
-      ["Temperature", "Sốt"],
-      ["Toothache", "Đau răng"]
-    ]
+    words: [["Cold", "Cảm lạnh"], ["Cough", "Ho"], ["Dentist", "Nha sĩ"], ["Doctor", "Bác sĩ"], ["Earache", "Đau tai"], ["Headache", "Đau đầu"], ["Hospital", "Bệnh viện"], ["Medicine", "Thuốc"], ["Temperature", "Sốt"], ["Toothache", "Đau răng"]]
   },
   mWeather: {
     movers: true,
@@ -382,16 +373,7 @@ const CATEGORIES = {
     color: "#e3f1ff",
     btnColor: "rgb(50, 110, 200)",
     arrange: "🌦️ Arrange the weather words in alphabetical order (A to Z)!",
-    words: [
-      ["Cloud", "Đám mây"],
-      ["Cloudy", "Nhiều mây"],
-      ["Rain", "Mưa"],
-      ["Rainbow", "Cầu vồng"],
-      ["Snow", "Tuyết"],
-      ["Sunny", "Có nắng"],
-      ["Wind", "Gió"],
-      ["Windy", "Có gió"]
-    ]
+    words: [["Cloudy", "Nhiều mây"], ["Rain", "Mưa"], ["Rainbow", "Cầu vồng"], ["Rainy", "Có mưa"], ["Snow", "Tuyết"], ["Snowy", "Có tuyết"], ["Sunny", "Có nắng"], ["Weather", "Thời tiết"], ["Wind", "Gió"], ["Windy", "Có gió"]]
   },
   mTown: {
     movers: true,
@@ -399,16 +381,7 @@ const CATEGORIES = {
     color: "#f1f1f1",
     btnColor: "rgb(90, 100, 120)",
     arrange: "🏙️ Arrange the places in alphabetical order (A to Z)!",
-    words: [
-      ["Bank", "Ngân hàng"],
-      ["Cinema", "Rạp chiếu phim"],
-      ["Library", "Thư viện"],
-      ["Market", "Chợ"],
-      ["Park", "Công viên"],
-      ["Station", "Nhà ga"],
-      ["Supermarket", "Siêu thị"],
-      ["Zoo", "Sở thú"]
-    ]
+    words: [["Bank", "Ngân hàng"], ["Cinema", "Rạp chiếu phim"], ["Countryside", "Vùng quê"], ["Library", "Thư viện"], ["Market", "Chợ"], ["Park", "Công viên"], ["Station", "Nhà ga"], ["Supermarket", "Siêu thị"], ["Zoo", "Sở thú"]]
   },
   mNature: {
     movers: true,
@@ -442,7 +415,7 @@ const CATEGORIES = {
     color: "#e3f8e6",
     btnColor: "rgb(40,150,70)",
     arrange: "🏸 Arrange the sports and hobbies in alphabetical order (A to Z)!",
-    words: [["Badminton", "Cầu lông"], ["Basketball", "Bóng rổ"], ["Camping", "Cắm trại"], ["Cycling", "Đạp xe"], ["Fishing", "Câu cá"], ["Skateboard", "Ván trượt"], ["Skating", "Trượt băng"], ["Swimming", "Bơi lội"]]
+    words: [["Badminton", "Cầu lông"], ["Basketball", "Bóng rổ"], ["Camping", "Cắm trại"], ["Cycling", "Đạp xe"], ["Dancing", "Nhảy múa"], ["Fishing", "Câu cá"], ["Riding", "Cưỡi / đi xe"], ["Skateboard", "Ván trượt"], ["Skating", "Trượt băng"], ["Swimming", "Bơi lội"]]
   },
   mJobs: {
     movers: true,
@@ -499,6 +472,47 @@ const CATEGORIES = {
     btnColor: "rgb(130,100,70)",
     arrange: "🧱 Arrange the materials in alphabetical order (A to Z)!",
     words: [["Cotton", "Bông"], ["Glass", "Thủy tinh"], ["Gold", "Vàng"], ["Metal", "Kim loại"], ["Paper", "Giấy"], ["Plastic", "Nhựa"], ["Silver", "Bạc"], ["Wood", "Gỗ"]]
+  },
+
+  mColours: {
+    movers: true,
+    label: "🎨 Colours",
+    color: "#f5f0ff",
+    btnColor: "rgb(140,80,200)",
+    arrange: "🎨 Arrange the colours in alphabetical order (A to Z)!",
+    words: [["Black", "Màu đen"], ["Brown", "Màu nâu"], ["Gold", "Màu vàng kim"], ["Green", "Xanh lá"], ["Grey", "Màu xám"], ["Orange", "Màu cam"], ["Pink", "Màu hồng"], ["Purple", "Màu tím"], ["Silver", "Màu bạc"], ["White", "Màu trắng"]]
+  },
+  mNumbers: {
+    movers: true,
+    label: "🔢 Numbers 20-100",
+    color: "#e6f0ff",
+    btnColor: "rgb(50,110,205)",
+    arrange: "🔢 Arrange the numbers from 20 to 100!",
+    words: [["Twenty", "Hai mươi"], ["Thirty", "Ba mươi"], ["Forty", "Bốn mươi"], ["Fifty", "Năm mươi"], ["Sixty", "Sáu mươi"], ["Seventy", "Bảy mươi"], ["Eighty", "Tám mươi"], ["Ninety", "Chín mươi"], ["Hundred", "Một trăm"]]
+  },
+  mOrdinals: {
+    movers: true,
+    label: "🥇 Ordinals",
+    color: "#fff3d6",
+    btnColor: "rgb(205,140,25)",
+    arrange: "🥇 Arrange the ordinal numbers from first to tenth!",
+    words: [["First", "Thứ nhất"], ["Second", "Thứ hai"], ["Third", "Thứ ba"], ["Fourth", "Thứ tư"], ["Fifth", "Thứ năm"], ["Sixth", "Thứ sáu"], ["Seventh", "Thứ bảy"], ["Eighth", "Thứ tám"], ["Ninth", "Thứ chín"], ["Tenth", "Thứ mười"]]
+  },
+  mDirections: {
+    movers: true,
+    label: "🧭 Directions",
+    color: "#e5f6f3",
+    btnColor: "rgb(30,150,130)",
+    arrange: "🧭 Arrange the direction words in alphabetical order (A to Z)!",
+    words: [["Behind", "Phía sau"], ["Between", "Ở giữa"], ["Corner", "Góc phố"], ["Left", "Bên trái"], ["Opposite", "Đối diện"], ["Right", "Bên phải"], ["Straight", "Đi thẳng"], ["Turn", "Rẽ"]]
+  },
+  mParty: {
+    movers: true,
+    label: "🎈 Party & Music",
+    color: "#ffe9f2",
+    btnColor: "rgb(215,70,120)",
+    arrange: "🎈 Arrange the party and music words in alphabetical order (A to Z)!",
+    words: [["Balloon", "Bóng bay"], ["Camera", "Máy ảnh"], ["Drum", "Cái trống"], ["Guitar", "Đàn ghi-ta"], ["Party", "Bữa tiệc"], ["Piano", "Đàn piano"], ["Present", "Món quà"], ["Violin", "Đàn vi-ô-lông"]]
   },
 
   // ----- Chủ đề khó (chỉ hiện ở chế độ Khó) -----

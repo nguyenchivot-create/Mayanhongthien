@@ -27,7 +27,7 @@ Bấm **Start Game**, chọn một trò trong mục **Games**, chọn cấp đ�
 
 - **🐣 Easy**: có nghĩa tiếng Việt và biểu tượng minh họa (🐶 Dog, 🍎 Apple...), xếp chữ cái để đánh vần. 10 chủ đề: Days, Months, Planets, Rainbow, Numbers, Seasons, Times of Day, Body, Animals, Fruits A-Z
 - **⭐ Starters** (cho Hồng Thiên): 22 chủ đề theo các nhóm chủ đề của Cambridge Pre A1 Starters: Farm Animals, Toys, School, Food, My Body, Clothes, Family, My House, Colours, Numbers 1-10, Numbers 11-20, Wild Animals, Transport, Weather, Sports, Describing, Actions, Places, Fruit & Veg, Pets, Time, World Around Us. Độ khó như Easy, có biểu tượng minh họa
-- **📘 Movers** (cho Mây An): 18 chủ đề theo Cambridge A1 Movers: Wild Animals, Family, Clothes, Food & Drink, Home, Health, Weather, Places, World Around Us, Transport, Sports & Hobbies, Jobs, School Subjects, Time, Body, Describing, Actions, Materials. Độ khó ở giữa: có nghĩa tiếng Việt, Word Builder có 2 chữ cái gây nhiễu, Missing Letters thiếu 2 chữ, Word Order xếp theo bảng chữ cái
+- **📘 Movers** (cho Mây An): 23 chủ đề theo các nhóm chủ đề của Cambridge A1 Movers: Wild Animals, Family, Clothes, Food & Drink, Home, Health, Weather, Places, World Around Us, Transport, Sports & Hobbies, Jobs, School Subjects, Time, Body, Describing, Actions, Materials, Colours, Numbers 20-100, Ordinals, Directions, Party & Music. Độ khó ở giữa: có nghĩa tiếng Việt, Word Builder có 2 chữ cái gây nhiễu, Missing Letters thiếu 2 chữ, Word Order xếp theo bảng chữ cái
 - **🦁 Hard** (cho bé 10 tuổi): không có nghĩa khi sắp xếp, tự gõ từ theo nghĩa, chữ cái gây nhiễu, định nghĩa tiếng Anh, điểm cao hơn. Thêm 9 chủ đề: Ordinals, Tens, Time, Life Cycle, Growing Up, Big Numbers, Length, Water Cycle, Jobs A-Z
 
 ## Tính năng
