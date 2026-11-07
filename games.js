@@ -88,11 +88,10 @@ function progressHtml() {
 }
 
 function listenButton(word) {
-  const btn = document.createElement("button");
-  btn.className = "mg-listen";
-  btn.textContent = "🔈 Listen";
-  btn.addEventListener("click", () => speak(word));
-  return btn;
+  // Dùng nút Listen chung ở góc trái khu vực chơi
+  speakTarget = word;
+  speakBtn.classList.remove("hidden");
+  return document.createComment("listen");
 }
 
 // ----- Mục lục -----
@@ -124,6 +123,7 @@ function showMenu() {
   startScreen.classList.add("hidden");
   gameArea.classList.add("hidden");
   menuScreen.classList.remove("hidden");
+  modeButtons.classList.add("hidden");
   subtitle.textContent = "🎲 Choose a game to play!";
 }
 
@@ -132,6 +132,7 @@ function openGame(key) {
   clearBoard();
   menuScreen.classList.add("hidden");
   gameArea.classList.remove("hidden");
+  modeButtons.classList.remove("hidden");
   subtitle.textContent = `${GAMES[key].icon} ${GAMES[key].name}: choose a category!`;
   setStage("choose");
   updateBreadcrumb();
@@ -142,6 +143,9 @@ $("menu-btn").addEventListener("click", showMenu);
 
 // ----- Nút Hint dùng chung: mỗi trò tự đặt round.hint() -----
 function showHintBar() {
+  // Hint và Listen nằm ở góc trái, ngang với hình minh họa
+  tip.after(checkContainer);
+  checkContainer.classList.add("as-tools");
   checkContainer.classList.remove("hidden");
   hintBtn.classList.remove("hidden");
   speakBtn.classList.add("hidden");

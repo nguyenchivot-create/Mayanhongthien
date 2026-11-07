@@ -521,8 +521,10 @@ function saveBest() {
 
 // ===== Điểm =====
 function updateScoreBoard() {
-  scoreBoard.textContent = `⭐ Score: ${score}`;
-  bestBoard.textContent = `🏆 Best: ${best}`;
+  scoreBoard.innerHTML = `<span class="ri">⭐</span><span class="rl">${score}</span>`;
+  bestBoard.innerHTML = `<span class="ri">🏆</span><span class="rl">${best}</span>`;
+  scoreBoard.title = "Score";
+  bestBoard.title = "Best";
 }
 
 function addScore(points) {
@@ -706,18 +708,18 @@ muteBtn.addEventListener("click", () => {
   isMuted = !isMuted;
   if (isMuted) {
     Music.stop();
-    muteBtn.textContent = "🔇 Sound";
+    muteBtn.innerHTML = '<span class="ri">🔇</span><span class="rl">Sound</span>';
     muteBtn.classList.add("off");
   } else {
     muteBtn.classList.remove("off");
     startBackgroundMusic();
-    muteBtn.textContent = "🔊 Sound";
+    muteBtn.innerHTML = '<span class="ri">🔊</span><span class="rl">Sound</span>';
   }
 });
 // Nút nhạc nền riêng: tắt nhạc mà vẫn nghe đọc từ và hiệu ứng
 const musicBtn = $("music-btn");
 function updateMusicButton() {
-  musicBtn.textContent = musicOn ? "🎵 Music" : "🎵 Music";
+  musicBtn.innerHTML = '<span class="ri">🎵</span><span class="rl">Music</span>';
   musicBtn.classList.toggle("off", !musicOn);
 }
 musicBtn.addEventListener("click", () => {
@@ -800,7 +802,8 @@ function updateActiveButton() {
 // ===== Chọn cấp độ =====
 Object.entries(MODES).forEach(([key, m]) => {
   const btn = document.createElement("button");
-  btn.textContent = m.label;
+  const [mIcon, ...mName] = m.label.split(" ");
+  btn.innerHTML = `<span class="ri">${mIcon}</span><span class="rl">${mName.join(" ")}</span>`;
   btn.dataset.mode = key;
   btn.classList.add(`mode-${key}`);
   btn.addEventListener("click", () => setMode(key));
@@ -839,7 +842,7 @@ function setMode(key) {
   modeButtons.querySelectorAll("button").forEach((b) => {
     b.classList.toggle("active", b.dataset.mode === mode);
   });
-  hintBtn.textContent = `💡 Hint (-${MODES[mode].hintCost})`;
+  hintBtn.innerHTML = `<span class="ri">💡</span><span>Hint -${MODES[mode].hintCost}</span>`;
   if (currentGame && !categoryVisible(CATEGORIES[currentGame])) {
     currentGame = "";
     container.innerHTML = "";
@@ -1024,6 +1027,9 @@ function startCategory(key) {
     return;
   }
   container.className = "";
+  wordPicker.after(checkContainer);
+  checkContainer.classList.remove("as-tools");
+  speakBtn.classList.add("hidden");
   $("check-btn").classList.remove("hidden");
   subtitle.textContent = CATEGORIES[key].arrange;
   checkContainer.classList.remove("hidden");
@@ -1146,7 +1152,9 @@ hintBtn.addEventListener("click", () => {
   addScore(-MODES[mode].hintCost);
 });
 
-speakBtn.addEventListener("click", () => speak(currentWord));
+// Listen: trong Word Order đọc từ đang đánh vần, trong trò khác đọc từ của câu hỏi
+let speakTarget = "";
+speakBtn.addEventListener("click", () => speak(gameType === "order" ? currentWord : speakTarget));
 
 // ===== Kiểm tra =====
 $("check-btn").addEventListener("click", () => {
@@ -1220,6 +1228,7 @@ $("reset-btn").addEventListener("click", () => {
   startScreen.classList.remove("hidden");
   gameArea.classList.add("hidden");
   menuScreen.classList.add("hidden");
+  modeButtons.classList.add("hidden");
   subtitle.textContent = "Put the words in the right order.";
   setStage("choose");
 });
