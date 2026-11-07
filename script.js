@@ -841,7 +841,7 @@ function startCategory(key) {
 function renderWords() {
   renderTiles(currentOrder, {
     isLetters: false,
-    getLabel: (w) => (isHard() ? w : `${w}<small>${meaningOf(w)}</small>`),
+    getLabel: (w) => (isHard() ? w : `<span class="w-main">${withIcon(w)}</span><small>${meaningOf(w)}</small>`),
     onChange: renderWords
   });
 }
@@ -862,7 +862,7 @@ function showWordPicker(wordList) {
   currentWordList.forEach((word) => {
     const btn = document.createElement("button");
     btn.className = "pick-word-btn";
-    btn.innerHTML = isHard() ? meaningOf(word) : `${word}<small>${meaningOf(word)}</small>`;
+    btn.innerHTML = isHard() ? meaningOf(word) : `${withIcon(word)}<small>${meaningOf(word)}</small>`;
     btn.addEventListener("click", () => {
       currentWord = word;
       currentLetters = shuffleArray(word.split(""));
@@ -877,7 +877,7 @@ function showWordPicker(wordList) {
         subtitle.textContent = `⌨️ Type the English word for "${meaningOf(word)}"`;
         renderTypingBox();
       } else {
-        subtitle.textContent = `🔤 Arrange the letters to spell the word for "${meaningOf(word)}"`;
+        subtitle.textContent = `🔤 Arrange the letters to spell the word for "${meaningOf(word)}" ${iconOf(word)}`.trim();
         renderLetters();
       }
     });

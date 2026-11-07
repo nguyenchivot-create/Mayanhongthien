@@ -1061,3 +1061,18 @@ body { padding-bottom: 24px; }
 @media (max-width: 640px) {
   .mode-buttons button { font-size: 15px; padding: 8px 14px; }
 }
+
+/* Biểu tượng minh họa cho từ (cấp Easy) */
+.word-icon { font-size: 1.15em; }
+.mg-icon {
+  font-size: 56px;
+  line-height: 1;
+  text-align: center;
+  margin: 4px 0 8px;
+  animation: icon-pop 0.35s ease-out;
+}
+
+@keyframes icon-pop {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

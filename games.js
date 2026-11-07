@@ -78,6 +78,11 @@ function shake(el) {
   el._shakeTimer = setTimeout(() => el.classList.remove("wrong"), 700);
 }
 
+function bigIcon(word) {
+  const icon = iconOf(word);
+  return icon ? `<div class="mg-icon">${icon}</div>` : "";
+}
+
 function progressHtml() {
   return `<div class="mg-progress">Question ${round.index + 1} / ${round.words.length}</div>`;
 }
@@ -187,7 +192,7 @@ function renderBuilder(en, vi) {
   const slots = target.map(() => null); // mỗi ô chứa id của chữ cái trong bank
   let done = false;
 
-  container.innerHTML = `${progressHtml()}
+  container.innerHTML = `${progressHtml()}${bigIcon(en)}
     <div class="mg-slots ${en.length > 9 ? "long" : ""}"></div>
     <div class="mg-bank"></div>`;
   container.querySelector(".mg-bank").after(listenButton(en));
@@ -316,7 +321,7 @@ function renderMissing(en, vi) {
   const choices = mix([...missing, ...decoyLetters(missing, 3)]);
   let filled = 0;
 
-  container.innerHTML = `${progressHtml()}
+  container.innerHTML = `${progressHtml()}${bigIcon(en)}
     <div class="mg-word ${en.length > 9 ? "long" : ""}">${letters
       .map((c, i) => `<span class="mg-cell ${blanks.includes(i) ? "blank" : ""}" data-i="${i}">${blanks.includes(i) ? "_" : c.toUpperCase()}</span>`)
       .join("")}</div>
@@ -367,7 +372,7 @@ function renderQuiz(en, vi) {
     container.querySelector(".mg-row").appendChild(hint);
   } else {
     subtitle.textContent = "❓ Which English word is it?";
-    container.innerHTML = `${progressHtml()}<div class="mg-meaning big">${vi}</div><div class="mg-options"></div>`;
+    container.innerHTML = `${progressHtml()}<div class="mg-meaning big">${withIcon(en, vi)}</div><div class="mg-options"></div>`;
   }
 
   const optionsEl = container.querySelector(".mg-options");
@@ -407,7 +412,7 @@ function startMemory() {
   cards.forEach((card) => {
     const el = document.createElement("button");
     el.className = `mem-card ${card.lang}`;
-    el.innerHTML = `<span class="back">❓</span><span class="front">${card.text}</span>`;
+    el.innerHTML = `<span class="back">❓</span><span class="front">${card.lang === "en" ? withIcon(card.text) : card.text}</span>`;
     el.addEventListener("click", () => {
       if (state.lock || el.classList.contains("open")) return;
       el.classList.add("open");
@@ -464,7 +469,7 @@ function startMatch() {
   items.forEach((en) => {
     const btn = document.createElement("button");
     btn.className = "match-item word-item";
-    btn.textContent = en;
+    btn.innerHTML = withIcon(en);
     btn.addEventListener("click", () => {
       if (btn.classList.contains("done")) return;
       wordsCol.querySelectorAll(".selected").forEach((b) => b.classList.remove("selected"));
