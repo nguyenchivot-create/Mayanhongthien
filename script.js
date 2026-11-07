@@ -822,14 +822,21 @@ function updateBreadcrumb() {
   if (!bc) return;
   const game = typeof GAMES !== "undefined" && GAMES[gameType];
   const cat = currentGame && CATEGORIES[currentGame];
-  const step = (kind, cls, text) =>
-    `<button class="bc-step ${cls} ${openMenuKind === kind ? "open" : ""}" data-menu="${kind}">${text}<span class="bc-caret">▾</span></button>`;
-  const paw = '<span class="bc-link">🐾</span>';
-  bc.innerHTML = [
-    game ? step("game", "bc-game", `${game.icon} ${game.name}`) : "",
-    step("mode", `bc-mode mode-${mode}`, MODES[mode].label),
-    cat ? step("cat", "bc-cat", cat.label) : step("cat", "bc-cat empty", "👆 Pick a topic")
-  ].filter(Boolean).join(paw);
+  // 3 bước nối nhau bằng mũi tên: 1 Game  ->  2 Level  ->  3 Topic
+  const steps = [
+    { kind: "game", num: 1, title: "Game", cls: "bc-game", text: game ? `${game.icon} ${game.name}` : "Choose", done: !!game },
+    { kind: "mode", num: 2, title: "Level", cls: `bc-mode mode-${mode}`, text: MODES[mode].label, done: true },
+    { kind: "cat", num: 3, title: "Topic", cls: "bc-cat", text: cat ? cat.label : "Choose", done: !!cat }
+  ];
+  const next = steps.find((st) => !st.done);
+  bc.innerHTML = steps.map((st, i) => {
+    const btn = `<button class="bc-step ${st.cls} ${st.done ? "done" : "todo"} ${next === st ? "next" : ""} ${openMenuKind === st.kind ? "open" : ""}" data-menu="${st.kind}">
+      <span class="bc-cap"><span class="bc-num">${st.num}</span>${st.title}</span>
+      <span class="bc-val">${st.text}</span>
+      <span class="bc-caret">▾</span>
+    </button>`;
+    return i < steps.length - 1 ? btn + '<span class="bc-arrow" aria-hidden="true">➜</span>' : btn;
+  }).join("");
 }
 
 function openMenu(kind) {
