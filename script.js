@@ -615,48 +615,50 @@ function preloadRecordings(words) {
   words.forEach((w) => fetchRecording(w));
 }
 
-// iPhone/iPad chỉ cho phát âm khi lệnh chạy ngay lúc người chơi bấm,
-// nên "mở khóa" giọng đọc và âm thanh ở lần bấm đầu tiên.
-let speechUnlocked = false;
-function unlockSpeech() {
-  if (speechUnlocked) return;
-  speechUnlocked = true;
+// ---- Mở khóa giọng đọc trên iPhone/iPad: chỉ thao tác NHẢ TAY (touchend/click) mới được tính ----
+registerAudio(speechAudio);
+Object.values(sounds).forEach(registerAudio);
+let ttsUnlocked = false;
+function unlockTTS() {
+  if (ttsUnlocked || !hasTTS) return;
+  ttsUnlocked = true;
   try {
-    speechAudio.src = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
-    speechAudio.play().catch(() => {});
-  } catch {}
-  if (hasTTS) {
     const u = new SpeechSynthesisUtterance(" ");
     u.volume = 0;
     speechSynthesis.speak(u);
-  }
+  } catch {}
 }
-document.addEventListener("pointerdown", unlockSpeech, { once: true });
+["touchend", "click"].forEach((ev) => document.addEventListener(ev, unlockTTS, true));
 
 function stopSpeaking() {
   speechAudio.pause();
   if (hasTTS && (speechSynthesis.speaking || speechSynthesis.pending)) speechSynthesis.cancel();
 }
 
-function playRecording(url, word) {
+// Phát một file âm thanh bằng speechAudio; không phát được thì gọi onFail
+function playClip(url, onFail) {
   stopSpeaking();
   duckMusic(true);
   let started = false;
+  let failed = false;
+  const fail = () => {
+    if (failed || started) return;
+    failed = true;
+    speechAudio.pause();
+    duckMusic(false);
+    onFail();
+  };
   speechAudio.onplaying = () => { started = true; };
   speechAudio.onended = () => duckMusic(false);
-  speechAudio.onerror = () => { if (!started) { started = true; speakWithVoice(word); } };
+  speechAudio.onerror = fail;
   speechAudio.src = url;
-  speechAudio.play().catch(() => {
-    if (!started) { started = true; speakWithVoice(word); }
-  });
-  // Bản thu không phát được sau 1,5 giây thì đọc bằng giọng máy
-  setTimeout(() => {
-    if (!started) {
-      started = true;
-      speechAudio.pause();
-      speakWithVoice(word);
-    }
-  }, 1500);
+  const p = speechAudio.play();
+  if (p && p.catch) p.catch(fail);
+  setTimeout(fail, 2500);
+}
+
+function googleTtsUrl(word) {
+  return `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(word)}`;
 }
 
 function speakWithVoice(word, retry = true) {
@@ -678,7 +680,6 @@ function speakWithVoice(word, retry = true) {
   u.onerror = () => duckMusic(false);
   speechSynthesis.resume();
   speechSynthesis.speak(u);
-  // Trình duyệt đôi khi "kẹt" giọng đọc: chưa đọc sau 1 giây thì làm lại một lần
   setTimeout(() => {
     if (started) return;
     speechSynthesis.cancel();
@@ -687,21 +688,31 @@ function speakWithVoice(word, retry = true) {
   }, 1000);
 }
 
+// Thứ tự thử: 1) bản thu giọng người thật  2) giọng đọc trực tuyến  3) giọng đọc của máy
 function speak(word) {
   if (!word) return;
   if (isMuted) {
     showMessage("error", "🔇 Sound is off. Tap 🔇 Sound to turn it on.");
     return;
   }
+  const viaDevice = () => speakWithVoice(word);
+  const viaOnline = () => playClip(googleTtsUrl(word), viaDevice);
   const known = recordings[word.toLowerCase()];
-  if (typeof known === "string" && known) {
-    playRecording(known, word);
-  } else {
-    // Chưa có bản thu: đọc ngay bằng giọng máy (để điện thoại không chặn),
-    // đồng thời tải bản thu cho lần nghe sau
-    speakWithVoice(word);
-    fetchRecording(word);
+  if (typeof known === "string") {
+    if (known) playClip(known, viaOnline);
+    else viaOnline();
+    return;
   }
+  // Chưa biết có bản thu hay không: chờ tối đa 1,2 giây rồi chuyển sang phương án tiếp theo
+  let done = false;
+  const timer = setTimeout(() => { if (!done) { done = true; viaOnline(); } }, 1200);
+  fetchRecording(word).then((url) => {
+    if (done) return;
+    done = true;
+    clearTimeout(timer);
+    if (url) playClip(url, viaOnline);
+    else viaOnline();
+  });
 }
 
 muteBtn.addEventListener("click", () => {
@@ -713,6 +724,7 @@ muteBtn.addEventListener("click", () => {
   } else {
     muteBtn.classList.remove("off");
     startBackgroundMusic();
+    SFX.play("select");
     muteBtn.innerHTML = '<span class="ri">🔊</span><span class="rl">Sound</span>';
   }
 });
