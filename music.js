@@ -36,6 +36,7 @@ const Music = (() => {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return false;
     ctx = new AC();
+    if (typeof audioContexts !== "undefined") audioContexts.push(ctx);
     master = ctx.createGain();
     master.gain.value = VOLUME;
     master.connect(ctx.destination);

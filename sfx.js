@@ -1,3 +1,20 @@
+// ===== Giữ âm thanh luôn hoạt động trên iPhone/iPad =====
+// - audioSession "playback": âm thanh của trang không bị công tắc im lặng tắt (iOS 17+)
+// - Phát một đoạn âm thanh im lặng chạy nền để giữ kênh âm thanh mở
+// - Mỗi lần chạm màn hình thì "đánh thức" lại các bộ phát âm thanh
+try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch {}
+const audioKeeper = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAESsAABErAAABAAgAZGF0YQQAAACAgICA");
+audioKeeper.loop = true;
+audioKeeper.volume = 0.01;
+const audioContexts = [];
+function wakeAudio() {
+  if (typeof isMuted === "undefined" || !isMuted) audioKeeper.play().catch(() => {});
+  audioContexts.forEach((c) => { if (c.state !== "running") c.resume().catch(() => {}); });
+  try { if (window.speechSynthesis && speechSynthesis.paused) speechSynthesis.resume(); } catch {}
+}
+["pointerdown", "touchend", "keydown"].forEach((ev) => document.addEventListener(ev, wakeAudio, true));
+document.addEventListener("visibilitychange", () => { if (!document.hidden) wakeAudio(); });
+
 // ===== Hiệu ứng âm thanh vui tai, tạo bằng Web Audio (không cần file) =====
 // Tắt cùng nút Sound (biến isMuted trong script.js).
 const SFX = (() => {
@@ -10,6 +27,7 @@ const SFX = (() => {
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return false;
       ctx = new AC();
+      audioContexts.push(ctx);
       out = ctx.createGain();
       out.gain.value = 0.5;
       out.connect(ctx.destination);
