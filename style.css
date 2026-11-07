@@ -1751,3 +1751,11 @@ body, body { padding-left: 8px !important; padding-right: 8px !important; }
 
 /* Danh sách chủ đề dài: cuộn trong khung để không đẩy phần chơi xuống */
 .bc-panel[data-show="cat"] #category-buttons { max-height: min(52vh, 440px); overflow-y: auto; padding: 4px 2px; -webkit-overflow-scrolling: touch; }
+
+/* Câu hỏi của các trò mini nằm sát khu vực trả lời */
+.play-area.mini > #subtitle { display: none; }
+.mg-question { margin: 8px 0 10px; font-size: 19px; }
+@media (max-width: 640px) { .mg-question { font-size: 16px; margin: 6px 0 8px; } }
+/* Sát khu vực trả lời hơn */
+.mg-question { margin: 6px 0 4px; }
+.mg-question + * { margin-top: 0 !important; }

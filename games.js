@@ -111,7 +111,19 @@ Object.entries(GAMES).forEach(([key, g]) => {
   $("bc-games").appendChild(item);
 });
 
+// Đưa câu hỏi xuống ngay phía trên khu vực trả lời để bé nhìn một chỗ
+function placeQuestion(selector) {
+  const target = container.querySelector(selector);
+  if (!target) return;
+  const q = document.createElement("div");
+  q.className = "question mg-question";
+  q.textContent = subtitle.textContent;
+  target.before(q);
+  playArea.classList.add("mini");
+}
+
 function clearBoard() {
+  playArea.classList.remove("mini");
   clearTimeout(nextRoundTimer);
   round = null;
   currentGame = "";
@@ -230,6 +242,7 @@ function renderBuilder(en, vi) {
     <div class="mg-slots ${en.length > 9 ? "long" : ""}"></div>
     <div class="mg-bank"></div>`;
   container.querySelector(".mg-bank").after(listenButton(en));
+  placeQuestion(".mg-slots");
   const slotsEl = container.querySelector(".mg-slots");
   const bankEl = container.querySelector(".mg-bank");
 
@@ -385,6 +398,7 @@ function renderMissing(en, vi) {
       .join("")}</div>
     <div class="mg-choices"></div>`;
   container.querySelector(".mg-choices").after(listenButton(en));
+  placeQuestion(".mg-word");
   const choicesEl = container.querySelector(".mg-choices");
 
   choices.forEach((ch) => {
@@ -435,6 +449,7 @@ function renderQuiz(en, vi) {
     container.innerHTML = `${progressHtml()}<div class="mg-meaning big">${withIcon(en, vi)}</div><div class="mg-options"></div>`;
   }
 
+  placeQuestion(".mg-options");
   const optionsEl = container.querySelector(".mg-options");
   options.forEach((word) => {
     const btn = document.createElement("button");
@@ -485,6 +500,7 @@ function startMemory() {
   subtitle.textContent = "🃏 Find the matching pairs!";
 
   container.innerHTML = `<div class="mg-progress">Moves: <span id="mem-moves">0</span> · Pairs: <span id="mem-pairs">0</span> / ${pairs.length}</div><div class="mem-grid"></div>`;
+  placeQuestion(".mem-grid");
   const grid = container.querySelector(".mem-grid");
   grid.classList.toggle("wide", cards.length > 12);
 
@@ -559,6 +575,7 @@ function startMatch() {
 
   container.innerHTML = `<div class="mg-progress">Matched: <span id="match-count">0</span> / ${items.length}</div>
     <div class="match-board"><div class="match-col words"></div><div class="match-col defs"></div></div>`;
+  placeQuestion(".match-board");
   const wordsCol = container.querySelector(".match-col.words");
   const defsCol = container.querySelector(".match-col.defs");
   const wordButtons = {};

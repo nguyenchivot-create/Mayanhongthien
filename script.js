@@ -615,6 +615,7 @@ const MODES = {
 // ===== Phần tử giao diện =====
 const $ = (id) => document.getElementById(id);
 const container = $("game-container");
+const playArea = document.querySelector(".play-area");
 const wordPicker = $("word-picker");
 const subtitle = $("subtitle");
 const msgBox = $("msg-box");
@@ -1253,6 +1254,7 @@ function resetRoundStats() {
 }
 
 function showResultCard(word, onNext) {
+  playArea.classList.remove("mini");
   checkContainer.classList.add("hidden");
   wordPicker.innerHTML = "";
   container.className = "";
@@ -1272,6 +1274,7 @@ function showResultCard(word, onNext) {
 }
 
 function showFinishCard(key) {
+  playArea.classList.remove("mini");
   checkContainer.classList.add("hidden");
   wordPicker.innerHTML = "";
   container.className = "";
@@ -1297,6 +1300,7 @@ function showFinishCard(key) {
 
 // ===== Level 1: sắp xếp từ =====
 function startCategory(key) {
+  playArea.classList.remove("mini");
   clearTimeout(nextRoundTimer);
   resetRoundStats();
   startBackgroundMusic();
