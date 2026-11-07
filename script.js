@@ -572,9 +572,17 @@ function voiceScore(v) {
   return score;
 }
 
+// Giọng do người chơi tự chọn trong Sound check (được lưu lại)
+function savedVoiceName() {
+  try { return localStorage.getItem("wa-voice") || ""; } catch { return ""; }
+}
+
 function pickVoice() {
   if (!hasTTS) return;
-  const voices = speechSynthesis.getVoices().filter((v) => voiceScore(v) > -100);
+  const all = speechSynthesis.getVoices();
+  const chosen = savedVoiceName() && all.find((v) => v.name === savedVoiceName());
+  if (chosen) { bestVoice = chosen; return; }
+  const voices = all.filter((v) => voiceScore(v) > -100);
   voices.sort((a, b) => voiceScore(b) - voiceScore(a));
   bestVoice = voices[0] || null;
 }
@@ -664,7 +672,7 @@ function stopSpeaking() {
 let clipFailures = 0;
 
 // Phát một file âm thanh bằng speechAudio; không phát được thì gọi onFail
-function playClip(url, onFail, onOk) {
+function playClip(url, onFail, onOk, waitMs = 1500) {
   stopSpeaking();
   duckMusic(true);
   let started = false;
@@ -689,7 +697,7 @@ function playClip(url, onFail, onOk) {
   speechAudio.src = src;
   const p = speechAudio.play();
   if (p && p.catch) p.catch((e) => fail("play() " + (e && e.name ? e.name : "?")));
-  setTimeout(() => fail("timeout (ready " + speechAudio.readyState + ", net " + speechAudio.networkState + ")"), 1500);
+  setTimeout(() => fail("timeout (ready " + speechAudio.readyState + ", net " + speechAudio.networkState + ")"), waitMs);
 }
 
 function speakWithVoice(word, retry = true, onResult) {
@@ -701,7 +709,7 @@ function speakWithVoice(word, retry = true, onResult) {
   if (!bestVoice) pickVoice();
   if (speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(word);
-  if (bestVoice) u.voice = bestVoice;
+  try { if (bestVoice) u.voice = bestVoice; } catch {}
   u.lang = bestVoice ? bestVoice.lang : "en-US";
   u.rate = 0.85;
   u.volume = 1;

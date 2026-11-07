@@ -26,9 +26,10 @@
       fetchRecording("apple").then((url) => {
         if (!url) return done("no recording found (no internet?)", false);
         let tries = 0;
+        const play = (wait) => playClip(url, () => done("FAILED, see log below (game uses device voice instead)", false), () => done("playing"), wait);
         const wait = () => {
-          if (clipCache[url]) return playClip(url, () => done("FAILED to play (see log)", false), () => done("playing"));
-          if (++tries > 20) return done("recording not downloaded (blocked?)", false);
+          if (clipCache[url]) return play(1500);
+          if (++tries > 12) return play(5000); // chưa tải sẵn: thử phát thẳng để ghi lại lý do
           setTimeout(wait, 150);
         };
         wait();
@@ -38,6 +39,29 @@
   ];
 
   const list = panel.querySelector(".sc-tests");
+
+  // Chọn giọng đọc của máy
+  const voiceRow = document.createElement("div");
+  voiceRow.className = "sc-voice";
+  voiceRow.innerHTML = `<label>Reading voice</label><div><select id="sc-voice"></select><button id="sc-voice-try">▶</button></div>`;
+  panel.querySelector(".sc-tests").after(voiceRow);
+  const sel = voiceRow.querySelector("select");
+  function fillVoices() {
+    const vs = speechSynthesis.getVoices().filter((v) => /^en[-_]/i.test(v.lang)).sort((a, b) => voiceScore(b) - voiceScore(a));
+    sel.innerHTML = vs.length
+      ? vs.map((v) => `<option value="${v.name}">${v.name} (${v.lang})</option>`).join("")
+      : `<option>No English voices found</option>`;
+    if (bestVoice && vs.some((v) => v.name === bestVoice.name)) sel.value = bestVoice.name;
+  }
+  sel.addEventListener("change", () => {
+    try { localStorage.setItem("wa-voice", sel.value); } catch {}
+    pickVoice();
+    speakWithVoice("apple");
+    refresh();
+  });
+  $("sc-voice-try").addEventListener("click", () => speakWithVoice("apple"));
+  if (window.speechSynthesis && speechSynthesis.addEventListener) speechSynthesis.addEventListener("voiceschanged", fillVoices);
+
   tests.forEach(([label, run]) => {
     const row = document.createElement("div");
     row.className = "sc-row";
@@ -69,7 +93,7 @@
     $("sc-log").textContent = soundLogLines.slice(-8).join("\n") || "(log is empty)";
   }
 
-  function open() { panel.classList.remove("hidden"); refresh(); }
+  function open() { panel.classList.remove("hidden"); fillVoices(); refresh(); }
   function close() { panel.classList.add("hidden"); }
   $("sc-close").addEventListener("click", close);
   panel.addEventListener("click", (e) => { if (e.target === panel) close(); });
