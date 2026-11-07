@@ -705,8 +705,8 @@ const TIPS = {
     movers: "📘 Cambridge Movers topics for Mây An. Choose one above!",
     easy: "👆 Choose a category above to start!", hard: "👆 Hard mode has 9 extra categories. Choose one above!" },
   arrange: {
-    easy: "✋ Hold a tile and drag it to its place. Then press Check Answer.",
-    hard: "🦁 English words only! Hold a tile and drag it to its place."
+    easy: "✋ Hold ⠿ and drag the tile to its place. Then press Check Answer.",
+    hard: "🦁 English words only! Hold ⠿ and drag the tile to its place."
   },
   pick: {
     easy: "👆 Pick a word to spell.",
@@ -777,6 +777,8 @@ function renderTiles(items, { isLetters, getLabel, onChange }) {
 function enableSort(el, items, horizontal, onChange) {
   el.addEventListener("pointerdown", (e) => {
     if (e.button !== undefined && e.button > 0) return;
+    // Trên điện thoại, danh sách dọc chỉ kéo bằng tay cầm ⠿ để vẫn vuốt cuộn trang được
+    if (!horizontal && e.pointerType !== "mouse" && !e.target.closest(".grip")) return;
     e.preventDefault();
     const startX = e.clientX;
     const startY = e.clientY;

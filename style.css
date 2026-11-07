@@ -1148,3 +1148,13 @@ body { padding-bottom: 24px; }
 .result-next, .result-again { background: #00b894; }
 .result-listen { background: #0984e3; }
 .result-menu { background: #6c5ce7; }
+
+/* Danh sách dọc: vuốt trên ô để cuộn, kéo bằng tay cầm ⠿ */
+#game-container:not(.letters) .sortable { touch-action: pan-y; padding-left: 52px; }
+.sortable .grip {
+  left: 0; top: 0; bottom: 0; transform: none;
+  width: 46px; display: flex; align-items: center; justify-content: center;
+  font-size: 24px; opacity: 0.55; touch-action: none; cursor: grab;
+  border-right: 2px dashed rgba(0, 0, 0, 0.12);
+}
+#game-container.letters .sortable { touch-action: none; }
