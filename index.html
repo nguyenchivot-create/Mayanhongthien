@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mây An & Hồng Thiên - Word Adventure</title>
-    <link rel="stylesheet" href="style.css?v=33" />
+    <link rel="stylesheet" href="style.css?v=35" />
   </head>
   <body>
     <div class="bg-names" aria-hidden="true">
@@ -12,15 +12,6 @@
       <span class="bg-name bg-name-2">🌸 Hồng Thiên</span>
     </div>
 
-    <nav class="game-topbar rail-left">
-      <div id="score-board"><span class="ri">⭐</span><span class="rl">0</span></div>
-      <div id="best-board"><span class="ri">🏆</span><span class="rl">0</span></div>
-      <button id="menu-btn"><span class="ri">🏠</span><span class="rl">Games</span></button>
-      <button id="play-again-btn"><span class="ri">🔁</span><span class="rl">Again</span></button>
-      <button id="reset-btn"><span class="ri">🔄</span><span class="rl">Reset</span></button>
-      <button id="music-btn"><span class="ri">🎵</span><span class="rl">Music</span></button>
-      <button id="mute-btn"><span class="ri">🔊</span><span class="rl">Sound</span></button>
-    </nav>
 
     <div id="confetti-container"></div>
 
@@ -41,6 +32,15 @@
 
     <main id="game-area" class="hidden">
       <div class="game-card">
+        <nav class="game-topbar card-toolbar">
+          <div id="score-board"><span class="ri">⭐</span><span class="rl">0</span></div>
+          <div id="best-board"><span class="ri">🏆</span><span class="rl">0</span></div>
+          <button id="menu-btn" title="Games" aria-label="Games"><span class="ri">🏠</span><span class="rl">Games</span></button>
+          <button id="play-again-btn" title="Play again" aria-label="Play again"><span class="ri">🔁</span><span class="rl">Again</span></button>
+          <button id="reset-btn" title="Reset" aria-label="Reset"><span class="ri">🔄</span><span class="rl">Reset</span></button>
+          <button id="music-btn" title="Music" aria-label="Music"><span class="ri">🎵</span><span class="rl">Music</span></button>
+          <button id="mute-btn" title="Sound" aria-label="Sound"><span class="ri">🔊</span><span class="rl">Sound</span></button>
+        </nav>
         <!-- Bản đồ: Trò chơi 🐾 Cấp độ 🐾 Chủ đề, bấm vào để xổ danh sách -->
         <div class="breadcrumb" id="breadcrumb"></div>
         <div class="bc-panel hidden" id="bc-panel">
@@ -68,10 +68,10 @@
 
     <div id="msg-box" role="status" aria-live="polite"></div>
 
-    <script src="music.js?v=33"></script>
-    <script src="script.js?v=33"></script>
-    <script src="icons.js?v=33"></script>
-    <script src="definitions.js?v=33"></script>
-    <script src="games.js?v=33"></script>
+    <script src="music.js?v=35"></script>
+    <script src="script.js?v=35"></script>
+    <script src="icons.js?v=35"></script>
+    <script src="definitions.js?v=35"></script>
+    <script src="games.js?v=35"></script>
   </body>
 </html>

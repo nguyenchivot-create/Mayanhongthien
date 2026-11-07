@@ -413,10 +413,10 @@ const CATEGORIES = {
 
 // Thiết lập theo cấp độ: Dễ (bé nhỏ) và Khó (bé 10 tuổi)
 const MODES = {
-  easy: { label: "🐣 Easy", arrangePts: 10, wordPts: 5, bonus: 20, hintCost: 2 },
-  starters: { label: "⭐ Starters", arrangePts: 10, wordPts: 5, bonus: 20, hintCost: 2 },
-  movers: { label: "📘 Movers", arrangePts: 15, wordPts: 8, bonus: 30, hintCost: 3 },
-  hard: { label: "🦁 Hard", arrangePts: 20, wordPts: 10, bonus: 50, hintCost: 5 }
+  easy: { label: "🐣 Easy", desc: "Little learners", arrangePts: 10, wordPts: 5, bonus: 20, hintCost: 2 },
+  starters: { label: "⭐ Starters", desc: "For Hồng Thiên", arrangePts: 10, wordPts: 5, bonus: 20, hintCost: 2 },
+  movers: { label: "📘 Movers", desc: "For Mây An", arrangePts: 15, wordPts: 8, bonus: 30, hintCost: 3 },
+  hard: { label: "🦁 Hard", desc: "Big challenge", arrangePts: 20, wordPts: 10, bonus: 50, hintCost: 5 }
 };
 
 // ===== Phần tử giao diện =====
@@ -761,7 +761,8 @@ function clearMessage() {
 // ===== Nút chủ đề =====
 Object.entries(CATEGORIES).forEach(([key, cat]) => {
   const btn = document.createElement("button");
-  btn.textContent = cat.label;
+  const [cIcon, ...cName] = cat.label.split(" ");
+  btn.innerHTML = `<span class="ci">${cIcon}</span><span class="cn">${cName.join(" ")}</span>`;
   btn.dataset.cat = key;
   btn.style.background = cat.btnColor;
   btn.addEventListener("click", () => startCategory(key));
@@ -789,6 +790,7 @@ function updateBreadcrumb() {
 }
 
 function openMenu(kind) {
+  document.querySelectorAll("#bc-games .bc-item").forEach((b) => b.classList.toggle("active", b.dataset.game === gameType));
   openMenuKind = kind;
   bcPanel.dataset.show = kind;
   bcPanel.classList.remove("hidden");
@@ -838,7 +840,7 @@ function updateActiveButton() {
 Object.entries(MODES).forEach(([key, m]) => {
   const btn = document.createElement("button");
   const [mIcon, ...mName] = m.label.split(" ");
-  btn.innerHTML = `<span class="ri">${mIcon}</span><span class="rl">${mName.join(" ")}</span>`;
+  btn.innerHTML = `<span class="ri">${mIcon}</span><span class="rl">${mName.join(" ")}</span><small class="md">${m.desc}</small>`;
   btn.dataset.mode = key;
   btn.classList.add(`mode-${key}`);
   btn.addEventListener("click", () => setMode(key));

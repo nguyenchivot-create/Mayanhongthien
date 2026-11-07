@@ -106,7 +106,7 @@ Object.entries(GAMES).forEach(([key, g]) => {
   const item = document.createElement("button");
   item.className = "bc-item";
   item.dataset.game = key;
-  item.innerHTML = `${g.icon} ${g.name}`;
+  item.innerHTML = `<span class="gi">${g.icon}</span><span class="gn">${g.name}</span>`;
   item.addEventListener("click", () => openGame(key));
   $("bc-games").appendChild(item);
 });
