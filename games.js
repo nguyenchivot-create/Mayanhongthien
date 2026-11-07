@@ -102,6 +102,13 @@ Object.entries(GAMES).forEach(([key, g]) => {
   btn.innerHTML = `<span class="game-icon">${g.icon}</span><strong>${g.name}</strong><small>${g.desc}</small>`;
   btn.addEventListener("click", () => openGame(key));
   gameMenu.appendChild(btn);
+  // Cùng danh sách trò chơi trong bản đồ
+  const item = document.createElement("button");
+  item.className = "bc-item";
+  item.dataset.game = key;
+  item.innerHTML = `${g.icon} ${g.name}`;
+  item.addEventListener("click", () => openGame(key));
+  $("bc-games").appendChild(item);
 });
 
 function clearBoard() {
@@ -123,7 +130,7 @@ function showMenu() {
   startScreen.classList.add("hidden");
   gameArea.classList.add("hidden");
   menuScreen.classList.remove("hidden");
-  modeButtons.classList.add("hidden");
+  closeMenu();
   subtitle.textContent = "🎲 Choose a game to play!";
 }
 
@@ -132,10 +139,9 @@ function openGame(key) {
   clearBoard();
   menuScreen.classList.add("hidden");
   gameArea.classList.remove("hidden");
-  modeButtons.classList.remove("hidden");
-  subtitle.textContent = `${GAMES[key].icon} ${GAMES[key].name}: choose a category!`;
+  subtitle.textContent = `${GAMES[key].icon} ${GAMES[key].name}: pick a topic!`;
   setStage("choose");
-  updateBreadcrumb();
+  openMenu("cat");
   startBackgroundMusic();
 }
 

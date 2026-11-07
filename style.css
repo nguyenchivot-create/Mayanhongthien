@@ -1399,3 +1399,47 @@ body { padding-left: calc(var(--rail) + 10px); padding-right: calc(var(--rail) +
 #check-container:not(.as-tools) button { flex-direction: row; display: inline-flex; align-items: center; }
 .check-container.as-tools { bottom: auto; top: auto; }
 #check-container button.hidden { display: none !important; }
+
+/* ===== Bản đồ có danh sách xổ ra ===== */
+body { padding-right: 10px; }
+@media (max-width: 640px) { body { padding-right: 6px; } }
+.site-footer { margin: 18px auto 10px; text-align: center; }
+.site-footer .heading { font-size: 16px !important; opacity: 0.85; }
+
+.breadcrumb { position: relative; z-index: 30; }
+.bc-step {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 13px; font-weight: 800;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+.bc-step:hover { transform: translateY(-1px); }
+.bc-step.open { box-shadow: 0 0 0 3px #2d3436; }
+.bc-caret { font-size: 10px; opacity: 0.8; transition: transform 0.2s; }
+.bc-step.open .bc-caret { transform: rotate(180deg); }
+
+.bc-panel {
+  margin: -4px 0 10px;
+  padding: 10px;
+  border-radius: 16px;
+  background: #fffdf6;
+  border: 2px solid #ffeaa7;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  animation: icon-pop 0.18s ease-out;
+}
+.bc-panel.hidden { display: none; }
+.bc-panel > * { display: none !important; }
+.bc-panel[data-show="game"] #bc-games,
+.bc-panel[data-show="cat"] #category-buttons { display: flex !important; flex-wrap: wrap; justify-content: center; gap: 6px; overflow: visible; padding: 0; margin: 0; }
+.bc-panel[data-show="mode"] #mode-buttons { display: grid !important; grid-template-columns: repeat(2, 1fr); gap: 8px; max-width: 360px; margin: 0 auto; }
+
+.bc-item { background: #dfe6e9; color: #2d3436; font-size: 14px; padding: 8px 12px; border-radius: 14px; }
+#bc-panel #category-buttons button { font-size: 13px; padding: 7px 12px; border-radius: 999px; flex: 0 0 auto; min-width: 0; }
+#bc-panel #category-buttons button.hidden { display: none; }
+#bc-panel #mode-buttons button {
+  flex-direction: row; gap: 6px; font-size: 15px; padding: 10px 6px; min-height: 0; width: auto;
+  border-radius: 14px !important; justify-content: center;
+}
+#bc-panel #mode-buttons .ri { font-size: 20px; }
+#bc-panel #mode-buttons .rl { font-size: 15px; }
+#game-area, .menu-screen, .start-screen { margin-top: 10px; }

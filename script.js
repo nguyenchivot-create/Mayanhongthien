@@ -768,20 +768,55 @@ Object.entries(CATEGORIES).forEach(([key, cat]) => {
   categoryButtons.appendChild(btn);
 });
 
-// Thanh "bạn đang ở đâu": Trò chơi 🐾 Cấp độ 🐾 Chủ đề
+// Bản đồ "bạn đang ở đâu": Trò chơi 🐾 Cấp độ 🐾 Chủ đề.
+// Mỗi ô là một nút, bấm vào sẽ xổ ra danh sách để chọn.
+const bcPanel = $("bc-panel");
+let openMenuKind = "";
+
 function updateBreadcrumb() {
   const bc = $("breadcrumb");
   if (!bc) return;
   const game = typeof GAMES !== "undefined" && GAMES[gameType];
   const cat = currentGame && CATEGORIES[currentGame];
-  const step = (cls, text) => `<span class="bc-step ${cls}">${text}</span>`;
+  const step = (kind, cls, text) =>
+    `<button class="bc-step ${cls} ${openMenuKind === kind ? "open" : ""}" data-menu="${kind}">${text}<span class="bc-caret">▾</span></button>`;
   const paw = '<span class="bc-link">🐾</span>';
   bc.innerHTML = [
-    game ? step("bc-game", `${game.icon} ${game.name}`) : "",
-    step(`bc-mode mode-${mode}`, MODES[mode].label),
-    cat ? step("bc-cat", cat.label) : step("bc-cat empty", "👆 Pick a topic")
+    game ? step("game", "bc-game", `${game.icon} ${game.name}`) : "",
+    step("mode", `bc-mode mode-${mode}`, MODES[mode].label),
+    cat ? step("cat", "bc-cat", cat.label) : step("cat", "bc-cat empty", "👆 Pick a topic")
   ].filter(Boolean).join(paw);
 }
+
+function openMenu(kind) {
+  openMenuKind = kind;
+  bcPanel.dataset.show = kind;
+  bcPanel.classList.remove("hidden");
+  updateBreadcrumb();
+}
+
+function closeMenu() {
+  openMenuKind = "";
+  bcPanel.classList.add("hidden");
+  updateBreadcrumb();
+}
+
+$("breadcrumb").addEventListener("click", (e) => {
+  const b = e.target.closest(".bc-step");
+  if (!b) return;
+  if (openMenuKind === b.dataset.menu) closeMenu();
+  else openMenu(b.dataset.menu);
+});
+
+// Chọn xong một mục trong danh sách thì thu lại
+bcPanel.addEventListener("click", (e) => {
+  if (!e.target.closest("button")) return;
+  setTimeout(() => {
+    // Đổi cấp độ mà chưa có chủ đề thì mở luôn danh sách chủ đề
+    if (!currentGame) openMenu("cat");
+    else closeMenu();
+  }, 0);
+});
 
 function updateActiveButton() {
   updateBreadcrumb();
@@ -813,9 +848,9 @@ Object.entries(MODES).forEach(([key, m]) => {
 // Câu hướng dẫn thay đổi theo từng bước chơi
 const TIPS = {
   choose: {
-    starters: "⭐ Cambridge Starters topics for Hồng Thiên. Choose one above!",
-    movers: "📘 Cambridge Movers topics for Mây An. Choose one above!",
-    easy: "👆 Choose a category above to start!", hard: "👆 Hard mode has 9 extra categories. Choose one above!" },
+    starters: "⭐ Cambridge Starters topics for Hồng Thiên. Pick a topic above!",
+    movers: "📘 Cambridge Movers topics for Mây An. Pick a topic above!",
+    easy: "👆 Pick a topic above to start!", hard: "👆 Hard mode has 9 extra topics. Pick one above!" },
   arrange: {
     easy: "✋ Hold ⠿ and drag the tile to its place. Then press Check Answer.",
     hard: "🦁 English words only! Hold ⠿ and drag the tile to its place."
@@ -1228,7 +1263,6 @@ $("reset-btn").addEventListener("click", () => {
   startScreen.classList.remove("hidden");
   gameArea.classList.add("hidden");
   menuScreen.classList.add("hidden");
-  modeButtons.classList.add("hidden");
   subtitle.textContent = "Put the words in the right order.";
   setStage("choose");
 });
