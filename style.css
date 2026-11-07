@@ -1158,3 +1158,60 @@ body { padding-bottom: 24px; }
   border-right: 2px dashed rgba(0, 0, 0, 0.12);
 }
 #game-container.letters .sortable { touch-action: none; }
+
+/* ===== Tên hai bé trên hình nền ===== */
+.bg-names { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.bg-name {
+  position: absolute;
+  font-family: "Comic Sans MS", "Chalkboard SE", "Segoe UI", sans-serif;
+  font-weight: 900;
+  font-size: clamp(34px, 9vw, 96px);
+  letter-spacing: 2px;
+  opacity: 0.55;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.9);
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  white-space: nowrap;
+  animation: bg-float 6s ease-in-out infinite;
+}
+.bg-name-1 { color: #74b9ff; left: 3vw; top: 22vh; transform: rotate(-8deg); }
+.bg-name-2 { color: #fd79a8; right: 3vw; bottom: 10vh; transform: rotate(6deg); animation-delay: 3s; }
+@keyframes bg-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -12px; }
+}
+
+/* ===== Phần đầu, câu hỏi, chủ đề gọn lại ===== */
+.site-header { margin-top: 6px; }
+.heading { font-size: 22px; padding: 4px 16px; margin: 4px auto 2px; border-radius: 14px; }
+.game-topbar { margin: 4px 0 8px; gap: 6px; }
+.game-topbar > * { font-size: 13px !important; padding: 6px 11px !important; }
+.game-card { padding: 12px 14px; }
+.card-controls { padding-bottom: 6px; margin-bottom: 10px; }
+.mode-buttons { margin-bottom: 6px; gap: 6px; }
+.mode-buttons button { font-size: 14px; padding: 6px 12px; }
+.card-controls .category-buttons { padding: 4px 2px 6px; gap: 6px; }
+.card-controls .category-buttons button { font-size: 13px; padding: 6px 11px; }
+.card-controls .category-buttons button.active { outline-width: 3px; }
+.question { font-size: 18px; padding: 8px 12px; margin-bottom: 4px; border-radius: 12px; }
+.tip { font-size: 12px; margin-bottom: 10px; }
+.mg-progress { font-size: 13px; margin-bottom: 6px; }
+@media (max-width: 640px) {
+  .heading { font-size: 18px; }
+  .game-topbar > * { font-size: 11.5px !important; padding: 5px 9px !important; }
+  .mode-buttons button { font-size: 13px; padding: 6px 10px; }
+  .question { font-size: 16px; }
+  .bg-name-1 { top: 14vh; }
+}
+
+/* Đặt hai tên ở phần dưới hình nền để không bị thẻ game che */
+.bg-name { font-size: clamp(30px, 7vw, 78px); }
+.bg-name-1 { left: 2vw; right: auto; top: auto; bottom: 24vh; transform: rotate(-6deg); }
+.bg-name-2 { right: 2vw; left: auto; top: auto; bottom: 7vh; transform: rotate(5deg); }
+@media (max-width: 640px) {
+  .bg-name-1 { bottom: 17vh; top: auto; }
+  .bg-name-2 { bottom: 5vh; }
+}
+@media (min-width: 641px) {
+  .bg-name-1 { bottom: 13vh; left: 3vw; }
+  .bg-name-2 { bottom: 2vh; right: 3vw; }
+}
