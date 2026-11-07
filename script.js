@@ -790,6 +790,7 @@ function updateBreadcrumb() {
 }
 
 function openMenu(kind) {
+  SFX.play("open");
   document.querySelectorAll("#bc-games .bc-item").forEach((b) => b.classList.toggle("active", b.dataset.game === gameType));
   openMenuKind = kind;
   bcPanel.dataset.show = kind;
@@ -813,6 +814,7 @@ $("breadcrumb").addEventListener("click", (e) => {
 // Chọn xong một mục trong danh sách thì thu lại
 bcPanel.addEventListener("click", (e) => {
   if (!e.target.closest("button")) return;
+  SFX.play("select");
   setTimeout(() => {
     // Đổi cấp độ mà chưa có chủ đề thì mở luôn danh sách chủ đề
     if (!currentGame) openMenu("cat");
@@ -968,6 +970,7 @@ function enableSort(el, items, horizontal, onChange) {
         ghost.style.height = `${rect.height}px`;
         document.body.appendChild(ghost);
         el.classList.add("sort-placeholder");
+        SFX.play("pick");
         scrollTimer = setInterval(autoScroll, 16);
       }
       moveTo(lastX, lastY);
@@ -983,6 +986,7 @@ function enableSort(el, items, horizontal, onChange) {
       el.classList.remove("sort-placeholder");
       const order = [...container.querySelectorAll(".sortable")].map((d) => items[Number(d.dataset.index)]);
       items.splice(0, items.length, ...order);
+      SFX.play("drop");
       onChange();
     };
 
@@ -1015,7 +1019,7 @@ function showResultCard(word, onNext) {
       </div>
     </div>`;
   container.querySelector(".result-listen").addEventListener("click", () => speak(word));
-  container.querySelector(".result-next").addEventListener("click", onNext);
+  container.querySelector(".result-next").addEventListener("click", () => { SFX.play("whoosh"); onNext(); });
 }
 
 function showFinishCard(key) {
@@ -1038,7 +1042,7 @@ function showFinishCard(key) {
         <button class="result-menu">🎲 Other Games</button>
       </div>
     </div>`;
-  container.querySelector(".result-again").addEventListener("click", () => startCategory(key));
+  container.querySelector(".result-again").addEventListener("click", () => { SFX.play("whoosh"); startCategory(key); });
   container.querySelector(".result-menu").addEventListener("click", showMenu);
 }
 
@@ -1152,6 +1156,7 @@ function renderLetters() {
 hintBtn.addEventListener("click", () => {
   if (gameType !== "order") {
     if (miniHint()) {
+      SFX.play("sparkle");
       roundStats.hints++;
       addScore(-MODES[mode].hintCost);
     }
@@ -1186,6 +1191,7 @@ hintBtn.addEventListener("click", () => {
     showMessage("success", `💡 Letter ${i + 1} is "${correct[i].toUpperCase()}"`);
   }
   roundStats.hints++;
+  SFX.play("sparkle");
   addScore(-MODES[mode].hintCost);
 });
 

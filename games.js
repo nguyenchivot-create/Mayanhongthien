@@ -241,6 +241,7 @@ function renderBuilder(en, vi) {
     if (slotIndex === -1) return;
     const prev = slots[slotIndex];
     slots[slotIndex] = letterId;
+    SFX.play("drop");
     if (prev !== null && from !== -1) slots[from] = prev; // đổi chỗ 2 ô
     draw();
     checkBuilt();
@@ -326,6 +327,7 @@ function renderBuilder(en, vi) {
         if (!ghost && Math.hypot(ev.clientX - startX, ev.clientY - startY) > 8) {
           ghost = el.cloneNode(true);
           ghost.classList.add("mg-ghost");
+          SFX.play("pick");
           document.body.appendChild(ghost);
           el.classList.add("dragging-src");
         }
@@ -395,6 +397,7 @@ function renderMissing(en, vi) {
         const cell = container.querySelector(`.mg-cell[data-i="${blanks[filled]}"]`);
         cell.textContent = ch.toUpperCase();
         cell.classList.replace("blank", "found");
+        SFX.play("drop");
         btn.disabled = true;
         filled++;
         if (filled === blanks.length) answerCorrect(en);
@@ -492,6 +495,7 @@ function startMemory() {
     el.addEventListener("click", () => {
       if (state.lock || el.classList.contains("open")) return;
       el.classList.add("open");
+      SFX.play("flip");
       if (card.lang === "en") speak(card.text);
       state.open.push({ el, card });
       if (state.open.length < 2) return;
