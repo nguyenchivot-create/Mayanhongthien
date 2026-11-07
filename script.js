@@ -93,6 +93,80 @@ const CATEGORIES = {
     words: [["Apple", "Quả táo"], ["Banana", "Quả chuối"], ["Cherry", "Quả anh đào"], ["Grape", "Quả nho"], ["Lemon", "Quả chanh vàng"], ["Mango", "Quả xoài"], ["Orange", "Quả cam"], ["Peach", "Quả đào"]]
   },
 
+  // ----- Chủ đề Cambridge Pre A1 Starters (chỉ hiện ở chế độ Starters) -----
+  sAnimals: {
+    starters: true,
+    label: "🐮 Farm Animals",
+    color: "#fff4d6",
+    btnColor: "rgb(200,140,20)",
+    arrange: "🐮 Arrange the animals in alphabetical order (A to Z)!",
+    words: [["Bird", "Con chim"], ["Chicken", "Con gà"], ["Cow", "Con bò"], ["Duck", "Con vịt"], ["Fish", "Con cá"], ["Goat", "Con dê"], ["Horse", "Con ngựa"], ["Sheep", "Con cừu"]]
+  },
+  sToys: {
+    starters: true,
+    label: "🧸 Toys",
+    color: "#ffe6f2",
+    btnColor: "rgb(220,80,150)",
+    arrange: "🧸 Arrange the toys in alphabetical order (A to Z)!",
+    words: [["Ball", "Quả bóng"], ["Bike", "Xe đạp"], ["Car", "Ô tô"], ["Doll", "Búp bê"], ["Kite", "Con diều"], ["Robot", "Người máy"], ["Teddy", "Gấu bông"], ["Train", "Tàu hỏa"]]
+  },
+  sSchool: {
+    starters: true,
+    label: "🎒 School",
+    color: "#e3f0ff",
+    btnColor: "rgb(40,110,200)",
+    arrange: "🎒 Arrange the school things in alphabetical order (A to Z)!",
+    words: [["Bag", "Cặp sách"], ["Book", "Quyển sách"], ["Crayon", "Bút sáp màu"], ["Desk", "Bàn học"], ["Eraser", "Cục tẩy"], ["Pen", "Bút mực"], ["Pencil", "Bút chì"], ["Ruler", "Thước kẻ"]]
+  },
+  sFood: {
+    starters: true,
+    label: "🍞 Food",
+    color: "#fff0e0",
+    btnColor: "rgb(210,110,40)",
+    arrange: "🍞 Arrange the food words in alphabetical order (A to Z)!",
+    words: [["Bread", "Bánh mì"], ["Burger", "Bánh hamburger"], ["Cake", "Bánh ngọt"], ["Egg", "Quả trứng"], ["Juice", "Nước ép"], ["Milk", "Sữa"], ["Rice", "Cơm"], ["Water", "Nước"]]
+  },
+  sBody: {
+    starters: true,
+    label: "✋ My Body",
+    color: "#ffe9e0",
+    btnColor: "rgb(220,100,70)",
+    arrange: "✋ Arrange the body words in alphabetical order (A to Z)!",
+    words: [["Arm", "Cánh tay"], ["Ear", "Tai"], ["Eye", "Mắt"], ["Face", "Khuôn mặt"], ["Hand", "Bàn tay"], ["Head", "Cái đầu"], ["Leg", "Chân"], ["Mouth", "Miệng"]]
+  },
+  sClothes: {
+    starters: true,
+    label: "👗 Clothes",
+    color: "#efe6ff",
+    btnColor: "rgb(130,80,200)",
+    arrange: "👗 Arrange the clothes in alphabetical order (A to Z)!",
+    words: [["Dress", "Váy liền"], ["Hat", "Cái mũ"], ["Jacket", "Áo khoác"], ["Shirt", "Áo sơ mi"], ["Shoes", "Đôi giày"], ["Skirt", "Chân váy"], ["Socks", "Đôi tất"], ["Trousers", "Quần dài"]]
+  },
+  sFamily: {
+    starters: true,
+    label: "👪 Family",
+    color: "#ffe3ea",
+    btnColor: "rgb(210,60,100)",
+    arrange: "👪 Arrange the family words in alphabetical order (A to Z)!",
+    words: [["Baby", "Em bé"], ["Brother", "Anh / em trai"], ["Dad", "Bố"], ["Grandma", "Bà"], ["Grandpa", "Ông"], ["Mum", "Mẹ"], ["Sister", "Chị / em gái"]]
+  },
+  sHome: {
+    starters: true,
+    label: "🏡 My House",
+    color: "#e4f7e9",
+    btnColor: "rgb(50,150,90)",
+    arrange: "🏡 Arrange the home words in alphabetical order (A to Z)!",
+    words: [["Bath", "Bồn tắm"], ["Bed", "Cái giường"], ["Chair", "Cái ghế"], ["Door", "Cửa ra vào"], ["Lamp", "Cái đèn"], ["Sofa", "Ghế sô pha"], ["Table", "Cái bàn"], ["Window", "Cửa sổ"]]
+  },
+  sColours: {
+    starters: true,
+    label: "🎨 Colours",
+    color: "#f5f5f5",
+    btnColor: "rgb(110,110,130)",
+    arrange: "🎨 Arrange the colours in alphabetical order (A to Z)!",
+    words: [["Black", "Màu đen"], ["Blue", "Xanh dương"], ["Brown", "Màu nâu"], ["Green", "Xanh lá"], ["Orange", "Màu cam"], ["Pink", "Màu hồng"], ["Purple", "Màu tím"], ["Red", "Màu đỏ"], ["White", "Màu trắng"], ["Yellow", "Màu vàng"]]
+  },
+
   // ----- Chủ đề Cambridge A1 Movers (chỉ hiện ở chế độ Movers, xếp theo A-Z) -----
   mAnimals: {
     movers: true,
@@ -340,6 +414,7 @@ const CATEGORIES = {
 // Thiết lập theo cấp độ: Dễ (bé nhỏ) và Khó (bé 10 tuổi)
 const MODES = {
   easy: { label: "🐣 Easy", arrangePts: 10, wordPts: 5, bonus: 20, hintCost: 2 },
+  starters: { label: "⭐ Starters", arrangePts: 10, wordPts: 5, bonus: 20, hintCost: 2 },
   movers: { label: "📘 Movers", arrangePts: 15, wordPts: 8, bonus: 30, hintCost: 3 },
   hard: { label: "🦁 Hard", arrangePts: 20, wordPts: 10, bonus: 50, hintCost: 5 }
 };
@@ -430,8 +505,9 @@ function isMovers() {
 
 // Chủ đề nào hiện ở cấp độ nào: Easy = cơ bản, Movers = chủ đề Movers, Hard = cơ bản + khó
 function categoryVisible(cat) {
+  if (mode === "starters") return !!cat.starters;
   if (isMovers()) return !!cat.movers;
-  if (cat.movers) return false;
+  if (cat.movers || cat.starters) return false;
   return isHard() || !cat.hard;
 }
 
@@ -702,6 +778,7 @@ Object.entries(MODES).forEach(([key, m]) => {
 // Câu hướng dẫn thay đổi theo từng bước chơi
 const TIPS = {
   choose: {
+    starters: "⭐ Cambridge Starters topics for Hồng Thiên. Choose one above!",
     movers: "📘 Cambridge Movers topics for Mây An. Choose one above!",
     easy: "👆 Choose a category above to start!", hard: "👆 Hard mode has 9 extra categories. Choose one above!" },
   arrange: {

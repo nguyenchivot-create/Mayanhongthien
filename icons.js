@@ -1,6 +1,15 @@
 // ===== Biểu tượng minh họa cho từ vựng (chỉ hiện ở cấp Easy) =====
 // Từ không có hình minh họa rõ ràng (như các ngày trong tuần) thì để trống.
 const ICONS = {
+  sAnimals: { Bird: "🐦", Chicken: "🐔", Cow: "🐮", Duck: "🦆", Fish: "🐟", Goat: "🐐", Horse: "🐴", Sheep: "🐑" },
+  sToys: { Ball: "⚽", Bike: "🚲", Car: "🚗", Doll: "🪆", Kite: "🪁", Robot: "🤖", Teddy: "🧸", Train: "🚂" },
+  sSchool: { Bag: "🎒", Book: "📕", Crayon: "🖍️", Eraser: "🧽", Pen: "🖊️", Pencil: "✏️", Ruler: "📏" },
+  sFood: { Bread: "🍞", Burger: "🍔", Cake: "🍰", Egg: "🥚", Juice: "🧃", Milk: "🥛", Rice: "🍚", Water: "💧" },
+  sBody: { Arm: "💪", Ear: "👂", Eye: "👁️", Face: "🙂", Hand: "✋", Head: "🧑", Leg: "🦵", Mouth: "👄" },
+  sClothes: { Dress: "👗", Hat: "👒", Jacket: "🧥", Shirt: "👔", Shoes: "👟", Socks: "🧦", Trousers: "👖" },
+  sFamily: { Baby: "👶", Brother: "👦", Dad: "👨", Grandma: "👵", Grandpa: "👴", Mum: "👩", Sister: "👧" },
+  sHome: { Bath: "🛁", Bed: "🛏️", Chair: "🪑", Door: "🚪", Lamp: "💡", Sofa: "🛋️", Table: "🍽️", Window: "🪟" },
+  sColours: { Black: "⚫", Blue: "🔵", Brown: "🟤", Green: "🟢", Orange: "🟠", Pink: "🩷", Purple: "🟣", Red: "🔴", White: "⚪", Yellow: "🟡" },
   months: {
     January: "❄️", February: "💝", March: "🌱", April: "🌷", May: "🌸", June: "☀️",
     July: "🏖️", August: "🍉", September: "🎒", October: "🎃", November: "🍂", December: "🎄"
@@ -28,7 +37,7 @@ const ICONS = {
 
 // Trả về biểu tượng của từ trong chủ đề đang chơi (chỉ ở cấp Easy)
 function iconOf(word, key = currentGame) {
-  if (mode !== "easy" || !key || !ICONS[key]) return "";
+  if ((mode !== "easy" && mode !== "starters") || !key || !ICONS[key]) return "";
   return ICONS[key][word] || "";
 }
 
