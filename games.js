@@ -134,6 +134,7 @@ function openGame(key) {
   gameArea.classList.remove("hidden");
   subtitle.textContent = `${GAMES[key].icon} ${GAMES[key].name}: choose a category!`;
   setStage("choose");
+  updateBreadcrumb();
   startBackgroundMusic();
 }
 

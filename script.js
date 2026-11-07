@@ -766,7 +766,23 @@ Object.entries(CATEGORIES).forEach(([key, cat]) => {
   categoryButtons.appendChild(btn);
 });
 
+// Thanh "bạn đang ở đâu": Trò chơi 🐾 Cấp độ 🐾 Chủ đề
+function updateBreadcrumb() {
+  const bc = $("breadcrumb");
+  if (!bc) return;
+  const game = typeof GAMES !== "undefined" && GAMES[gameType];
+  const cat = currentGame && CATEGORIES[currentGame];
+  const step = (cls, text) => `<span class="bc-step ${cls}">${text}</span>`;
+  const paw = '<span class="bc-link">🐾</span>';
+  bc.innerHTML = [
+    game ? step("bc-game", `${game.icon} ${game.name}`) : "",
+    step(`bc-mode mode-${mode}`, MODES[mode].label),
+    cat ? step("bc-cat", cat.label) : step("bc-cat empty", "👆 Pick a topic")
+  ].filter(Boolean).join(paw);
+}
+
 function updateActiveButton() {
+  updateBreadcrumb();
   categoryButtons.querySelectorAll("button").forEach((b) => {
     b.classList.toggle("active", b.dataset.cat === currentGame);
     b.classList.toggle("hidden", !categoryVisible(CATEGORIES[b.dataset.cat]));
@@ -786,6 +802,7 @@ Object.entries(MODES).forEach(([key, m]) => {
   const btn = document.createElement("button");
   btn.textContent = m.label;
   btn.dataset.mode = key;
+  btn.classList.add(`mode-${key}`);
   btn.addEventListener("click", () => setMode(key));
   modeButtons.appendChild(btn);
 });
