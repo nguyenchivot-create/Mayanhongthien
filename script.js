@@ -587,6 +587,24 @@ function duckMusic(on) {
   Music.duck(on);
 }
 
+// Tải sẵn chính file thu âm về máy (dạng blob) để lúc nghe phát ngay, không phải chờ mạng
+const clipCache = {};
+const keepAlive = [];
+function preloadClip(url) {
+  if (!url || url in clipCache) return;
+  clipCache[url] = "";
+  fetch(url)
+    .then((r) => (r.ok ? r.blob() : Promise.reject()))
+    .then((b) => { clipCache[url] = URL.createObjectURL(b); })
+    .catch(() => {
+      // Không tải được dạng blob thì ít nhất cho trình duyệt tải vào bộ nhớ đệm
+      const a = new Audio();
+      a.preload = "auto";
+      a.src = url;
+      keepAlive.push(a);
+    });
+}
+
 // Tải đường dẫn file thu âm của một từ (ưu tiên giọng Mỹ, rồi giọng Anh)
 function fetchRecording(word) {
   const key = word.toLowerCase();
@@ -600,6 +618,7 @@ function fetchRecording(word) {
         .filter(Boolean);
       const url = all.find((a) => /-us\.mp3/.test(a)) || all.find((a) => /-uk\.mp3/.test(a)) || all[0] || "";
       recordings[key] = url;
+      preloadClip(url);
       return url;
     })
     .catch(() => {
@@ -653,7 +672,7 @@ function playClip(url, onFail, onOk) {
   speechAudio.onplaying = () => { started = true; soundLog(kind + ": playing"); if (onOk) onOk(); };
   speechAudio.onended = () => duckMusic(false);
   speechAudio.onerror = fail;
-  speechAudio.src = url;
+  speechAudio.src = clipCache[url] || url;
   const p = speechAudio.play();
   if (p && p.catch) p.catch(fail);
   setTimeout(fail, 2500);
